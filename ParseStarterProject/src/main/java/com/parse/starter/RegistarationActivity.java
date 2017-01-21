@@ -79,13 +79,79 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 		PasswordView.setError(null);
 		ConfirmPasswordView.setError(null);
 		LoginView.setError(null);
-		
+		RegistarationFormView.setError(null);
+
 		//Store values
 		String email = EmailView.getText().ToString();
 		String password = PasswordView.getText().ToString();
 		String login = LoginView.getText().ToString();
-		String 
-		
+		String confirmPassword = ConfirmPasswordView.getText().ToString();
+		boolean cancel = false;
+		View focusView = null;
+
+		if(TextUtils.isEmpty(email) && !isEmailValid(email))
+		{
+			EmailView.setError(getString(R.strings.emailIsNotValidOrEmpty));
+			focusView = EmailView;
+			cancel = true;
+		}
+
+		if(TextUtils.isEmpty(username) && !isEmailValid(username))
+		{
+			LoginView.setError(getString(R.strings.usernameIsNotValidOrEmpty));
+			focusView = LoginView;
+			cancel = true;
+		}
+
+		if(TextUtils.isEmpty(password) && !isEmailValid(password))
+		{
+			EmailView.setError(getString(R.strings.passwordIsNotValidOrEmpty));
+			focusView = PasswordView;
+			cancel = true;
+		}
+
+		if(!password.Equals(confirmPassword))
+		{
+			EmailView.setError(getString(R.strings.passwordIsNotEquals));
+			focusView = EmailView;
+			cancel = true;
+		}
+		if(cancel)
+		{
+			//error, focus field with an error
+			focusView.requestFocus();
+		}
+		else
+		{
+			//show progress spinner
+			//perform registration
+			showProgress(true);
+			public static void PRegistration(string email, string password, string confirmPassword, string login)
+			{
+
+				ParseUser user = new ParseUser();
+				user.setUsername(email);
+				user.setPassword(password);
+				user.setEmail(email);
+
+				user.SignUpInBackGround(new SignUpCallBack()
+				{
+					public void done(ParseUser user, ParseException ex)
+					{
+						if (e == null)
+						{
+							startActivity(new Intent(MainActivity.This, MainActivity.class));
+
+						}
+						else
+						{
+							focusView = RegistrationFormView;
+							RegistrationFormView.setError(ex.ToString());
+						}
+					}
+				});
+			}
+		}
 	}
 	
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
@@ -123,7 +189,7 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
         }
     }
 	
-	    private boolean isEmailValid(String email) 
+	private boolean isEmailValid(String email) 
 	{
         //Check wether it is e-mail or something else
 		Pattern pattern = Pattern.compile("^([a-z0-9_\\.-]+)@([a-z0-9_\\.-]+)\\.([a-z\\.]{2,6})$", Pattern.CASE_INSENSITIVE);
@@ -137,5 +203,37 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 		boolean HasUpper = pass.stream().HasAny(e -> Character.isUpperCase(e) )
         //Check for length and containing of UpperCase characrets
         return password.length() > 6 && HasUpper;
+    }
+
+    private boolean isLoginExist(String newLogin)
+    {
+    	ParseQuery<ParseUser> u = ParseUser.getQuery();
+    	//Search object with username property
+
+    	u.whereEqualTo("username", newLogin);
+    	u.findInBackground(new FindCallBack<ParseUser>()
+    	{
+    		(List<ParseUser> objects, ParseException e) ->
+    		{
+    			if(e == null)
+    			{
+    				return;
+    			}
+    			else
+    			{
+    				LoginView.setError(getString(R.string.error_usernameAlreadyExist));
+    				LoginView.requestFocus();
+    			}
+    		}
+    	});
+
+
+    }
+
+    @Override
+    protected void onCancelled()
+    {
+    	mAuthTask = null;
+    	showProgress(false);
     }
 }
