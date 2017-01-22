@@ -35,6 +35,26 @@ public interface IParseStorage
 	Task DeleteItemAsync(Item item);
 }
 
+public class Item
+{
+        public Item()
+        {
+            Id = this.Id;
+            Name = this.Name;
+            Author = this.Author;
+        	Content = this.Content;
+        	rating = this.rating;
+        	tags = this.tags;
+        }
+
+        public int Id;
+        public string Name;
+        public string Author;
+        public string Content;
+        public int rating;
+
+        public List<string> tags;
+}
 
 
 public class ParseStorage implements IParseStorage
@@ -79,6 +99,7 @@ public class ParseStorage implements IParseStorage
 		ro.Content = po.getString("Content");
 		ro.Content = po.get("Added");
 
+		return ro;
 	}
 
 	public void RefreshData(List item, ParseException e)
