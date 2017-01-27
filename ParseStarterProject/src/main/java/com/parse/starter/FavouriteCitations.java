@@ -35,18 +35,18 @@ import android.app.LoaderManager.LoaderCallbacks;
 public class FavouriteCitations extends ListActivity 
 	implements LoaderManager.LoaderCallbacks<Cursor>
 {
-	ArrayAdapter<CitationView> mAdapter;
+	private ArrayAdapter<CitationView> mAdapter;
 
-	ParseUser curr = ParseUser.getCurrentUser();
-	ParseQuery<ParseObject> fav = curr.getQuery("favourite");
-	List<Item> citations = new List<Item>();
+	private ParseUser curr = ParseUser.getCurrentUser();
+	private ParseQuery<ParseObject> fav = curr.getQuery("favourite");
+	private List<Item> citations = new ArrayList<Item>();
 	
 	for(ParseObject o : fav)
 	{
-		citations.append(fav(o));
+		citations.add(fav(o));
 	}
 
-	CitationView[] views = new CitationView[citations.capacity];
+	private CitationView[] views = new CitationView[citations.size()];
 	for(int i = 0; i < views.length; i++)
 	{
 		CitationView v = new CitationView(this, citations(i));
@@ -65,7 +65,7 @@ public class FavouriteCitations extends ListActivity
 
 		ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
 		root.addView(progressbar);
-		mAdapter = new ArrayAdapterCitationView>(this, android.R.layout.Favourite_citations, views);
+		mAdapter = new ArrayAdapter<CitationView>(this, android.R.layout.Favourite_citations, views);
 		setListAdapter(mAdapter);
 
 	}
