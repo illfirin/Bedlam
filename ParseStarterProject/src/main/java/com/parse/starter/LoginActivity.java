@@ -158,7 +158,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
-        View focusView = null;
 
         // Check for a valid password, if the user entered one.
         if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
@@ -193,6 +192,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 					public void done(ParseUser user, ParseException e)
 					if(user != null)
 					{
+                        user.put("")
 						startActivity(new Intent(MainActivity.This, MainActivity.class));
 					}
 					else

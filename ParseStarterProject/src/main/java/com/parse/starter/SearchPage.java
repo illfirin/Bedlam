@@ -42,6 +42,7 @@ public class SearchPage extends LinearLayout
 	ListView founded;
 	ArrayAdapter<CitationView> lAdapter;
 	List<CitationView> searchedView;
+	View focusView = null;
 
 	@Override
 	protected void OnCreate(Bundle savedInstance)
@@ -57,14 +58,14 @@ public class SearchPage extends LinearLayout
 		ProgressBar progressbar = new ProgressBar(this);
 		progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, 
 									LayoutParams.WRAP_CONTENT, Garavity.CENTER));
-		progressbar.setIndeterminate(true);
+		
 		getLinearLayout().setEmptyLayout(progressbar);
 
 		searched = new ArrayList<CitationView>();
 
-		button.setOnClickListener(OnClickListener (c , string s = searchText.getText()) -> 
+		button.setOnClickListener(OnClickListener (c , string s = searchText.getText()) -> //Так вообще можно делать????
 		{
-		
+			boolean cancel = false;
 			ParseQuery<ParseObject> searchQuery = ParseObject.getQuery("Citations")
 			searchQuery.whereEqualTo("Content", s);
 			searchQuery.findInBackground(new FindCallBack<ParseObject>
@@ -73,21 +74,31 @@ public class SearchPage extends LinearLayout
 				{
 					if(e == null)
 					{
-						for(ParseObject o : citationsList)
+						progressbar.setProgressBarIndeterminateVisibility(true);
+						citationsList.stream()
+								.forEach(o ->
 						{
 							Item i = ParseStorage.FromParseObject(o);
 							CitationView contentView = new CitationView(this, i);
 							searched.add(contentView);
-						}
+						});
+						
+						progressbar.setProgressBarIndeterminateVisibility(false);
 					}
 					else
 					{
-
+						searched.setError(R.string.error_cannot_find);
+						focusView = searched;
+						cancel = true;
 					}
 				}
 			});
 
 		});
+		if(cancel)
+		{
+			focusView.requestfocus();
+		}
 
 		CitationView[] viewArr = new CitationView[searched.size()];
 		viewArr = searched.toArray(viewArr);
