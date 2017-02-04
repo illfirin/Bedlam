@@ -42,6 +42,8 @@ public class CitationView extends LinearLayout
 	private ImageView addToFavourite;
 	private ImageView minus;
 	private ImageView plus;
+	private ImageView share;
+	private ImageView shareConstructor;
 	private TextView rating;
 
 	//TODO: add click events
@@ -62,6 +64,7 @@ public class CitationView extends LinearLayout
 		minus = new ImageView(context);
 		plus = new ImageView(context);
 		rating = new TextView(context);
+		share = new ImageView(context);
 
 		List<String> t = item.tags;
 		for(int i = 0; i<6; i++)
@@ -123,7 +126,7 @@ public class CitationView extends LinearLayout
 
 		});
 
-		addToFavourite.setOnClickListener(OnClickListener ->
+		addToFavourite.setOnClickListener(OnClickListener  c->
 		{
 			ParseUser user = ParseUser.getCurrentUser();
 			if(user != null)
@@ -136,7 +139,7 @@ public class CitationView extends LinearLayout
 
 		});
 
-		plus.setOnClickListener(OnClickListener ->
+		plus.setOnClickListener(OnClickListener c ->
 		{
 			List<Item> l = new List<Item>;
 
@@ -144,7 +147,7 @@ public class CitationView extends LinearLayout
 			l.append(item);
 			ParseStorage.RefreshData(l);
 		});
-		minus.setOnClickListener(OnClickListener ->
+		minus.setOnClickListener(OnClickListener c->
 		{
 			List<Item> l = new List<Item>;
 
@@ -152,6 +155,32 @@ public class CitationView extends LinearLayout
 			l.append(item);
 			ParseStorage.RefreshData(l);
 
+		});
+
+		share.setOnClickListener(OnClickListener c -> 
+		{
+			Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+			intent.setType("text/plain");
+			String author = "(c)" + item.Author;
+			intent.putExtra(Intent.EXTRA_BUBJECT, author);
+			intent.putExtra(Intent.EXTRA_TEXT, item.Content);
+			shareIntent.setAction(Intent.CREATE_CHOOSER, getString(R.strings.share_via));
+			
+			startActivity(intent);
+		});
+
+		shareConstructor.setOnClickListener(OnClickListener c ->
+		{
+			ArrayList<String> citCont = new ArrayList<String>();
+			String citAuthor = "(C)" + item.Author;
+			citCont.add(citAuthor);
+			citCont.add(item.Content);
+
+			Intent intent = new Intent(this, ConstructorPage.class);
+			intent.putPlacebleArrayListExtra(Intent.EXTRA_STREAM, citCont);
+			intent.setType("text/plain")
+
+			startActivity(intent);
 		});
 	}
 

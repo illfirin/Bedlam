@@ -40,6 +40,6 @@ public class ConstructorPage extends AppCompatActivity
 	{
 		super.OnCreate(savedInstance)
 		setContentView(R.layout.activity_constructor);
-
+		
 	}
 }
