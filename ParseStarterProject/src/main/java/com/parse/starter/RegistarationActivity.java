@@ -53,7 +53,7 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
-		
+		setContentView(R.layout.activity_registration);
 		EmailView = (EditText) findViewById(R.id.email);
 		PasswordView = (EditText) findViewById(R.id.password)
 		ConfirmPasswordView = (EditText) findViewById(R.id.password_1);
@@ -185,7 +185,7 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
             // The ViewPropertyAnimator APIs are not available, so simply show
             // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
+            RegistrationFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
 	

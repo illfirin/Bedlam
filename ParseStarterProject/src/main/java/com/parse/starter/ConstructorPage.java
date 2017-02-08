@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.Spinner;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
 import android.widget.ArrayAdapter;
@@ -34,12 +35,28 @@ import android.app.LoaderManager.LoaderCallbacks;
 
 public class ConstructorPage extends AppCompatActivity  
 {
-	
+	View imagePlaceholder;
+	Spinner fontChooser;
+	TextView fontSize;
+	Spinner colourChoose;
+	ImageView chooseImage;	
 	@Override
 	protected void OnCreate(Bundle savedInstance)
 	{
-		super.OnCreate(savedInstance)
+		super.OnCreate(savedInstance);
+		LinearLayout choosersPlaseholder = new LinearLayout(this);
+		choosersPlaseholder.setLayouttParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARRENT, LayoutParams.WRAP_CONTENT));
 		setContentView(R.layout.activity_constructor);
+
+		ArrayList<String> data = getIntent().getPlacebleArrayListExtra("citation");
+		fontSize = (TextView) findViewById(R.id.fontSize);
+		fontChooser = (Spinner) findViewById(R.id.fontChooser);
+		colourChoose = (Spinner) findViewById(R.id.colourChooser);
 		
 	}
+
+	chooseImage.setOnClickListener(OnClickListener c ->
+		{
+			
+		});
 }
