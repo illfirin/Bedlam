@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="Cream">#FFFFCC</color>
+    <color name="Cepe">#857C39</color>
+    <color name="DepressedGrass">#365738</color>
+    <color name="Nazca_Red">#BD5345</color>
+    <color name="Beard">#734640</color>
+</resources>
