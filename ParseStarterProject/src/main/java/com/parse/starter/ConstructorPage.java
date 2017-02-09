@@ -11,6 +11,11 @@ import com.Parse.ParseUser;
 import android.os.Build;
 import android.os.Bundle;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
@@ -57,6 +62,7 @@ public class ConstructorPage extends AppCompatActivity
 
 	chooseImage.setOnClickListener(OnClickListener c ->
 		{
-			
+			Intent intent = new Inten(Intent.ACTION_OPEN_DOCUMENT);
+			intent.addCategory(Intent.)
 		});
 }
