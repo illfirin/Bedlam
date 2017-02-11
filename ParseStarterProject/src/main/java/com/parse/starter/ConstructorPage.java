@@ -40,11 +40,14 @@ import android.app.LoaderManager.LoaderCallbacks;
 
 public class ConstructorPage extends AppCompatActivity  
 {
-	View imagePlaceholder;
+	ImageView imagePlaceholder;
 	Spinner fontChooser;
-	TextView fontSize;
+	EditText fontSize;
 	Spinner colourChoose;
-	ImageView chooseImage;	
+	TextView author;
+	TextView content;
+	ImageView chooseImage;
+	Drawable im = null;
 	@Override
 	protected void OnCreate(Bundle savedInstance)
 	{
@@ -52,17 +55,53 @@ public class ConstructorPage extends AppCompatActivity
 		LinearLayout choosersPlaseholder = new LinearLayout(this);
 		choosersPlaseholder.setLayouttParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARRENT, LayoutParams.WRAP_CONTENT));
 		setContentView(R.layout.activity_constructor);
-
+		author = (TextView) findViewByid(R.id.author_constructor);
+		content = (TextView) findViewByid(R.id.content_constructor);
+		static final int default textSize = 14;
 		ArrayList<String> data = getIntent().getPlacebleArrayListExtra("citation");
-		fontSize = (TextView) findViewById(R.id.fontSize);
+		fontSize = (EditText) findViewById(R.id.fontSize);
 		fontChooser = (Spinner) findViewById(R.id.fontChooser);
 		colourChoose = (Spinner) findViewById(R.id.colourChooser);
-		
-	}
+		imagePlaceholder = (View)findViewById(r.id.constructor_image);
 
-	chooseImage.setOnClickListener(OnClickListener c ->
+		content.setContent(data(0));
+		author.setContent(data(1));
+
+		fontsize.addTextChangedListener(new TextWatcher()
+		{
+			@Override
+			public void onTextChanged(CharSequence s)
+			{
+				if(fontSize.getText()!= null)
+				{
+
+				}
+			}
+		});
+
+		chooseImage.setOnClickListener(OnClickListener c ->
 		{
 			Intent intent = new Inten(Intent.ACTION_OPEN_DOCUMENT);
-			intent.addCategory(Intent.)
+			intent.addCategory(Intent.CATEGORY_OPENABLE);
+			intent.setType("image/*")
+
+			startActivityForResult(intent, 42);
 		});
+
+	}
+
+	@Override
+	public void OnActivityResult(int requestCode, int ResultCode, Intent resultData)
+	{
+		if(requestCode == READ_REQUEST_CODE && resultCode == Activity.RESULT_OK)
+		{
+			Uri uri = null;
+			if(resultData != null)
+			{
+				uri = resutData.getData();
+				imagePlaceholder.setImageUri(null);
+				imagePlaceholder.setImageUri(uri);
+			}
+		}
+	}
 }
