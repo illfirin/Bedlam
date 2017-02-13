@@ -40,14 +40,17 @@ import android.app.LoaderManager.LoaderCallbacks;
 
 public class ConstructorPage extends AppCompatActivity  
 {
-	ImageView imagePlaceholder;
-	Spinner fontChooser;
-	EditText fontSize;
-	Spinner colourChoose;
-	TextView author;
-	TextView content;
-	ImageView chooseImage;
-	Drawable im = null;
+	protected ImageView imagePlaceholder;
+	protected Spinner fontChooser;
+	protected EditText fontSize;
+	protected Spinner colourChoose;
+	protected TextView author;
+	protected TextView content;
+	protected ImageView chooseImage;
+	protected Drawable im = null;
+	final static protected String pathToFonts = "/system/fonts";
+
+
 	@Override
 	protected void OnCreate(Bundle savedInstance)
 	{
@@ -57,15 +60,31 @@ public class ConstructorPage extends AppCompatActivity
 		setContentView(R.layout.activity_constructor);
 		author = (TextView) findViewByid(R.id.author_constructor);
 		content = (TextView) findViewByid(R.id.content_constructor);
-		static final int default textSize = 14;
+		static final int defaultTextSize = 14;
 		ArrayList<String> data = getIntent().getPlacebleArrayListExtra("citation");
 		fontSize = (EditText) findViewById(R.id.fontSize);
 		fontChooser = (Spinner) findViewById(R.id.fontChooser);
 		colourChoose = (Spinner) findViewById(R.id.colourChooser);
 		imagePlaceholder = (View)findViewById(r.id.constructor_image);
 
+		File f = new File(path);
 		content.setContent(data(0));
 		author.setContent(data(1));
+
+		context.setTextSize(defaultTextSize);
+		author.setTextSize(defaultTextSize);
+
+		ArrayAdapter<CharSequence> cAdapter = ArrayAdapter.createFromResource(this, R.array.colours_array, R.layout.colourChooser);
+		cAdapter.setDropDownViewResource(R.layout.simple_dropdown);
+		colourChooser.setAdapter(cAdapter);
+		
+		public void onItemSelected(AdapterView<> , View view, int pos, long id)
+		{
+			String col = ((TextView)parent.getItemAtPosition(pos)).getText();
+			author.setTextColourFromHex(col);
+			content.setTextColourFromHex(col);
+		}
+
 
 		fontsize.addTextChangedListener(new TextWatcher()
 		{
@@ -74,7 +93,8 @@ public class ConstructorPage extends AppCompatActivity
 			{
 				if(fontSize.getText()!= null)
 				{
-
+					content.setTextSize(fontsize.getText());
+					aythor.setTextSize(fontsize.getText());
 				}
 			}
 		});
@@ -98,7 +118,7 @@ public class ConstructorPage extends AppCompatActivity
 			Uri uri = null;
 			if(resultData != null)
 			{
-				uri = resutData.getData();
+				uri = resultData.getData();
 				imagePlaceholder.setImageUri(null);
 				imagePlaceholder.setImageUri(uri);
 			}
