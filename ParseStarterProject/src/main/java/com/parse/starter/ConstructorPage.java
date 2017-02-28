@@ -74,6 +74,7 @@ public class ConstructorPage extends AppCompatActivity
 		context.setTextSize(defaultTextSize);
 		author.setTextSize(defaultTextSize);
 
+		
 		ArrayAdapter<CharSequence> cAdapter = ArrayAdapter.createFromResource(this, R.array.colours_array, R.layout.colourChooser);
 		cAdapter.setDropDownViewResource(R.layout.simple_dropdown);
 		colourChooser.setAdapter(cAdapter);
