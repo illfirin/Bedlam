@@ -18,7 +18,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 
     private static final String TAG = "WidgetDataProvider";
 
-    List<String> mCollection = new ArrayList<>();
+    List<object> mCollection = new ArrayList<>();
     Context mContext = null;
 
     public WidgetDataProvider(Context context, Intent intent) 
@@ -55,12 +55,13 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     {
         RemoteViews view = new RemoteViews(mContext.getPackageName(),
                 android.R.layout.simple_list_item_1);
-        view.setTextViewText(android.R.id.text1, mCollection.get(position));
+        //view.setTextViewText(android.R.id.text1, mCollection.get(position));
         return view;
     }
 
     @Override
-    public RemoteViews getLoadingView() {
+    public RemoteViews getLoadingView() 
+    {
         return null;
     }
 
@@ -82,11 +83,36 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
         return true;
     }
 
+    public class erItem()
+    {
+        public erItem()
+        {
+            Author = this.Author
+            Content = this.Content;
+        }
+
+        public string Author;
+        public string Content;
+    }
+    Collector<List<Item>, List<erItem>, List<erItem>> fromItemToerItem Collector.of(
+                                                                 List<erItem>::new,
+                                                                 (c, c1) -> 
+                                                                 { 
+                                                                    c1.Author = c.Author;          
+                                                                    c1.Content = c.Author;
+
+                                                                }
     private void initData() 
     {
         mCollection.clear();
-       
-        mCollection.add(1);
+        private ParseUser curr = ParseUser.getCurrentUser();
+        private ParseQuery<ParseObject> fav_orig = curr.getQuery("favourite");
+
+        private List<erItem> fav_projected = fav_orig.stream().
+                                                forEach().collect(fromItemToerItem));
+        static int rand = ThreadLocalRandom.current().nextInt(0, fav_projected.size() - 1);
+
+        mCollection.add(fav_projected(rand));
         
     }
 

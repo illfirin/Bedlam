@@ -13,18 +13,15 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class CollectionWidget extends AppWidgetProvider
 {
-	private ParseUser curr = ParseUser.getCurrentUser();
-	private ParseQuery<ParseObject> fav = curr.getQuery("favourite");
 
-	private List<Item> citations = new ArrayList<Item>();
-	static int rand = ThreadLocalRandom.current().nextInt(0, fav.size() - 1);
 
 	static void updateAppWidget(Context context, 
 	    				AppWidgetManager appWidgetManager, int appWidgetId) 
 	{
+		
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.bedlam_widget);
-	    views.setTextViewText(R.id.bedlamWidget_author, fav.getItem(rand).Author);
-	    
+	  //  views.setTextViewText(R.id.bedlamWidget_author, fav.get(rand).Author);
+	   // views.setTextViewText(R.id.bedlamWidget_content, fav.get(rand).Content);
 
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) 
