@@ -8,7 +8,7 @@ import android.widget.RemoteViewsService;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import android.support.annotation.NonNull;
 /**
  * WidgetDataProvider acts as the adapter for the collection view widget,
  * providing RemoteViews to the widget in the getViewAt method.
@@ -51,12 +51,18 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     }
 
     @Override
-    public RemoteViews getViewAt(int position) 
+    public RemoteViews getView() 
     {
         RemoteViews view = new RemoteViews(mContext.getPackageName(),
                 android.R.layout.simple_list_item_1);
-        //view.setTextViewText(android.R.id.text1, mCollection.get(position));
-        return view;
+        if(@NonNull mCollection)
+        {
+            //set up content of widget if convertion is possible
+            view.setTextViewText(android.R.id.author_widgetProvider, mCollection.get(1).Author);
+            view.setTextViewText(android.R.id.content_widgetProvider, m.Collection.get(1).Content);
+            return view;            
+        }
+
     }
 
     @Override
@@ -96,20 +102,21 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     }
     Collector<List<Item>, List<erItem>, List<erItem>> fromItemToerItem Collector.of(
                                                                  List<erItem>::new,
-                                                                 (c, c1) -> 
+                                                                 (l, l1) -> 
                                                                  { 
-                                                                    c1.Author = c.Author;          
-                                                                    c1.Content = c.Author;
+                                                                    l1.Author = l.Author;          
+                                                                    l1.Content = l.Content;
 
-                                                                }
+                                                                },
+                                                                (l1, l2) -> { l1.addAll(l2); return l1; });
+
     private void initData() 
     {
         mCollection.clear();
         private ParseUser curr = ParseUser.getCurrentUser();
         private ParseQuery<ParseObject> fav_orig = curr.getQuery("favourite");
 
-        private List<erItem> fav_projected = fav_orig.stream().
-                                                forEach().collect(fromItemToerItem));
+        private List<erItem> fav_projected = fav_orig.stream().collect(fromItemToerItem));
         static int rand = ThreadLocalRandom.current().nextInt(0, fav_projected.size() - 1);
 
         mCollection.add(fav_projected(rand));

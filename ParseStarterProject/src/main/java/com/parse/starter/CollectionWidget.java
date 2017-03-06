@@ -20,8 +20,7 @@ public class CollectionWidget extends AppWidgetProvider
 	{
 		
         RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.bedlam_widget);
-	  //  views.setTextViewText(R.id.bedlamWidget_author, fav.get(rand).Author);
-	   // views.setTextViewText(R.id.bedlamWidget_content, fav.get(rand).Content);
+	  	
 
         
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) 
