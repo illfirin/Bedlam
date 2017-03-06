@@ -75,17 +75,20 @@ public class ConstructorPage extends AppCompatActivity
 		author.setTextSize(defaultTextSize);
 
 		
+
+		
 		ArrayAdapter<CharSequence> cAdapter = ArrayAdapter.createFromResource(this, R.array.colours_array, R.layout.colourChooser);
 		cAdapter.setDropDownViewResource(R.layout.simple_dropdown);
 		colourChooser.setAdapter(cAdapter);
 		
-		public void onItemSelected(AdapterView<> , View view, int pos, long id)
+		public void onItemSelected(AdapterView<TextView> , View view, int pos, long id)
 		{
 			String col = ((TextView)parent.getItemAtPosition(pos)).getText();
 			author.setTextColourFromHex(col);
 			content.setTextColourFromHex(col);
 		}
 
+		fontChooser.setOnItemClick()
 
 		fontsize.addTextChangedListener(new TextWatcher()
 		{

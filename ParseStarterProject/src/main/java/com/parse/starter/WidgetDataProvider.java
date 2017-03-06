@@ -54,12 +54,12 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     public RemoteViews getView() 
     {
         RemoteViews view = new RemoteViews(mContext.getPackageName(),
-                android.R.layout.simple_list_item_1);
+                android.R.layout.simple_list_item);
         if(@NonNull mCollection)
         {
             //set up content of widget if convertion is possible
-            view.setTextViewText(android.R.id.author_widgetProvider, mCollection.get(1).Author);
-            view.setTextViewText(android.R.id.content_widgetProvider, m.Collection.get(1).Content);
+            view.setTextViewText(android.R.id.author_widgetProvider, mCollection.get(0).Author);
+            view.setTextViewText(android.R.id.content_widgetProvider, m.Collection.get(0).Content);
             return view;            
         }
 

@@ -62,37 +62,11 @@ public class SearchPage extends LinearLayout
 		getLinearLayout().setEmptyLayout(progressbar);
 
 		searched = new ArrayList<CitationView>();
+		string s = searchText.getText()
 
-		button.setOnClickListener(OnClickListener (c , string s = searchText.getText()) -> //Так вообще можно делать????
+		button.setOnClickListener(OnClickListener () -> //Так вообще можно делать????
 		{
-			boolean cancel = false;
-			ParseQuery<ParseObject> searchQuery = ParseObject.getQuery("Citations")
-			searchQuery.whereEqualTo("Content", s);
-			searchQuery.findInBackground(new FindCallBack<ParseObject>
-			{
-				public void done(List<ParseObject> citationsList, ParseException e)
-				{
-					if(e == null)
-					{
-						progressbar.setProgressBarIndeterminateVisibility(true);
-						citationsList.stream()
-								.forEach(o ->
-						{
-							Item i = ParseStorage.FromParseObject(o);
-							CitationView contentView = new CitationView(this, i);
-							searched.add(contentView);
-						});
-						
-						progressbar.setProgressBarIndeterminateVisibility(false);
-					}
-					else
-					{
-						searched.setError(R.string.error_cannot_find);
-						focusView = searched;
-						cancel = true;
-					}
-				}
-			});
+			attemptSearch(s);
 
 		});
 		if(cancel)
@@ -105,7 +79,37 @@ public class SearchPage extends LinearLayout
 		lAdapter = new ArrayAdapter<CitationView>(this, founded, viewArr);
 	}
 
-	
+	private void attemptSearch(string text)
+	{
+
+		boolean cancel = false;
+		ParseQuery<ParseObject> searchQuery = ParseObject.getQuery("Citations");
+		searchQuery.whereEqualTo("Content", text);
+		searchQuery.findInBackground(new FindCallBack<ParseObject>
+		{
+			public void done(List<ParseObject> citationsList, ParseException e)
+			{
+				if(e == null)
+				{
+					progressbar.setProgressBarIndeterminateVisibility(true);
+					citationsList.stream()
+								.forEach(o ->
+						{
+							Item i = ParseStorage.FromParseObject(o);
+							CitationView contentView = new CitationView(this, i);
+							searched.add(contentView);
+						});
+						
+					progressbar.setProgressBarIndeterminateVisibility(false);
+				}
+				else
+				{
+					searched.setError(R.string.error_cannot_find);
+					focusView = searched;
+					cancel = true; 
+				}	
+			});
+	}
 
 
 }
