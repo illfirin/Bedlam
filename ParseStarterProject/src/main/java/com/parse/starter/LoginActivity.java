@@ -29,6 +29,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.com.io;
@@ -59,8 +60,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
-	
-	
+
+	private Button parseLogin;
+	private Button socialMediaLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,10 +73,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
-        mLoginFormView = findViewById(R.id.login_form);
-        mProgressView = findViewById(R.id.login_progress);
+        mLoginFormView = (View)findViewById(R.id.login_form);
+        mProgressView = (View)findViewById(R.id.login_progress);
+        parseLogin = (Button)findViewById(R.id.login_parseButton);
+        socialMediaLogin = (Button)findViewById(R.id.login_socialMedia);
 
-        mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+       /* mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
@@ -83,15 +87,20 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
                 return false;
             }
+        });*/
+
+        
+		
+        parseLogin.setOnClickListener(OnClickListener c -> 
+        {
+            attemptLogin();
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
-		
-        mEmailSignInButton.setOnClickListener(OnClickListener c -> 
-            {
-                attemptLogin();
-            });
-
+        socialMediaLogin.setOnClickListener(OnClickListener c ->
+        {
+            showProgress(true);
+            startActivity(new Intent(SocialMedia.This, SocialMedia.class));
+        });
        
     }
 

@@ -21,3 +21,10 @@ ext {
     minSdkVersion = 9
     targetSdkVersion = 23
 }
+dependencies {
+
+    compile 'com.github.asne:asne-facebook:0.3.3'
+    compile 'com.github.asne:asne-twitter:0.3.3'
+    compile 'com.github.asne:asne-googleplus:0.3.3'
+    compile 'com.github.asne:asne-vk:0.3.3'
+}
