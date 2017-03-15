@@ -14,15 +14,16 @@ allprojects {
     }
 }
 
-ext {
+ext
+{
     compileSdkVersion = 22
     buildToolsVersion = "23.0.1"
 
     minSdkVersion = 9
     targetSdkVersion = 23
 }
-dependencies {
-
+dependencies 
+{
     compile 'com.github.asne:asne-facebook:0.3.3'
     compile 'com.github.asne:asne-twitter:0.3.3'
     compile 'com.github.asne:asne-googleplus:0.3.3'

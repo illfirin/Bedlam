@@ -88,7 +88,7 @@ public class ConstructorPage extends AppCompatActivity
 			content.setTextColourFromHex(col);
 		}
 
-		fontChooser.setOnItemClick()
+		fontChooser.setOnItemClick(O)
 
 		fontsize.addTextChangedListener(new TextWatcher()
 		{

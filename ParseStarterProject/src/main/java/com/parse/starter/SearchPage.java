@@ -62,9 +62,10 @@ public class SearchPage extends LinearLayout
 		getLinearLayout().setEmptyLayout(progressbar);
 
 		searched = new ArrayList<CitationView>();
-		string s = searchText.getText()
-
-		button.setOnClickListener(OnClickListener () -> //Так вообще можно делать????
+		string s = searchText.getText();
+		
+		//Так вообще можно делать????
+		button.setOnClickListener(OnClickListener () -> 
 		{
 			attemptSearch(s);
 
