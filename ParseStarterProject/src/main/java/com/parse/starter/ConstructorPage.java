@@ -67,19 +67,28 @@ public class ConstructorPage extends AppCompatActivity
 		colourChoose = (Spinner) findViewById(R.id.colourChooser);
 		imagePlaceholder = (View)findViewById(r.id.constructor_image);
 
-		File f = new File(path);
 		content.setContent(data(0));
 		author.setContent(data(1));
 
 		context.setTextSize(defaultTextSize);
 		author.setTextSize(defaultTextSize);
 
-		
 
-		
+		List<File> system_fonts = getAllFonts(path);
+		List<String> fonts_name = system_fonts.stream().forEach
+			(
+				c -> ConstructorPage.FromFileToString(c)
+			);
+
+		ArrayAdapter<CharSequence> fAdapter = ArrayAdapter.createFromResource(this, fonts_name, R.layout.fontChooser);
+		fAdapter.setDropDownViewResource(R.layout.simple_dropdown);
+		fontChooser.setAdapter(fAdapter);
+	
 		ArrayAdapter<CharSequence> cAdapter = ArrayAdapter.createFromResource(this, R.array.colours_array, R.layout.colourChooser);
 		cAdapter.setDropDownViewResource(R.layout.simple_dropdown);
-		colourChooser.setAdapter(cAdapter);
+		colourChoose.setAdapter(cAdapter);
+
+		Array
 		
 		public void onItemSelected(AdapterView<TextView> , View view, int pos, long id)
 		{
@@ -127,5 +136,43 @@ public class ConstructorPage extends AppCompatActivity
 				imagePlaceholder.setImageUri(uri);
 			}
 		}
+
+	@Override
+	public static List<File> getAllFonts(string dir);
+	{	
+		File d_file = new File(dir);
+
+		if(@NonNull dir && @NonNull d_file)
+		{
+			List<File> fl = (List<File>)
+				(FileUtils.listFiles(d_file, 
+					TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE));
+			return fl;
+		}
+
+		else
+		{
+			fl.add(null);
+			return ;
+		}
 	}
+
+	@Override
+	public static String FromFileToString (File l)
+	{
+		String s = l.getName();
+
+		int indx = 0;
+		for(int i = 0; i < s.length(); i++ )
+		{
+			if(s(i).equals('.'))
+			{
+				indx = i;
+				break;
+			}
+		}
+
+		return s.substring(0, indx);
+	}
+
 }
