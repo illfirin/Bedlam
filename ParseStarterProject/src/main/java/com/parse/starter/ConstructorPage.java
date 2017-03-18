@@ -49,11 +49,13 @@ public class ConstructorPage extends AppCompatActivity
 	protected ImageView chooseImage;
 	protected Drawable im = null;
 	final static protected String pathToFonts = "/system/fonts";
-
+	
 
 	@Override
 	protected void OnCreate(Bundle savedInstance)
 	{
+		View focusView = null;
+		boolean canceled = false;
 		super.OnCreate(savedInstance);
 		LinearLayout choosersPlaseholder = new LinearLayout(this);
 		choosersPlaseholder.setLayouttParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARRENT, LayoutParams.WRAP_CONTENT));
@@ -83,19 +85,33 @@ public class ConstructorPage extends AppCompatActivity
 		ArrayAdapter<CharSequence> fAdapter = ArrayAdapter.createFromResource(this, fonts_name, R.layout.fontChooser);
 		fAdapter.setDropDownViewResource(R.layout.simple_dropdown);
 		fontChooser.setAdapter(fAdapter);
+
 	
 		ArrayAdapter<CharSequence> cAdapter = ArrayAdapter.createFromResource(this, R.array.colours_array, R.layout.colourChooser);
 		cAdapter.setDropDownViewResource(R.layout.simple_dropdown);
 		colourChoose.setAdapter(cAdapter);
-
-		Array
-		
-		public void onItemSelected(AdapterView<TextView> , View view, int pos, long id)
+		colourChoose.setOnItemSelectedListener(new OnItemSelectedListener ()
 		{
-			String col = ((TextView)parent.getItemAtPosition(pos)).getText();
-			author.setTextColourFromHex(col);
-			content.setTextColourFromHex(col);
-		}
+			@Override
+			public void onItemSelected(AdapterView<TextView> , View view, int pos, long id)
+			{
+				canceled = false;
+				String col = ((TextView)parent.getItemAtPosition(pos)).getText();
+				author.setTextColourFromHex(col);
+				content.setTextColourFromHex(col);
+			}
+
+			@Override
+			public void onNothingSelected(AdapterView<TextView>
+				parentView) 
+			{
+				canceled = true;
+				focusView = parentView;
+			}
+
+		});
+
+
 
 		fontChooser.setOnItemClick(O)
 
@@ -153,7 +169,7 @@ public class ConstructorPage extends AppCompatActivity
 		else
 		{
 			fl.add(null);
-			return ;
+			return new List<File>();
 		}
 	}
 

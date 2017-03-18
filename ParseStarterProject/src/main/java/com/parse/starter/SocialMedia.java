@@ -52,11 +52,6 @@ public class SocialMedia extends LinearLayout
 		})	
 	}
 
-	public void FromVkToParseUser()
-	{
-
-	}
-
 	public void FromFbToParseUser()
 	{
 
