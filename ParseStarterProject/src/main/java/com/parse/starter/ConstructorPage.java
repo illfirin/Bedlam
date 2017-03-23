@@ -93,7 +93,7 @@ public class ConstructorPage extends AppCompatActivity
 		colourChoose.setOnItemSelectedListener(new OnItemSelectedListener ()
 		{
 			@Override
-			public void onItemSelected(AdapterView<TextView> , View view, int pos, long id)
+			public void onItemSelected(AdapterView<?> parent , View view, int pos, long id)
 			{
 				canceled = false;
 				String col = ((TextView)parent.getItemAtPosition(pos)).getText();
@@ -102,18 +102,35 @@ public class ConstructorPage extends AppCompatActivity
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<TextView>
-				parentView) 
+			public void onNothingSelected(AdapterView<?> parentView) 
 			{
 				canceled = true;
 				focusView = parentView;
+
 			}
 
 		});
 
 
 
-		fontChooser.setOnItemClick(O)
+		fontChooser.setOnItemClick(new OnItemSelectedListener()
+		{
+			@Override
+			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+			{
+				//TODO доделать чуть позже, т.к. сейчас мы не в состоянии делать что-то сложное
+				canceled = false;
+				String font = ((TextView)parent.getItemAtPosition(pos).getText());
+
+
+			}
+			@Override 
+			public void onNothingSelected(AdapterView<?> par)
+			{
+				canceled = true;
+				focusView = parentView;
+			}
+		})
 
 		fontsize.addTextChangedListener(new TextWatcher()
 		{

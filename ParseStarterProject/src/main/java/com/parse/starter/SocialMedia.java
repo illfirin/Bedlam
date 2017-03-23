@@ -5,7 +5,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import com.parse;
 import com.Parse.ParseUser;
-
+import com.parse.starter.LoginActivity;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -48,19 +48,28 @@ public class SocialMedia extends LinearLayout
 
 		vk.setOnClickListener(OnClickListener c ->
 		{
-			
-		})	
+			LoginActivity.showProgress(true);
+			startActivity(new Intent(VkLogin.This, VkLogin.class))
+
+		});
+		gplus.setOnClickListener(OnClickListener c ->
+		{
+			LoginActivity.showProgress(true);
+			startActivity(new Intent(GpLogin.This, GpLogin.class))
+
+		});
+		facB.setOnClickListener(OnClickListener c ->
+		{
+			LoginActivity.showProgress(true);
+			startActivity(new Intent(facBLogin.This, facBLogin.class))
+
+		});
+		twitter.setOnClickListener(OnClickListener c ->
+		{
+			LoginActivity.showProgress(true);
+			startActivity(new Intent(TwitterLogin.This, TwitterLogin.class))
+		});
+
 	}
 
-	public void FromFbToParseUser()
-	{
-
-	}
-
-	public void FromGplusToParseUser()
-	{
-
-	}
-
-	public void FromGplusToParseUser()
 }
