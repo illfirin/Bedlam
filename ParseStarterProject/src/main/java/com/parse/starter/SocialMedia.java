@@ -41,6 +41,8 @@ public class SocialMedia extends LinearLayout
 	@Override
 	protected void OnCreate(Bundle savedInstance)
 	{
+		super.OnCreate(savedInstance);
+		setContentView(R.layout.social_layout)
 		vk = (ImageView)findViewById(R.id.vk_view);
 		gplus = (ImageView)findViewById(R.id.gpls_view);
 		faсB = (ImageView)findViewById(R.id.faceB_view);

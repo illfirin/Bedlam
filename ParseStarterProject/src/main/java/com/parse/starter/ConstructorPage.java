@@ -11,6 +11,7 @@ import com.Parse.ParseUser;
 import android.os.Build;
 import android.os.Bundle;
 
+import java.util.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -38,7 +39,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
-public class ConstructorPage extends AppCompatActivity  
+public class ConstructorPage extends AppCompatActivity
 {
 	protected ImageView imagePlaceholder;
 	protected Spinner fontChooser;
@@ -47,9 +48,9 @@ public class ConstructorPage extends AppCompatActivity
 	protected TextView author;
 	protected TextView content;
 	protected ImageView chooseImage;
-	protected Drawable im = null;
+	protected Drawable im;
 	final static protected String pathToFonts = "/system/fonts";
-	
+
 
 	@Override
 	protected void OnCreate(Bundle savedInstance)
@@ -62,31 +63,37 @@ public class ConstructorPage extends AppCompatActivity
 		setContentView(R.layout.activity_constructor);
 		author = (TextView) findViewByid(R.id.author_constructor);
 		content = (TextView) findViewByid(R.id.content_constructor);
+		im = null;
 		static final int defaultTextSize = 14;
 		ArrayList<String> data = getIntent().getPlacebleArrayListExtra("citation");
 		fontSize = (EditText) findViewById(R.id.fontSize);
 		fontChooser = (Spinner) findViewById(R.id.fontChooser);
 		colourChoose = (Spinner) findViewById(R.id.colourChooser);
 		imagePlaceholder = (View)findViewById(r.id.constructor_image);
+		im = null;
 
-		content.setContent(data(0));
-		author.setContent(data(1));
+		content.setContent(data.get(0));
+		author.setContent(data.get(1));
 
-		context.setTextSize(defaultTextSize);
+		content.setTextSize(defaultTextSize);
 		author.setTextSize(defaultTextSize);
-
 
 		List<File> system_fonts = getAllFonts(path);
 		List<String> fonts_name = system_fonts.stream().forEach
 			(
 				c -> ConstructorPage.FromFileToString(c)
 			);
+ 		HashMap<String, File> fonts_map = new HashMap<String, File>();
+		for(int i; i < system_fonts.size(); i++)
+		{
+			fonts_map.put(fonts_name(i), system_fonts(i));
+		}
 
 		ArrayAdapter<CharSequence> fAdapter = ArrayAdapter.createFromResource(this, fonts_name, R.layout.fontChooser);
 		fAdapter.setDropDownViewResource(R.layout.simple_dropdown);
 		fontChooser.setAdapter(fAdapter);
 
-	
+
 		ArrayAdapter<CharSequence> cAdapter = ArrayAdapter.createFromResource(this, R.array.colours_array, R.layout.colourChooser);
 		cAdapter.setDropDownViewResource(R.layout.simple_dropdown);
 		colourChoose.setAdapter(cAdapter);
@@ -102,11 +109,10 @@ public class ConstructorPage extends AppCompatActivity
 			}
 
 			@Override
-			public void onNothingSelected(AdapterView<?> parentView) 
+			public void onNothingSelected(AdapterView<?> parentView)
 			{
 				canceled = true;
 				focusView = parentView;
-
 			}
 
 		});
@@ -118,17 +124,20 @@ public class ConstructorPage extends AppCompatActivity
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
 			{
-				//TODO доделать чуть позже, т.к. сейчас мы не в состоянии делать что-то сложное
 				canceled = false;
-				String font = ((TextView)parent.getItemAtPosition(pos).getText());
-
-
+				String font_string = ((TextView)parent.getItemAtPosition(pos).getText());
+				if(@NonNull fonts_map.get(font_string))
+				{
+					TypeFace tf = TypeFace.createFromFile(fonts_map.get(font_string));
+				}
+				author.setTypeface(tf);
+				content.setTypeface(tf);
 			}
-			@Override 
+			@Override
 			public void onNothingSelected(AdapterView<?> par)
 			{
 				canceled = true;
-				focusView = parentView;
+				focusView = par;
 			}
 		})
 
@@ -137,17 +146,17 @@ public class ConstructorPage extends AppCompatActivity
 			@Override
 			public void onTextChanged(CharSequence s)
 			{
-				if(fontSize.getText()!= null)
+				if(@NonNull fontSize.getText())
 				{
 					content.setTextSize(fontsize.getText());
-					aythor.setTextSize(fontsize.getText());
+					author.setTextSize(fontsize.getText());
 				}
 			}
 		});
-
+		//Open data storage to choose image
 		chooseImage.setOnClickListener(OnClickListener c ->
 		{
-			Intent intent = new Inten(Intent.ACTION_OPEN_DOCUMENT);
+			Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 			intent.addCategory(Intent.CATEGORY_OPENABLE);
 			intent.setType("image/*")
 
@@ -155,7 +164,7 @@ public class ConstructorPage extends AppCompatActivity
 		});
 
 	}
-
+	//When image is choosen get data as uri and set placeholder image
 	@Override
 	public void OnActivityResult(int requestCode, int ResultCode, Intent resultData)
 	{
@@ -172,21 +181,21 @@ public class ConstructorPage extends AppCompatActivity
 
 	@Override
 	public static List<File> getAllFonts(string dir);
-	{	
+	{
 		File d_file = new File(dir);
 
 		if(@NonNull dir && @NonNull d_file)
 		{
 			List<File> fl = (List<File>)
-				(FileUtils.listFiles(d_file, 
+				(FileUtils.listFiles(d_file,
 					TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE));
 			return fl;
 		}
 
 		else
 		{
-			fl.add(null);
-			return new List<File>();
+			//if nothing is founded return null-List
+			return new List<File>(null);
 		}
 	}
 
@@ -194,17 +203,8 @@ public class ConstructorPage extends AppCompatActivity
 	public static String FromFileToString (File l)
 	{
 		String s = l.getName();
-
-		int indx = 0;
-		for(int i = 0; i < s.length(); i++ )
-		{
-			if(s(i).equals('.'))
-			{
-				indx = i;
-				break;
-			}
-		}
-
+		//find the
+		indx = s.indexOf('.')
 		return s.substring(0, indx);
 	}
 
