@@ -32,7 +32,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
-public class FavouriteCitations extends ListActivity 
+public class FavouriteCitations extends ListActivity
 	implements LoaderManager.LoaderCallbacks<Cursor>
 {
 	private ArrayAdapter<CitationView> mAdapter;
@@ -40,7 +40,7 @@ public class FavouriteCitations extends ListActivity
 	private ParseUser curr = ParseUser.getCurrentUser();
 	private ParseQuery<ParseObject> fav = curr.getQuery("favourite");
 	private List<Item> citations = new ArrayList<Item>();
-	
+
 	for(ParseObject o : fav)
 	{
 		citations.add(fav(o));
@@ -55,25 +55,25 @@ public class FavouriteCitations extends ListActivity
 	@Override
 	protected void OnCreate(Bundle savedInstance)
 	{
-		super.OnCreate(savedInstance);
+			super.OnCreate(savedInstance);
 
-		ProgressBar progressbar = new ProgressBar(this);
-		progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, 
+			ProgressBar progressbar = new ProgressBar(this);
+			progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
 									LayoutParams.WRAP_CONTENT, Garavity.CENTER));
-		progressbar.setIndeterminate(true);
-		getListView().setEmptyView(progressbar);
+			progressbar.setIndeterminate(true);
+			getListView().setEmptyView(progressbar);
 
-		ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
-		root.addView(progressbar);
-		mAdapter = new ArrayAdapter<CitationView>(this, android.R.layout.Favourite_citations, views);
-		setListAdapter(mAdapter);
+			ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
+			root.addView(progressbar);
+			mAdapter = new ArrayAdapter<CitationView>(this, android.R.layout.Favourite_citations, views);
+			setListAdapter(mAdapter);
 
 	}
 
 	@Override
 	public void OnListItemClick(ListView l, View v, int position, long id)
 	{
-		
+
 	}
 
 

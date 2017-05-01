@@ -13,7 +13,7 @@ import android.support.annotation.NonNull;
  * WidgetDataProvider acts as the adapter for the collection view widget,
  * providing RemoteViews to the widget in the getViewAt method.
  */
-public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory 
+public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
 {
 
     private static final String TAG = "WidgetDataProvider";
@@ -21,7 +21,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     List<object> mCollection = new ArrayList<>();
     Context mContext = null;
 
-    public WidgetDataProvider(Context context, Intent intent) 
+    public WidgetDataProvider(Context context, Intent intent)
     {
         mContext = context;
     }
@@ -33,25 +33,25 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     }
 
     @Override
-    public void onDataSetChanged() 
+    public void onDataSetChanged()
     {
         initData();
     }
 
     @Override
-    public void onDestroy() 
+    public void onDestroy()
     {
 
     }
 
     @Override
-    public int getCount() 
+    public int getCount()
     {
         return mCollection.size();
     }
 
     @Override
-    public RemoteViews getView() 
+    public RemoteViews getView()
     {
         RemoteViews view = new RemoteViews(mContext.getPackageName(),
                 android.R.layout.simple_list_item);
@@ -60,31 +60,31 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
             //set up content of widget if convertion is possible
             view.setTextViewText(android.R.id.author_widgetProvider, mCollection.get(0).Author);
             view.setTextViewText(android.R.id.content_widgetProvider, m.Collection.get(0).Content);
-            return view;            
+            return view;
         }
 
     }
 
     @Override
-    public RemoteViews getLoadingView() 
+    public RemoteViews getLoadingView()
     {
         return null;
     }
 
     @Override
-    public int getViewTypeCount() 
+    public int getViewTypeCount()
     {
         return 1;
     }
 
     @Override
-    public long getItemId(int position) 
+    public long getItemId(int position)
     {
         return position;
     }
 
     @Override
-    public boolean hasStableIds() 
+    public boolean hasStableIds()
     {
         return true;
     }
@@ -100,17 +100,18 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
         public string Author;
         public string Content;
     }
-    Collector<List<Item>, List<erItem>, List<erItem>> fromItemToerItem Collector.of(
-                                                                 List<erItem>::new,
-                                                                 (l, l1) -> 
-                                                                 { 
-                                                                    l1.Author = l.Author;          
-                                                                    l1.Content = l.Content;
+    Collector<List<Item>, List<erItem>, List<erItem>>
+                            fromItemToerItem Collector.of(
+                                          List<erItem>::new,
+                                            (l, l1) ->
+                                            {
+                                                l1.Author = l.Author;
+                                                l1.Content = l.Content;
 
-                                                                },
-                                                                (l1, l2) -> { l1.addAll(l2); return l1; });
+                                            },
+                                            (l1, l2) -> { l1.addAll(l2); return l1; });
 
-    private void initData() 
+    private void initData()
     {
         mCollection.clear();
         private ParseUser curr = ParseUser.getCurrentUser();
@@ -120,7 +121,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
         static int rand = ThreadLocalRandom.current().nextInt(0, fav_projected.size() - 1);
 
         mCollection.add(fav_projected(rand));
-        
+
     }
 
 }
