@@ -1,0 +1,67 @@
+<android.support.v7.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <android.support.v7.preference.PreferenceCategory
+        android:title="Sync">
+
+        <android.support.v7.preference.SwitchPreferenceCompat
+            android:key="allow_sync"
+            android:title="Разрешить обновление"
+            android:summary=""
+            android:defaultValue="true" />
+
+        <android.support.v7.preference.ListPreference
+                android:key="sync_interval"
+
+                android:title="Частота обновления"
+
+                android:summary="Выберите частоту обновления цитат"
+                android:defaultValue="1000"
+                android:entries="@array/updateInterval"
+                android:entryValues="@array/updateIntervalValues"
+                android:dependency="perform_sync"/>
+
+    </android.support.v7.preference.PreferenceCategory>
+
+     <android.support.v7.preference.PreferenceCategory
+        android:title="Theme">
+
+        <pakuteam.bedlam_experiment_0_1.ColorPreference
+            android:key="choose_color"
+            android:title="Выбор темы"
+            android:summary="Time Summary"
+            android:defaultValue="90"
+            style="@style/AppPreference.DialogPreference"
+
+        <android.support.v7.preference.ListPreference
+            android:key="choose_theme"
+            android:title="Выбор темы"
+            android:summary=""
+
+            android:defaultValue="@Theme.AppCompat.DayNight"
+            android:entries="@array/chooseTheme"
+            android:entryValues="@array/chooseThemeValues"
+            android:dependency="perform_sync"/> 
+            <android.support.v7.preference.EditTextPreference
+                android:key="key2"
+                android:title="EditText Preference"
+                android:summary="EditText Summary"
+                android:dialogMessage="Dialog Message"
+                android:defaultValue="Default value"
+                android:dialogLayout="@layout/pref_dialog_edittext_fix" />
+
+        </android.support.v7.preference.PreferenceCategory
+            android:title="About">
+
+        <android.support.v7.preference.EditTextPreference
+            android:key="about"
+            android:title="О программе"
+            android:summary=""/> 
+
+        <android.support.v7.preference.PreferenceCategory>
+
+        </android.support.v7.preference.PreferenceCategory>
+    <android.support.v7.preference.PreferenceCategory>
+
+    </android.support.v7.preference.PreferenceCategory>
+</android.support.v7.preference.PreferenceScreen>

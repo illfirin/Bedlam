@@ -28,4 +28,6 @@ dependencies
     compile 'com.github.asne:asne-twitter:0.3.3'
     compile 'com.github.asne:asne-googleplus:0.3.3'
     compile 'com.github.asne:asne-vk:0.3.3'
+    compile 'com.android.support:preference-v7:23.4.0'
+    compile 'com.android.support:preference-v14:23.4.0'
 }
