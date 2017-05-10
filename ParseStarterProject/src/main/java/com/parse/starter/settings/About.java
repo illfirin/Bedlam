@@ -1,3 +1,5 @@
+package pakuteam.bedlam_experiment_0_1;
+
 import android.content.CursorLoader;
 import android.content.Loader;
 import android.database.Cursor;

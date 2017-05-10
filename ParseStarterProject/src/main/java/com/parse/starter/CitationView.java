@@ -34,7 +34,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
-public class CitationView extends LinearLayout
+public class CitationView extends BaseActivity
 {
 	private	TextView title;
 	private	TextView content;
@@ -50,7 +50,7 @@ public class CitationView extends LinearLayout
 	//TODO: add click events
 
 
-	
+
 	public CitationView(Item item, Context context)
 	{
 		LinearLayout parrent = new LinearLayout(context);
@@ -134,7 +134,7 @@ public class CitationView extends LinearLayout
 			{
 				ParseQuery<ParseObject> fav = user.getQuery("favourite");
 				ParseObject res = ParseStorage.ToParseObject(item);
-				
+
 				Parse.saveInBackground(user);
 			}
 
@@ -158,7 +158,7 @@ public class CitationView extends LinearLayout
 
 		});
 
-		share.setOnClickListener(OnClickListener c -> 
+		share.setOnClickListener(OnClickListener c ->
 		{
 			Intent intent = new Intent(android.content.Intent.ACTION_SEND);
 			intent.setType("text/plain");
@@ -166,7 +166,7 @@ public class CitationView extends LinearLayout
 			intent.putExtra(Intent.EXTRA_BUBJECT, author);
 			intent.putExtra(Intent.EXTRA_TEXT, item.Content);
 			shareIntent.setAction(Intent.CREATE_CHOOSER, getString(R.strings.share_via));
-			
+
 			startActivity(intent);
 		});
 

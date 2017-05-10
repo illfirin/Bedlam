@@ -39,7 +39,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
-public class ConstructorPage extends AppCompatActivity
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class ConstructorPage extends BaseActivity
 {
 	protected ImageView imagePlaceholder;
 	protected Spinner fontChooser;
@@ -162,6 +166,12 @@ public class ConstructorPage extends AppCompatActivity
 
 			startActivityForResult(intent, 42);
 		});
+
+	}
+
+	@Override
+	public void setReference()
+	{
 
 	}
 	//When image is choosen get data as uri and set placeholder image
