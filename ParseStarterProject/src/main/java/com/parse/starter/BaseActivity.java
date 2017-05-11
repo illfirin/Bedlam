@@ -25,7 +25,8 @@ public abstract class BaseActivity extends AppCompatActivity
     public CoordinatorLayout mainLayout;
     public AppBarLayout base_toolbarContainer;
 
-    private static final String Theme_Current = "AppliedTheme"
+    private static final String Theme_Current = "AppliedTheme";
+    
     @Override
     public void onCreate(Bundle savedInstanceState)
     {

@@ -34,7 +34,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
-public class CitationView extends BaseActivity
+public class CitationView extends View
 {
 	private	TextView title;
 	private	TextView content;
@@ -184,5 +184,4 @@ public class CitationView extends BaseActivity
 			startActivity(intent);
 		});
 	}
-
 }

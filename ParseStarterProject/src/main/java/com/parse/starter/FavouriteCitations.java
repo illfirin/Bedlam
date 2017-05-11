@@ -5,8 +5,8 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import com.LoginActivity;
-import com.parse;
+import com.parse.CitationView;
+
 import com.Parse.ParseUser;
 import android.os.Build;
 import android.os.Bundle;
@@ -32,19 +32,24 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
 
-public class FavouriteCitations extends ListActivity
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
+public class FavouriteCitations extends BaseActivity
 	implements LoaderManager.LoaderCallbacks<Cursor>
 {
+	private ViewGroup root;
+	ProgressBar progressbar;
+
+	@Bind(android.R.layout.Favourite_citations)
+	protected ListView lView;
+
+
+
 	private ArrayAdapter<CitationView> mAdapter;
+	protected List<Item> fav_citations = getFavourite();
 
-	private ParseUser curr = ParseUser.getCurrentUser();
-	private ParseQuery<ParseObject> fav = curr.getQuery("favourite");
-	private List<Item> citations = new ArrayList<Item>();
-
-	for(ParseObject o : fav)
-	{
-		citations.add(fav(o));
-	}
 
 	private CitationView[] views = new CitationView[citations.size()];
 	for(int i = 0; i < views.length; i++)
@@ -57,23 +62,48 @@ public class FavouriteCitations extends ListActivity
 	{
 			super.OnCreate(savedInstance);
 
-			ProgressBar progressbar = new ProgressBar(this);
-			progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-									LayoutParams.WRAP_CONTENT, Garavity.CENTER));
 			progressbar.setIndeterminate(true);
-			getListView().setEmptyView(progressbar);
-
-			ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
-			root.addView(progressbar);
-			mAdapter = new ArrayAdapter<CitationView>(this, android.R.layout.Favourite_citations, views);
+			mAdapter = new ArrayAdapter<CitationView>(this, lView, views);
 			setListAdapter(mAdapter);
+			setReference();
+			progressbar.setIndeterminate(false);
 
 	}
 
 	@Override
-	public void OnListItemClick(ListView l, View v, int position, long id)
+	public void setReference()
 	{
+		root = LayoutInflater.from(this).inflate(android.R.id.content, container);
 
+		progressbar = new ProgressBar(this);
+		progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
+								LayoutParams.WRAP_CONTENT, Garavity.CENTER));
+		getListView(lView).setEmptyView(progressbar);
+		root.addView(progressbar);
+
+		ButterKnife.Bind(this, root);
+
+	}
+
+	public List<Item> getFavourite()
+	{
+		private ParseUser curr = ParseUser.getCurrentUser();
+		private ParseQuery<ParseObject> fav = curr.getQuery("favourite");
+		private List<Item> citations = new ArrayList<Item>();
+
+		for(ParseObject o : fav)
+		{
+			citations.add(fav(o));
+		}
+		return citations;
+	}
+
+	@Override
+	public void OnListItemClick(ListView lView, View citation_View, int position, long id)
+	{
+		View selected = lView.getItemAtPosition(position);
+		CitationView c_v = selected;
+		startActivity(new Intent(c_v.this, CitationViewActivity.class(c_v)));
 	}
 
 
