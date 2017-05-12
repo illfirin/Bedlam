@@ -36,12 +36,12 @@ import android.app.LoaderManager.LoaderCallbacks;
 
 public class ProfilePage extends AppCompatActivity
 {
-	private ImageView profileImage
+	private ImageView profileImage;
 	private TextView login;
 	private ImageView showFavouriteCitations;
 	private ImageView changeData;
 
-	void onCreate(Bundle savedInstance)
+	public void onCreate(Bundle savedInstance)
 	{
 		ParseUser currentUser = ParseUser.getCurrent;
 		super.OnCreate(savedInstance);
@@ -52,18 +52,18 @@ public class ProfilePage extends AppCompatActivity
 			ParseQuery<ParseUser> u = currentUser.getQuery();
 			Drawable image;
 			u.whereEqualTo("UserImage", image.getType());
-			query.findInBackground(new FindCallback<ParseUser>() 
+			query.findInBackground(new FindCallback<ParseUser>()
 			{
-  				public void done(List<ParseUser> objects, ParseException e) 
+  				public void done(List<ParseUser> objects, ParseException e)
   				{
-    				if (e == null) 
+    				if (e == null)
     				{
     					Drawable dr = objects.stream()
     											.filter(e -> e instanceof Drawable);
 
         				profileImage.setImageDrawable(objects(1));
-    				} 
-    				else 
+    				}
+    				else
     				{
         				profileImage.setImageDrawable(R.id.dafault_user_image)
     				}
@@ -75,7 +75,7 @@ public class ProfilePage extends AppCompatActivity
 		{
 			profileImage.setError(R.strings.error_noImage);
 		}
-		
+
 		login = (TextView) findViewById(R.id.usrLogin);
 		showFavouriteCitations = (ImageView) findViewById(R.id.showfav);
 		changeData = (ImageView) findViewById(R.id.change_login);
@@ -86,8 +86,8 @@ public class ProfilePage extends AppCompatActivity
 	{
 		ParseUser currentUser = ParseUser.getCurrent;
 		if(currentUser != null)
-		{		
-			startActivity(new Intent(FavouriteCitations.This, FavouriteCitations.class));	
+		{
+			startActivity(new Intent(FavouriteCitations.This, FavouriteCitations.class));
 		}
 	});
 }

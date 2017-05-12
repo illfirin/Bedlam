@@ -34,50 +34,62 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.app.LoaderManager.LoaderCallbacks;
 
-public class SearchPage extends LinearLayout 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.onItemSelected;
+import butterknife.onTextChanged;
+import butterknife.onNothingChanged;
+
+public class SearchPage extends LinearLayout
 		implements LoaderManager.LoaderCallbacks<Cursor>
 {
+	@Bind(R.id.searchText)
 	AutoCompleteTextView searchText;
+	@Bind(R.id.find)
 	Button find;
+	@Bind(R.id.founded)
 	ListView founded;
+	protected ProgressBar progressbar
 	ArrayAdapter<CitationView> lAdapter;
 	List<CitationView> searchedView;
+	protected boolean cancel = false;
 	View focusView = null;
 
 	@Override
 	protected void OnCreate(Bundle savedInstance)
 	{
 		super.OnCreate(savedInstance);
-		setContentView(R.Layout.activity_search);
-
-		lAdapter = new ArrayAdapter()
-		searchText = (AutoCompleteTextView) findViewById(R.id.searchText);
-		find = (AutoCompleteTextView) findViewById(R.id.find);
-		founded = (ListView) findViewById(R.id.founded);
-
-		ProgressBar progressbar = new ProgressBar(this);
-		progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, 
-									LayoutParams.WRAP_CONTENT, Garavity.CENTER));
-		
-		getLinearLayout().setEmptyLayout(progressbar);
-
+		setReference();
+		lAdapter = new ArrayAdapter();
 		searched = new ArrayList<CitationView>();
-		string s = searchText.getText();
-		
-		//Так вообще можно делать????
-		button.setOnClickListener(OnClickListener () -> 
-		{
-			attemptSearch(s);
+		CitationView[] viewArr = new CitationView[searched.size()];
+		viewArr = searched.toArray(viewArr);
+		lAdapter = new ArrayAdapter<CitationView>(this, founded, viewArr);
+	}
 
-		});
+	@Override
+	public void setReference()
+	{
+		root = LayoutInflater.from(this).inflate(R.id.search_layout);
+		progressbar = new ProgressBar(this);
+		progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
+									LayoutParams.WRAP_CONTENT, Garavity.CENTER));
+
+		getLinearLayout(root).setEmptyLayout(progressbar);
+
+		ButterKnife.Bind(this, root);
+	}
+
+	@OnClick(R.id.find)
+	public void onClick()
+	{
+		string s = searchText.getText();
+		attemptSearch(s);
 		if(cancel)
 		{
 			focusView.requestfocus();
 		}
-
-		CitationView[] viewArr = new CitationView[searched.size()];
-		viewArr = searched.toArray(viewArr);
-		lAdapter = new ArrayAdapter<CitationView>(this, founded, viewArr);
 	}
 
 	private void attemptSearch(string text)
@@ -100,17 +112,15 @@ public class SearchPage extends LinearLayout
 							CitationView contentView = new CitationView(this, i);
 							searched.add(contentView);
 						});
-						
+
 					progressbar.setProgressBarIndeterminateVisibility(false);
 				}
 				else
 				{
 					searched.setError(R.string.error_cannot_find);
 					focusView = searched;
-					cancel = true; 
-				}	
+					cancel = true;
+				}
 			});
 	}
-
-
 }

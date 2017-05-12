@@ -42,39 +42,112 @@ import android.app.LoaderManager.LoaderCallbacks;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.onItemSelected;
+import butterknife.onTextChanged;
+import butterknife.onNothingChanged;
 
 public class ConstructorPage extends BaseActivity
 {
-	protected ImageView imagePlaceholder;
-	protected Spinner fontChooser;
-	protected EditText fontSize;
+	protected View root;
+	protected ProgressBar progressbar;
+	public boolean canceled = false;
+	View focusView;
+	@Bind(R.id.constructor_image)
+	ImageView imagePlaceholder;
+	@Bind(R.id.fontChooser)
+	Spinner fontChooser;
+	@Bind(R.id.fontSize)
+	EditText fontSize;
+	@Bind(R.id.colourChooser)
 	protected Spinner colourChoose;
+	@Bind(R.id.author_constructor)
 	protected TextView author;
+	@Bind(R.id.content_constructor)
 	protected TextView content;
+	@Bind()
 	protected ImageView chooseImage;
-	protected Drawable im;
-	final static protected String pathToFonts = "/system/fonts";
+	@Bind(R.id.)
+	protected Drawable im  = null;
+	protected static final String pathToFonts = "/system/fonts";
+	static final int defaultTextSize = 14;
 
 
-	@Override
+	@Overrides
 	protected void OnCreate(Bundle savedInstance)
 	{
-		View focusView = null;
-		boolean canceled = false;
-		super.OnCreate(savedInstance);
+		super.onCreate(savedInstance);
+		setReference();
+		setSimpleToolbar(true);
+	}
+	@OnItemSelected(R.id.colourChooser)
+	public void onItemSelected(AdapterView<?> parent , View view, int pos, long id)
+	{
+		canceled = false;
+		String col = ((TextView)parent.getItemAtPosition(pos)).getText();
+		author.setTextColourFromHex(col);
+		content.setTextColourFromHex(col);
+	}
+
+	@onNothingSelected(r.id.colourChooser)
+	public void onNothingSelected(AdapterView<?> parentView)
+	{
+		canceled = true;
+		focusView = parentView;
+	}
+
+	@OnClick(R.id.choose_Image)
+	public void onClick()
+	{
+		progressbar.setIndeterminate(true);
+		Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+		intent.addCategory(Intent.CATEGORY_OPENABLE);
+		intent.setType("image/*")
+		startActivityForResult(intent, 42);
+		progressbar.setIndeterminate(false);
+	}
+
+	@OnTextChanged(R.id.fontSize)
+	public void onTextChanged(CharSequence c)
+	{
+		if(@NonNull fontSize.getText())
+		{
+			content.setTextSize(fontsize.getText());
+			author.setTextSize(fontsize.getText());
+		}
+	}
+
+	@onItemSelected(R.id.fontChooser)
+	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
+	{
+		canceled = false;
+		String font_string = ((TextView)parent.getItemAtPosition(pos).getText());
+		if(@NonNull fonts_map.get(font_string))
+		{
+			TypeFace tf = TypeFace.createFromFile(fonts_map.get(font_string));
+		}
+		author.setTypeface(tf);
+		content.setTypeface(tf);
+	}
+
+	@onNothingSelected(R.id.fontChooser)
+	public void onNothingSelected(AdapterView<?> parent)
+	{
+		canceled = true;
+		focusView = parentView;
+	}
+	@Override
+	public void setReference()
+	{
+		root = LayoutInflater.from(this).inflate(R.id.constrictor_layout);
+		progressbar = new ProgressBar(this);
+		progressbar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
+								LayoutParams.WRAP_CONTENT, Garavity.CENTER));
+
+		getLinearLayout(root).setEmptyLayout(progressbar);
+		ButterKnife.Bind(this, root);
 		LinearLayout choosersPlaseholder = new LinearLayout(this);
 		choosersPlaseholder.setLayouttParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARRENT, LayoutParams.WRAP_CONTENT));
-		setContentView(R.layout.activity_constructor);
-		author = (TextView) findViewByid(R.id.author_constructor);
-		content = (TextView) findViewByid(R.id.content_constructor);
-		im = null;
-		static final int defaultTextSize = 14;
 		ArrayList<String> data = getIntent().getPlacebleArrayListExtra("citation");
-		fontSize = (EditText) findViewById(R.id.fontSize);
-		fontChooser = (Spinner) findViewById(R.id.fontChooser);
-		colourChoose = (Spinner) findViewById(R.id.colourChooser);
-		imagePlaceholder = (View)findViewById(r.id.constructor_image);
-		im = null;
 
 		content.setContent(data.get(0));
 		author.setContent(data.get(1));
@@ -82,11 +155,13 @@ public class ConstructorPage extends BaseActivity
 		content.setTextSize(defaultTextSize);
 		author.setTextSize(defaultTextSize);
 
+
 		List<File> system_fonts = getAllFonts(path);
 		List<String> fonts_name = system_fonts.stream().forEach
 			(
 				c -> ConstructorPage.FromFileToString(c)
 			);
+
  		HashMap<String, File> fonts_map = new HashMap<String, File>();
 		for(int i; i < system_fonts.size(); i++)
 		{
@@ -97,82 +172,9 @@ public class ConstructorPage extends BaseActivity
 		fAdapter.setDropDownViewResource(R.layout.simple_dropdown);
 		fontChooser.setAdapter(fAdapter);
 
-
 		ArrayAdapter<CharSequence> cAdapter = ArrayAdapter.createFromResource(this, R.array.colours_array, R.layout.colourChooser);
 		cAdapter.setDropDownViewResource(R.layout.simple_dropdown);
 		colourChoose.setAdapter(cAdapter);
-		colourChoose.setOnItemSelectedListener(new OnItemSelectedListener ()
-		{
-			@Override
-			public void onItemSelected(AdapterView<?> parent , View view, int pos, long id)
-			{
-				canceled = false;
-				String col = ((TextView)parent.getItemAtPosition(pos)).getText();
-				author.setTextColourFromHex(col);
-				content.setTextColourFromHex(col);
-			}
-
-			@Override
-			public void onNothingSelected(AdapterView<?> parentView)
-			{
-				canceled = true;
-				focusView = parentView;
-			}
-
-		});
-
-
-
-		fontChooser.setOnItemClick(new OnItemSelectedListener()
-		{
-			@Override
-			public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
-			{
-				canceled = false;
-				String font_string = ((TextView)parent.getItemAtPosition(pos).getText());
-				if(@NonNull fonts_map.get(font_string))
-				{
-					TypeFace tf = TypeFace.createFromFile(fonts_map.get(font_string));
-				}
-				author.setTypeface(tf);
-				content.setTypeface(tf);
-			}
-			@Override
-			public void onNothingSelected(AdapterView<?> par)
-			{
-				canceled = true;
-				focusView = par;
-			}
-		})
-
-		fontsize.addTextChangedListener(new TextWatcher()
-		{
-			@Override
-			public void onTextChanged(CharSequence s)
-			{
-				if(@NonNull fontSize.getText())
-				{
-					content.setTextSize(fontsize.getText());
-					author.setTextSize(fontsize.getText());
-				}
-			}
-		});
-		//Open data storage to choose image
-		chooseImage.setOnClickListener(OnClickListener c ->
-		{
-			Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-			intent.addCategory(Intent.CATEGORY_OPENABLE);
-			intent.setType("image/*")
-
-			startActivityForResult(intent, 42);
-		});
-
-	}
-
-	@Override
-	public void setReference()
-	{
-
 	}
 	//When image is choosen get data as uri and set placeholder image
 	@Override
