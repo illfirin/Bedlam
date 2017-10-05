@@ -32,21 +32,31 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 
+import butterknife.ButterKnife;
+import butterknife.Bind;
+import butterknife.OnClick;
+import butterknife.onItemSelected;
+
 import android.app.LoaderManager.LoaderCallbacks;
 
-public class ProfilePage extends AppCompatActivity
+public class ProfilePage extends BaseActivity
 {
+	protected View root
+
+	@Bind(R.id.profImage)
 	private ImageView profileImage;
+	@Bind(R.id.usrLogin)
 	private TextView login;
+	@Bind(R.id.showfav)
 	private ImageView showFavouriteCitations;
+	@Bind(R.id.changeData)
 	private ImageView changeData;
 
 	public void onCreate(Bundle savedInstance)
 	{
-		ParseUser currentUser = ParseUser.getCurrent;
+		ParseUser currentUser = ParseUser.getCurrent();
 		super.OnCreate(savedInstance);
-		setContentView(R.layout.ProfilePage);
-		profileImage = (ImageView) findViewById(R.id.profImage);
+		setReference();
 		try
 		{
 			ParseQuery<ParseUser> u = currentUser.getQuery();
@@ -76,18 +86,23 @@ public class ProfilePage extends AppCompatActivity
 			profileImage.setError(R.strings.error_noImage);
 		}
 
-		login = (TextView) findViewById(R.id.usrLogin);
-		showFavouriteCitations = (ImageView) findViewById(R.id.showfav);
-		changeData = (ImageView) findViewById(R.id.change_login);
 	}
+	@Override
+	public void setReference()
+	{
+		root = LayoutInflater.from(this).inflate(R.id.profile_layout);
 
+
+		ButterKnife.Bind(root, this)
+	}
 	//load page with favourite citations
-	showFavouriteCitations.setOnClickListener(OnClickListener c ->
+	@OnClick(R.id.showFav)
+	public void onClick()
 	{
 		ParseUser currentUser = ParseUser.getCurrent;
 		if(currentUser != null)
 		{
 			startActivity(new Intent(FavouriteCitations.This, FavouriteCitations.class));
 		}
-	});
+	}
 }

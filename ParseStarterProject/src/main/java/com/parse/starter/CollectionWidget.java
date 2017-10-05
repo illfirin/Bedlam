@@ -1,83 +1,36 @@
-package com.parse.starter;
+package pakuteam.bedlam_experiment_0_1;
 
-import android.annotation.TargetApi;
-import android.appwidget.AppWidgetManager;
-import android.appwidget.AppWidgetProvider;
-import android.content.Context;
-import android.content.Intent;
+import com.parse.starter.CitationView;
 import android.os.Build;
-import android.support.annotation.NonNull;
-import android.widget.RemoteViews;
-import java.util.concurrent.ThreadLocalRandom;
+import android.os.Bundle;
+import android.view.View;
+import butterKnife.bind;
+import butterKnife.ButterKnife;
 
-
-public class CollectionWidget extends AppWidgetProvider
+public class CitationActivity extends BaseActivity
 {
+    protected View rootView;
 
+    @Bind(android.R.id.citationViewLayout)
+    private LinearLayout citationViewConteiner;
 
-	static void updateAppWidget(Context context, 
-	    				AppWidgetManager appWidgetManager, int appWidgetId) 
-	{
-		
-        RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.bedlam_widget);
-	  	
-
-        
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) 
-        {
-            setRemoteAdapter(context, views);
-        } 
-        else 
-        {
-            setRemoteAdapterV11(context, views);
-        }
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
-    }
-    //TODO Rewrite using ParseStorage
-
-    @Override
-    public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) 
+    public CitationActivity(CitationView v)
     {
-        // There may be multiple widgets active, so update all of them
-        for (int appWidgetId : appWidgetIds) 
-        {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
-        }
-        super.onUpdate(context, appWidgetManager, appWidgetIds);
+        citationViewConteiner.addView(v);
     }
 
     @Override
-    public void onEnabled(Context context) 
+    public void onCreate(Bundle savedInstance)
     {
-        // when the first widget is created
+        super.onCreate(savedInstance);
+        setReference();
+        setSimpleToolbar(true);
     }
 
     @Override
-    public void onDisabled(Context context) 
+    public void setReference()
     {
-        // when the last widget is disabled
+        root = LayoutInflater.from(this).inflate(android.R.id.activity_main_CitationActivity_container, container);
+        ButterKnife.bind(this, root);
     }
-
-    /**
-     * Sets the remote adapter used to fill in the list items
-     * @param views RemoteViews to set the RemoteAdapter
-     */
-    @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-    private static void setRemoteAdapter(Context context, @NonNull final RemoteViews views) 
-    {
-        views.setRemoteAdapter(R.id.widget_list,
-                new Intent(context, WidgetService.class));
-    }
-
-    /**
-     * Sets the remote adapter used to fill in the list items
-     * @param views RemoteViews to set the RemoteAdapter
-     */
-    @SuppressWarnings("deprecation")
-    private static void setRemoteAdapterV11(Context context, @NonNull final RemoteViews views) 
-    {
-        views.setRemoteAdapter(0, R.id.widget_list,
-                new Intent(context, WidgetService.class));
-	}
 }

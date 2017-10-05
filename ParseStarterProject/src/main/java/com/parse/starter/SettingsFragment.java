@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.preference.Preference;
 import android.support.v7.preference.SwitchPreference;
-import android.support.v7,preference.SharedPreference;
+import android.support.v7.preference.SharedPreference;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.v7.preference.PreferenceFragmentCompat;
 import android.support.annotation.NonNull;
@@ -18,7 +18,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 	public void OnCreatePreferences(Bundle savedInstance, String s)
 	{
 		 	super.onCreate(savedInstance);
-			addPreferencesFromResource(R.xml.app_preferences);
+			addPreferencesFromResource(R.xml.settings);
 	}
 
 	@Override
@@ -46,7 +46,7 @@ public class SettingsFragment extends PreferenceFragmentCompat
 			if(@NonNull lp)
 			{
 					CharSequence currText = lp.getEntry();
-					String currValue = lp.getValue();
+					currValue = lp.getValue();
 			}
 
 			if(@NonNull currValue)

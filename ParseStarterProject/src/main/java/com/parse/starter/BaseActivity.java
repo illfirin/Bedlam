@@ -17,6 +17,9 @@ import com.parse.starter.R;
 import com.parse.starter.UserPreferenceManager;
 import com.anupcowkur.reservoir.Reservoir;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 public abstract class BaseActivity extends AppCompatActivity
 {
     private View view_simpleToolbar;
@@ -24,9 +27,10 @@ public abstract class BaseActivity extends AppCompatActivity
     public android.support.v7.widget.Toolbar toolbar;
     public CoordinatorLayout mainLayout;
     public AppBarLayout base_toolbarContainer;
+    private AdView mAdView;
 
-    private static final String Theme_Current = "AppliedTheme";
-    
+    private static String Theme_Current = "AppliedTheme";
+
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -35,9 +39,14 @@ public abstract class BaseActivity extends AppCompatActivity
             setAppTheme();
             super.onCreate();
             setContentView(R.layout.activity_base);
+
             base_toolbarContainer = (AppBarLayout) findViewById(R.id.base_appbar);
             container = (FrameLayout)findViewById(R.id.container);
             mainLayout = (CoordinatorLayout) findViewById(R.id.full_layout);
+            mAdView = (AdView) findViewById(R.id.View);
+            AdRequest adReq = new AdRequest.Builder().build();
+            mAdView.loadAd(adReq);
+
             Reservoir.init(this, 8192);
         }
         catch(Exception e)
@@ -52,7 +61,7 @@ public abstract class BaseActivity extends AppCompatActivity
         {
             view_simpleToolbar = LayoutInflater.from(this).inflate(R.layout.simple_toolbar, base_toolbarContainer)
             toolbar = (android.support.v7.widget.Toolbar) view_simpleToolbar.findViewById(R.id.toolbar);
-            if(@NonNull toolbar)
+            if(/*@NonNull*/ toolbar)
             {
                 setSupportActionBar(toolbar);
                 toolbar.setTitle(R.string.application_name);
@@ -63,7 +72,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     public void setToolbarSubTitle(String header)
     {
-        if(@NonNull toolbar)
+        if(/*@NonNull*/ toolbar)
         {
             toolbar.setSubtitle(header);
         }
@@ -73,7 +82,7 @@ public abstract class BaseActivity extends AppCompatActivity
     {
         if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            if(@NonNull toolbar)
+            if(/*@NonNull*/ toolbar)
             {
                 toolbar.setElevation(value);
             }

@@ -46,6 +46,7 @@ import butterknife.onItemSelected;
 import butterknife.onTextChanged;
 import butterknife.onNothingChanged;
 
+//TODO: remove too much dependencies
 public class ConstructorPage extends BaseActivity
 {
 	protected View root;
@@ -146,7 +147,7 @@ public class ConstructorPage extends BaseActivity
 		getLinearLayout(root).setEmptyLayout(progressbar);
 		ButterKnife.Bind(this, root);
 		LinearLayout choosersPlaseholder = new LinearLayout(this);
-		choosersPlaseholder.setLayouttParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARRENT, LayoutParams.WRAP_CONTENT));
+		choosersPlaseholder.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARRENT, LayoutParams.WRAP_CONTENT));
 		ArrayList<String> data = getIntent().getPlacebleArrayListExtra("citation");
 
 		content.setContent(data.get(0));

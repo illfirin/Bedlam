@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8">
+<resources>
+    <style name="AppTheme.Masher" parent="Theme.Material">
+        <item name="colorPrimary">@color/primary_darkVoron</item>
+        <item name="colorPrimaryDark">@color/primary_dark_darkVoron</item>
+        <item name="colorAccent">@color/accent_DarkVoron</item>
+        <item name="colorControlHighlight">@color/primary_darkHighlightVoron</item>
+        <item name="android:textColorPrimary">@color/primary_text</item>
+        <item name="android:textColorSecondary">@color/secondary_text</item>
+        <item name="android:windowBackground">@color/background_voron</item>
+    </style>
+
+    <style name="AppTheme.Antimony" parent="Theme.Material">
+        <item name="colorPrimary">@color/primary_Antimony</item>
+        <item name="colorPrimaryDark">@color/primary_dark_Antimony</item>
+        <item name="colorAccent">@color/accent_Antimony</item>
+        <item name="colorControlHighlight">@color/primary_HighlightAntimony</item>
+        <item name="android:textColorPrimary">@color/primary_text</item>
+        <item name="android:textColorSecondary">@color/secondary_text</item>
+        <item name="android:windowBackground">@color/background_Antimony</item>
+    </style>
+
+    <style name="AppTheme.Compliance" parent="Theme.Material">
+        <item name="colorPrimary">@color/primary_Compliance</item>
+        <item name="colorPrimaryDark">@color/primary_dark_Compliance</item>
+        <item name="colorAccent">@color/accent_Compliance</item>
+        <item name="colorControlHighlight">@color/primary_HighlightCompliance</item>
+        <item name="android:textColorPrimary">@color/primary_textCompliance</item>
+        <item name="android:textColorSecondary">@color/secondary_textCompliance</item>
+        <item name="android:windowBackground">@color/background_Compliance</item>
+    </style>
+
+    <style name="AppTheme.GoodLife" parent="Theme.Material">
+        <item name="colorPrimary">@color/primary_GoodLife</item>
+        <item name="colorPrimaryDark">@color/primary_dark_GoodLife</item>
+        <item name="colorAccent">@color/accent_GoodLife</item>
+        <item name="colorControlHighlight">@color/primary_HighlightGoodLife</item>
+        <item name="android:textColorPrimary">@color/primary_textGoodLife</item>
+        <item name="android:textColorSecondary">@color/secondary_textGoodLife</item>
+        <item name="android:windowBackground">@color/background_GoodLife</item>
+    </style>
+    <style name="AppTheme.BlackSwan" parent="Theme.Material">
+        <item name="colorPrimary">@color/primary_BlackSwan</item>
+        <item name="colorPrimaryDark">@color/primary_dark_BlackSwan</item>
+        <item name="colorAccent">@color/accent_BlackSwan</item>
+        <item name="colorControlHighlight">@color/primary_HighlightBlackSwan</item>
+        <item name="android:textColorPrimary">@color/primary_textBlackSwan</item>
+        <item name="android:textColorSecondary">@color/secondary_textBlackSwan</item>
+        <item name="android:windowBackground">@color/background_BlackSwan</item>
+    </style>
+</resources>

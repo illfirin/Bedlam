@@ -50,7 +50,7 @@ public class SearchPage extends LinearLayout
 	Button find;
 	@Bind(R.id.founded)
 	ListView founded;
-	protected ProgressBar progressbar
+	protected ProgressBar progressbar;
 	ArrayAdapter<CitationView> lAdapter;
 	List<CitationView> searchedView;
 	protected boolean cancel = false;
@@ -98,7 +98,7 @@ public class SearchPage extends LinearLayout
 		boolean cancel = false;
 		ParseQuery<ParseObject> searchQuery = ParseObject.getQuery("Citations");
 		searchQuery.whereEqualTo("Content", text);
-		searchQuery.findInBackground(new FindCallBack<ParseObject>
+		searchQuery.findInBackground(new FindCallBack<ParseObject>(
 		{
 			public void done(List<ParseObject> citationsList, ParseException e)
 			{
@@ -121,6 +121,6 @@ public class SearchPage extends LinearLayout
 					focusView = searched;
 					cancel = true;
 				}
-			});
+			}));
 	}
 }

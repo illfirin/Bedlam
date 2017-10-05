@@ -5,7 +5,7 @@
   ~ This source code is licensed under the BSD-style license found in the
   ~ LICENSE file in the root directory of this source tree. An additional grant
   ~ of patent rights can be found in the PATENTS file in the same directory.
-  -->
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:layout_width="match_parent"
@@ -20,5 +20,18 @@
         android:text="@string/hello_world"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+    <!-- TODO: add UnitId after registration of app on AdMob-->
+    <com.google.android.gms.ads.AdView
+      xmlns:ads= "http://schemas.android.com/apk/res-auto"
+      android:id="@+id/adBannerView"
+      android:layout_height="wrap_content"
+      android:layout_width="wrap_content"
+      android:layout_centerHorizontal="true"
+      android:layout_alignParentBottom="true"
+      ads:adSize="BANNER"
+      ads:UnitId="">
+    </com.google.android.gms.ads.AdView>
+
+
 
 </RelativeLayout>

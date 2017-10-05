@@ -26,7 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.com.io;
 
-//interface that implements basic quote features like saving data 
+//interface that implements basic quote features like saving data
 public interface IParseStorage
 {
 	Task<List> GetItemAsync(string id);
@@ -60,7 +60,7 @@ public class Item
 public class ParseStorage implements IParseStorage
 {
 	static ParseStorage impl = new ParseStorage();
-	public static ParseStorage default { get{return impl;} };
+	public static ParseStorage default { get{return impl;}; };
 	public List<Item> Quotes;
 
 	protected ParseStorage()
@@ -135,13 +135,10 @@ public class ParseStorage implements IParseStorage
 
 	public void RefreshUserData(ParseUser user)
 	{
-		
+
 	}
 
 
 
 
 }
-
-
-

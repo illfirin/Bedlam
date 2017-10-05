@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import com.parse.ParseAnalytics;
+import com.google.android.gms.ads.MobileAds;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -28,6 +29,8 @@ public class MainActivity extends ActionBarActivity {
   {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
+    //TODO: enter admob app id
+    MobileAds.initialize(this, "here");
 
     ProgressBar progressbar = new ProgressBar(this);
     progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
@@ -64,10 +67,10 @@ public class MainActivity extends ActionBarActivity {
         break;
 
       case android.R.id.activity_search:
-        startActivity(new Intent(SearchPage.This, SearchPage.class));  
+        startActivity(new Intent(SearchPage.This, SearchPage.class));
         break;
 
-      case android.R.id.activity_:
+      case android.R.id.activity_settings:
         startActivity(new Intent(FavouriteCitations.This, FavouriteCitations.class));
         break;
 

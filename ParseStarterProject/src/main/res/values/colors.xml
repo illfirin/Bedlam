@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<color name="primary_text">#212121</color>
+    <color name="secondary_text">#727272</color>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
@@ -8,10 +10,46 @@
     <color name="DepressedGrass">#365738</color>
     <color name="Nazca_Red">#BD5345</color>
     <color name="Beard">#734640</color>
+    <color name="primary_darkVoron">#5C3820</color>
+    <color name="primary_dark_darkVoron">#392A13</color>
+    <color name="accent_DarkVoron">#96760F</color>
+    <color name="background_voron">#A38B4D</color>
+    <color name="primary_darkHighlightVoron">#8E742A</color>
+    <color name="primary_Antimony">#6B5142</color>
+    <color name="primary_dark_Antimony">#59372E</color>
+    <color name="accent_Antimony">#C99D90</color>
+    <color name="primary_HighlightAntimony">#9A745F</color>
+    <color name="background_Antimony">#ECC5A8</color>
+    <color name="primary_Compliance">#221D26</color>
+    <color name="primary_dark_Compliance">#59372E</color>
+    <color name="accent_Compliance">#894F22</color>
+    <color name="primary_HighlightCompliance">#221D26</color>
+    <color name="primary_textCompliance">#A4712C</color>
+    <color name="secondary_textCompliance">#894F22</color>
+    <color name="background_Compliance">#BBAB78</color>
+    <color name="primary_GoodLife">#BD5345</color>
+    <color name="primary_dark_GoodLife">#42251F</color>
+    <color name="accent_GoodLife">#365738</color>
+    <color name="primary_HighlightGoodLife"></color>
+    <color name="primary_textGoodLife">#FFFFCC</color>
+    <color name="secondary_textGoodLife">#857C39</color>
+    <color name="background_GoodLife">#734640</color>
+    <color name="primary_BlackSwan">#432314</color>
+    <color name="primary_dark_BlackSwan">#42251F</color>
+    <color name="accent_BlackSwan">#5D2C01</color>
+    <color name="primary_HighlightBlackSwan">#42251F</color>
+    <color name="primary_textBlackSwan">#755628</color>
+    <color name="secondary_textBlackSwan">#5D2C01</color>
+    <color name="background_BlackSwan">#90825D</color>
     <color name=""></color>
     <color name=""></color>
     <color name=""></color>
     <color name=""></color>
     <color name=""></color>
-    
+    <color name=""></color>
+    <color name=""></color>
+    <color name=""></color>
+    <color name=""></color>
+    <color name=""></color>
+
 </resources>
