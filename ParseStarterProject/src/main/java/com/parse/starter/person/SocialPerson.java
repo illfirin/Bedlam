@@ -6,11 +6,11 @@ public class SocialPerson
 	public String id;
 	public String name;
 	private String pass;
-	public String profileURL
+	public String profileURL;
 	public String avatarURL;
 	public String email;
 
-	public SocialPerson(){ } 
+	public SocialPerson(){ }
 
 	private SocialPerson(String id, String name, String profileURL, String avatarURL,
 						String email, String pass)
@@ -25,7 +25,7 @@ public class SocialPerson
 
 	//Convert any type of user to ParseUser
 	@Override
-	public static ParseUser FromSocialToParse(SocialPerson sp) 
+	public static ParseUser FromSocialToParse(SocialPerson sp)
 	{
 		ParseUser u = new ParseUser();
 		u.setUserName(sp.name);
@@ -49,7 +49,7 @@ public class SocialPerson
 	}
 
 	@Override
-    public boolean equals(Object o) 
+    public boolean equals(Object o)
     {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;

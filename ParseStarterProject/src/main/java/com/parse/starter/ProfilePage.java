@@ -41,7 +41,7 @@ import android.app.LoaderManager.LoaderCallbacks;
 
 public class ProfilePage extends BaseActivity
 {
-	protected View root
+	protected View root;
 
 	@Bind(R.id.profImage)
 	private ImageView profileImage;
@@ -85,6 +85,9 @@ public class ProfilePage extends BaseActivity
 		{
 			profileImage.setError(R.strings.error_noImage);
 		}
+		mAdView = (AdView) findViewById(R.id.View);
+		AdRequest adReq = new AdRequest.Builder().build();
+		mAdView.loadAd(adReq);
 
 	}
 	@Override
@@ -93,7 +96,7 @@ public class ProfilePage extends BaseActivity
 		root = LayoutInflater.from(this).inflate(R.id.profile_layout);
 
 
-		ButterKnife.Bind(root, this)
+		ButterKnife.Bind(root, this);
 	}
 	//load page with favourite citations
 	@OnClick(R.id.showFav)

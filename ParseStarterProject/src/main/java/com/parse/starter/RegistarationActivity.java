@@ -47,33 +47,33 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 	private EditText LoginView;
 	private View mProgressView;
 	private View RegistrationFormView;
-	
-	
+
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_registration);
 		EmailView = (EditText) findViewById(R.id.email);
-		PasswordView = (EditText) findViewById(R.id.password)
+		PasswordView = (EditText) findViewById(R.id.password);
 		ConfirmPasswordView = (EditText) findViewById(R.id.password_1);
 		LoginView = (EditText) findViewById(R.id.login);
-		
+
 		Button EmailRegistrationButton = (Button) findViewById(R.id.email_registration);
-		EmailRegistrationButton.setOnClickListener((View v)-> 
+		EmailRegistrationButton.setOnClickListener((View v)->
 		{
 			attemptRegistration();
 		});
 	}
-	
-	
+
+
 	private void attemptRegistration()
 	{
 		if(mAuthTask != null)
 		{
 			return;
 		}
-		
+
 		//Reset Errors
 		EmailView.setError(null);
 		PasswordView.setError(null);
@@ -153,7 +153,7 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 			}
 		}
 	}
-	
+
 	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
         // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
@@ -164,10 +164,10 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 
             RegistrationFormView.setVisibility(show ? View.GONE : View.VISIBLE);
             m.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter() 
+                    show ? 0 : 1).setListener(new AnimatorListenerAdapter()
 				{
 					@Override
-					public void onAnimationEnd(Animator animation) 
+					public void onAnimationEnd(Animator animation)
 					{
 						mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
 					}
@@ -188,16 +188,16 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
             RegistrationFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
     }
-	
-	private boolean isEmailValid(String email) 
+
+	private boolean isEmailValid(String email)
 	{
         //Check wether it is e-mail or something else
 		Pattern pattern = Pattern.compile("^([a-z0-9_\\.-]+)@([a-z0-9_\\.-]+)\\.([a-z\\.]{2,6})$", Pattern.CASE_INSENSITIVE);
 		Matcher m = pattern.matcher(email)
         return m.matches;
     }
-	
-	private boolean isPasswordValid(String password) 
+
+	private boolean isPasswordValid(String password)
 	{
 		List<Character> pass = password.chars().mapToObj(e -> (char)e).collect(Collectors.toList());
 		boolean HasUpper = pass.stream().HasAny(e -> Character.isUpperCase(e) )

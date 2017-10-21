@@ -45,7 +45,7 @@ import butterknife.OnClick;
 import butterknife.onItemSelected;
 import butterknife.onTextChanged;
 import butterknife.onNothingChanged;
-
+import com.google.android.gms.ads.AdView;
 //TODO: remove too much dependencies
 public class ConstructorPage extends BaseActivity
 {
@@ -65,12 +65,13 @@ public class ConstructorPage extends BaseActivity
 	protected TextView author;
 	@Bind(R.id.content_constructor)
 	protected TextView content;
-	@Bind()
+	@Bind(R.id.chooseImage_constructor)
 	protected ImageView chooseImage;
-	@Bind(R.id.)
+	@Bind(R.id.image_placeholder)
 	protected Drawable im  = null;
 	protected static final String pathToFonts = "/system/fonts";
 	static final int defaultTextSize = 14;
+	private AdView adView;
 
 
 	@Overrides
@@ -79,6 +80,14 @@ public class ConstructorPage extends BaseActivity
 		super.onCreate(savedInstance);
 		setReference();
 		setSimpleToolbar(true);
+
+		mAdView = new AdView(this);
+        mAdView.size(AdSize.BANNER);
+        mAdView.setAdUnitId(R.string.constructor_ad_unitId);
+
+		mAdView = (AdView) findViewById(R.id.View);
+		AdRequest adReq = new AdRequest.Builder().build();
+		mAdView.loadAd(adReq);
 	}
 	@OnItemSelected(R.id.colourChooser)
 	public void onItemSelected(AdapterView<?> parent , View view, int pos, long id)
@@ -102,7 +111,7 @@ public class ConstructorPage extends BaseActivity
 		progressbar.setIndeterminate(true);
 		Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
 		intent.addCategory(Intent.CATEGORY_OPENABLE);
-		intent.setType("image/*")
+		intent.setType("image/*");
 		startActivityForResult(intent, 42);
 		progressbar.setIndeterminate(false);
 	}
@@ -191,9 +200,11 @@ public class ConstructorPage extends BaseActivity
 				imagePlaceholder.setImageUri(uri);
 			}
 		}
+	}
+
 
 	@Override
-	public static List<File> getAllFonts(string dir);
+	public static List<File> getAllFonts(string dir)
 	{
 		File d_file = new File(dir);
 

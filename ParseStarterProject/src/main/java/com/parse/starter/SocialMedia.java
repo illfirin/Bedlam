@@ -48,25 +48,25 @@ public class SocialMedia extends LinearLayout
 		faсB = (ImageView)findViewById(R.id.faceB_view);
 		twitter = (ImageView)findViewById(R.id.twitter_view);
 
-		vk.setOnClickListener(OnClickListener c ->
+		vk.setOnClickListener((View v) ->
 		{
 			LoginActivity.showProgress(true);
 			startActivity(new Intent(VkLogin.This, VkLogin.class))
 
 		});
-		gplus.setOnClickListener(OnClickListener c ->
+		gplus.setOnClickListener((View v) ->
 		{
 			LoginActivity.showProgress(true);
 			startActivity(new Intent(GpLogin.This, GpLogin.class))
 
 		});
-		facB.setOnClickListener(OnClickListener c ->
+		facB.setOnClickListener((View v) ->
 		{
 			LoginActivity.showProgress(true);
 			startActivity(new Intent(facBLogin.This, facBLogin.class))
 
 		});
-		twitter.setOnClickListener(OnClickListener c ->
+		twitter.setOnClickListener((View v) ->
 		{
 			LoginActivity.showProgress(true);
 			startActivity(new Intent(TwitterLogin.This, TwitterLogin.class))

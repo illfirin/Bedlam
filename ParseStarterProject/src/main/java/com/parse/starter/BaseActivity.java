@@ -27,9 +27,8 @@ public abstract class BaseActivity extends AppCompatActivity
     public android.support.v7.widget.Toolbar toolbar;
     public CoordinatorLayout mainLayout;
     public AppBarLayout base_toolbarContainer;
-    private AdView mAdView;
 
-    private static String Theme_Current = "AppliedTheme";
+   private static String Theme_Current = "AppliedTheme";
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -46,6 +45,8 @@ public abstract class BaseActivity extends AppCompatActivity
             mAdView = (AdView) findViewById(R.id.View);
             AdRequest adReq = new AdRequest.Builder().build();
             mAdView.loadAd(adReq);
+            //TODO: enter admob app id
+            MobileAds.initialize(this, "here");
 
             Reservoir.init(this, 8192);
         }

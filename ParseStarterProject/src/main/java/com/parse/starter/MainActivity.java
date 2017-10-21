@@ -29,8 +29,7 @@ public class MainActivity extends ActionBarActivity {
   {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
-    //TODO: enter admob app id
-    MobileAds.initialize(this, "here");
+    
 
     ProgressBar progressbar = new ProgressBar(this);
     progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
