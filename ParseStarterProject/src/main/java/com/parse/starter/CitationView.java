@@ -49,11 +49,9 @@ public class CitationView extends View
 	private TextView rating;
 
 	//TODO: add click events
-
-
-
 	public CitationView(Item item, Context context)
 	{
+		super(context);
 		LinearLayout parrent = new LinearLayout(context);
 		parent.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 		parent.setOrientation(LinearLayout.HORIZONTAL);
@@ -85,7 +83,7 @@ public class CitationView extends View
 		title.setTextColor(R.colours.EsmeraldaEyes);
 		content.setGarvity(Gravity.CENTER);
 		content.setTextColor(R.colours.colorAccent);
-		author.setGarvity(Gravity.CENTER)
+		author.setGarvity(Gravity.CENTER);
 		author.setTextColor(R.colours.Beard);
 		tags.setGarvity(Gravity.RIGHT);
 		tags.setTextColor(R.colours.DepressedGrass);
@@ -120,7 +118,7 @@ public class CitationView extends View
 		/**author.setOnClickListener(OnClickListener c ->
 		{
 		});*/
-
+		//dunno if we are need this shit at all
 		Tags.setOnClickListener((View v) ->
 		{
 
@@ -132,8 +130,8 @@ public class CitationView extends View
 			ParseUser user = ParseUser.getCurrentUser();
 			if(user != null)
 			{
-				ParseQuery<ParseObject> fav = user.getQuery("favourite")
-                ParseQuery<ParseObject> favCount = user.getQuery("favourite_count");
+				ParseQuery<ParseObject> fav = user.getQuery("favourite");
+                int favCount = user.getQuery("favourite_count") + 1;
 				ParseObject res = ParseStorage.ToParseObject(item);
 
 				Parse.saveInBackground(user);
@@ -151,7 +149,7 @@ public class CitationView extends View
 		});
 		minus.setOnClickListener((View v) ->
 		{
-			List<Item> l = new List<Item>;
+			List<Item> l = new List<Item>();
 
 			item.rating--;
 			l.append(item);
@@ -180,7 +178,7 @@ public class CitationView extends View
 
 			Intent intent = new Intent(this, ConstructorPage.class);
 			intent.putPlacebleArrayListExtra(Intent.EXTRA_STREAM, citCont);
-			intent.setType("text/plain")
+			intent.setType("text/plain");
 
 			startActivity(intent);
 		});

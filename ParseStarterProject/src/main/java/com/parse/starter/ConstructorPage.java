@@ -71,7 +71,7 @@ public class ConstructorPage extends BaseActivity
 	protected Drawable im  = null;
 	protected static final String pathToFonts = "/system/fonts";
 	static final int defaultTextSize = 14;
-	private AdView adView;
+	private AdView mAdView;
 
 
 	@Overrides

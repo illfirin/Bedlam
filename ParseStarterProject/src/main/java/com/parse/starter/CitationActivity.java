@@ -13,7 +13,7 @@ public class CitationActivity extends BaseActivity
     private AdView mAdView;
     @Bind(android.R.id.citationViewLayout)
     private LinearLayout citationViewContainer;
-
+    
     public CitationActivity(CitationView v)
     {
         citationViewContainer.addView(v);

@@ -107,7 +107,6 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
                                             {
                                                 l1.Author = l.Author;
                                                 l1.Content = l.Content;
-
                                             },
                                             (l1, l2) -> { l1.addAll(l2); return l1; });
 
