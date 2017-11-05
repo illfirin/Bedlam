@@ -71,11 +71,10 @@ public class SearchPage extends LinearLayout
 		super.OnCreate(savedInstance);
 		setReference();
 
-		lAdapter = new ArrayAdapter();
 		searched = new ArrayList<CitationView>();
-		CitationView[] viewArr = new CitationView[searched.size()];
-		viewArr = searched.toArray(viewArr);
-		lAdapter = new ArrayAdapter<CitationView>(this, founded, viewArr);
+		CitationView[] viewArr = searched.toArray(new CitationView[searched.size()]);
+
+		lAdapter = new ArrayAdapter<CitationView>(this, searched, viewArr);
 		setListAdapter(lAdapter);
 		//create Intrrsttiial and set unit id to it
 		mInterstitialAd = new InterestialAd(this);
@@ -108,7 +107,7 @@ public class SearchPage extends LinearLayout
 	@OnClick(R.id.find)
 	public void onClick()
 	{
-		string s = searchText.getText();
+		@NonNull string s = searchText.getText();
 		attemptSearch(s);
 		if(canceled)
 		{

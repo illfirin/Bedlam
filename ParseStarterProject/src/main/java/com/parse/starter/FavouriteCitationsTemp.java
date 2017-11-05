@@ -113,7 +113,8 @@ public class FavouriteCitations extends BaseActivity
 	{
 		View selected = lView.getItemAtPosition(position);
 		CitationView c_v = (CitationView) selected;
-		startActivity(new Intent(c_v.this, CitationActivity.class(c_v)));
+
+		startActivity(new Intent(c_v.this, new CitationActivity(c_v)));
 	}
 
 }

@@ -27,10 +27,7 @@ public class SettingsPage extends LinearLayout
       super.OnCreate(savedInstance);
       setContentView(R.Layout.search);
       setReference();
-
-
-      ProgressBar progressbar = new ProgressBar(this);
-  		progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
+      progressBar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
   									LayoutParams.WRAP_CONTENT, Garavity.CENTER));
 
       about.setOnClickListener((View v) ->
@@ -76,7 +73,7 @@ public class SettingsPage extends LinearLayout
         root = LayoutInflater.from(this).inflate(R.id.settings_layout);
         prog_bar = new ProgressBar(this);
         getLinearLayout(root).setEmptyLayout(prog_bar);
-        ButterKnife.Bind(this, roote)
+        ButterKnife.Bind(this, root)
     }
 
 
