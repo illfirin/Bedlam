@@ -46,7 +46,8 @@ public class MainActivity extends BaseActivity
 
     ArrayAdapter<CitationView> lAdapter;
     List<CitationView> content_list;
-    ptivate AdView adView;
+    CitationView[] contentViewArr;
+    private AdView adView;
 
     /*
         По дефолту - цитаты за сегодняшний день, кнопки с показать за последние 3 дня, 7 дней, 2 недели.
@@ -65,37 +66,39 @@ public class MainActivity extends BaseActivity
         adView = (AdView) findViewById(R.id.mainAdvView);
         AdRequest adReq = new AdRequest.Builder().build();
         adView.loadAd(adReq);
-        
+
         setReference();
 
-
-        content_list = new ArrayList<CitationView>();
-        CitationView[] viewArr = content_list.toArray(new CitationView[content_list.size()]);
-
-        lAdapter = new ArrayAdapter<CitationView>(this, content_list, viewArr);
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
-
-
     }
 
 
     @OnClick(R.id.threedays_button)
     public void threedays_button()
     {
-        int one_day = oneDaysDate.getDate();
-        int one_day_month = oneDaysDate.getMounth();
-        int one_day_year = oneDaysDate.getYear();
-        for(int i = oneDaysDate; i< rightNowDate.getDate(); i++)
-        {
-
-        }
+        threeDaysCitationsArray = MainActivity.getCitationsForSomeDays(threeDaysDate);
+        lAdapter = new ListAdapter(this, mView, threeDAysCitationsArray);
+        mView.setAdapter(lAdapter);
     }
 
-    @OnCreate(R.id)
     @OnClick(R.id.twoWeeks_button)
     public void twoWeeks_button()
     {
+        twoWeeksCitationsArray = MainActivity.getCitationsForSomeDays(twoWeeksDate);
+        lAdapter = new ListAdapter(this, mView, twoWeeksCitationsArray);
+        mView.setAdapter(lAdapter);
+    }
 
+    public static CitationView[] getCitationsForSomeDays(Date forDate)
+    {
+        List<CitationView> views_list = new ArrayList<CitationView>();
+        for(long i = forDate.getTime(); i<= rightNowDate.getTime(); i += 86400000L)
+        {
+            Date fromMillis = new Date(i);
+            views_list.addAll(MainActivity.getMainPageCitations(fromMillis));
+        }
+
+        return view_list.toArray(new CitationView[view_list.size()]);
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu)
@@ -170,10 +173,15 @@ public class MainActivity extends BaseActivity
 
   public void setDefaulMainPageCitations()
   {
+      List<CitationView> citationForDateList = MainPage.getMainPageCitations(rightNowDate);
+      CitationView[] citationForDateArr = citationForDateArr.toArray(new CitationView[citationForDateList.size()])
+      lAdapter = new ListAdapter<CitationView>(this, mView, citationForDateArr);
+      mView.setAdapter(lAdapter);
 
   }
 
-  public static CitationView[] getMainPageCitations(Date creation_date)
+  public static void
+  public static List<CitationView> getMainPageCitations(Date creation_date)
   {
       ParseQuery<ParseObject> query = ParseQuery.getQuery("Citation");
       query.whereEqualTo("createdAt", creation_date);
@@ -183,8 +191,9 @@ public class MainActivity extends BaseActivity
          {
              if(e == null)
              {
-                 List<Item> citation_items = citList.stream().map((0) -> ParseStorage.FromParseObject(0)).collect(Collectors.toList());
-                 CitationView[] cit_array = citations_items.stream().map((e) -> {new CitationView(e, this)}).toArray(CitationView[]::new);
+                 List<Item> citation_items = citList.stream().map((o) -> ParseStorage.FromParseObject(o)).collect(Collectors.toList());
+                 List<CitationView> cit_listView = citations_items.stream().map((e) -> {new CitationView(e, this)}).collect(Collectors.toList());
+                 return cit_listView;
              }
              else
              {

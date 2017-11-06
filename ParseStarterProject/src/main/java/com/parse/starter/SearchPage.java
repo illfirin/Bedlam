@@ -59,6 +59,7 @@ public class SearchPage extends LinearLayout
 	protected ProgressBar progressbar;
 	ArrayAdapter<CitationView> lAdapter;
 	List<CitationView> searched;
+	CitationView[] viewArr;
 	protected boolean canceled = false;
 	private InterstitialAd mInterstitialAd;
 	private CountDownTimer mCountDownTimer;
@@ -71,11 +72,6 @@ public class SearchPage extends LinearLayout
 		super.OnCreate(savedInstance);
 		setReference();
 
-		searched = new ArrayList<CitationView>();
-		CitationView[] viewArr = searched.toArray(new CitationView[searched.size()]);
-
-		lAdapter = new ArrayAdapter<CitationView>(this, searched, viewArr);
-		setListAdapter(lAdapter);
 		//create Intrrsttiial and set unit id to it
 		mInterstitialAd = new InterestialAd(this);
 		mInterstitialAd.setAdUnitId(getString(R.string.ad_unit_id));
@@ -171,16 +167,22 @@ public class SearchPage extends LinearLayout
 
 		boolean canceled = false;
 		ParseQuery<ParseObject> searchQuery = ParseObject.getQuery("Citations");
+
 		searchQuery.whereEqualTo("Content", text);
 		searchQuery.findInBackground(new FindCallBack<ParseObject>(
 		{
-			@override
+			@Override
 			public void done(List<ParseObject> citationsList, ParseException e)
 			{
 				if(e == null)
 				{
+
 					progressbar.setProgressBarIndeterminateVisibility(true);
+					searched = new ArrayList<CitationView>();
 					SearchPage.addItemsToCitationViewList(citationsList, searched, 15, this);
+					viewArr = searched.asArray(new CitationView[searched.size()]);
+					lAdapter = new ArrayAdapter<CitationView>(this, founded, viewArr);
+					founded.setAdapter(lAdapter);
 					progressbar.setProgressBarIndeterminateVisibility(false);
 
 
@@ -188,7 +190,7 @@ public class SearchPage extends LinearLayout
 				}
 				else if(e != null)
 				{
-					String new_text = text.substring(0, text.length()-3);
+					String new_text = text.substring(0, text.length()-4);
 					searchQuery.whereEqualTo(Content, newText);
 					searchQuery.findInBackground(new FindCallBack<ParseObject>)
 					{
@@ -198,7 +200,11 @@ public class SearchPage extends LinearLayout
 							if(e == null)
 							{
 								progressBar.setProgressBarIndeterminateVisibility(true);
-								SearchPage.addItemsToCitationViewList(newcitationsList, searched, 5, this);
+								searched = new ArrayList<CitationView>();
+								SearchPage.addItemsToCitationViewList(citationsList, searched, 5, this);
+								viewArr = searched.asArray(new CitationView[searched.size()]);
+								lAdapter = new ArrayAdapter<CitationView>(this, founded, viewArr);
+								founded.setAdapter(lAdapter);
 
 								progressbar.setProgressBarIndeterminateVisibility(false);
 
@@ -227,7 +233,7 @@ public class SearchPage extends LinearLayout
 			}));
 		}
 	}
-	private static void addItemsToCitationViewList(List<ParseObject> citationsList, List<CitationView> searchedList,
+	public static void addItemsToCitationViewList(List<ParseObject> citationsList, List<CitationView> searchedList,
 													int searchLimit, Context cntxt)
 	{
 		if(citationsList != null)
@@ -244,4 +250,5 @@ public class SearchPage extends LinearLayout
 			throw new NullReferenceException();
 		}
 	}
+
 }

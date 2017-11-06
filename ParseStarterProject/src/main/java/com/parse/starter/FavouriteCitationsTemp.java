@@ -50,7 +50,7 @@ public class FavouriteCitations extends BaseActivity
 	@Bind(android.R.layout.Favourite_citations)
 	protected ListView lView;
 	private ArrayAdapter<CitationView> mAdapter;
-	protected CitationView[] fav_citations_view = FavouriteCitations.getCurrUserFavouriteCitationsViews();
+	protected CitationView[] fav_citations_views = FavouriteCitations.getCurrUserFavouriteCitationsViews();
 
  	private AdView adView;
 
