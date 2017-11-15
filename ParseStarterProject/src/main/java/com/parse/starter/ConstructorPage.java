@@ -208,7 +208,7 @@ public class ConstructorPage extends BaseActivity
 	{
 		File d_file = new File(dir);
 
-		if(@NonNull dir && @NonNull d_file)
+		if(dir != null && d_file != null)
 		{
 			List<File> fl = (List<File>)
 				(FileUtils.listFiles(d_file,
@@ -228,7 +228,7 @@ public class ConstructorPage extends BaseActivity
 	{
 		String s = l.getName();
 		//find the
-		indx = s.indexOf('.')
+		int indx = s.indexOf('.')
 		return s.substring(0, indx);
 	}
 

@@ -165,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+        if (!TextUtils.isEmpty(password) && !LoginActivity.isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -178,7 +178,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView = mEmailView;
             cancel = true;
         }
-        else if (!isEmailValid(email))
+        else if (!LoginActivity.isEmailValid(email))
         {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
@@ -213,13 +213,13 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    private boolean isEmailValid(String email)
+    private static boolean isEmailValid(String email)
     {
         //TODO: Check Email with regular expressions
         return email.contains("@");
     }
 
-    private boolean isPasswordValid(String password)
+    public static boolean isPasswordValid(String password)
 	{
 		List<Character> pass = password.chars().mapToObj(e -> (char)e).collect(Collectors.toList());
 		boolean HasUpper = pass.stream().HasAny(e -> Character.isUpperCase(e) );
