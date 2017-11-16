@@ -53,7 +53,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 	private Button socialMediaLogin;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
@@ -87,7 +88,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         socialMediaLogin.setOnClickListener((View v)->
         {
             showProgress(true);
-            startActivity(new Intent(SocialMedia.This, SocialMedia.class));
+            startActivity(new Intent(LoginWithSocialMedia.this, LoginWithSocialMedia.class));
         });
 
     }
@@ -262,6 +263,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
                     }
                 });
+            }
         }
         else
         {

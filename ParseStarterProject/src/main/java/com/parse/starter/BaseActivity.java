@@ -42,6 +42,7 @@ public abstract class BaseActivity extends AppCompatActivity
             base_toolbarContainer = (AppBarLayout) findViewById(R.id.base_appbar);
             container = (FrameLayout)findViewById(R.id.container);
             mainLayout = (CoordinatorLayout) findViewById(R.id.full_layout);
+
             mAdView = (AdView) findViewById(R.id.View);
             AdRequest adReq = new AdRequest.Builder().build();
             mAdView.loadAd(adReq);
@@ -60,7 +61,7 @@ public abstract class BaseActivity extends AppCompatActivity
     {
         if(isSimpleToolbarRequire)
         {
-            view_simpleToolbar = LayoutInflater.from(this).inflate(R.layout.simple_toolbar, base_toolbarContainer)
+            view_simpleToolbar = LayoutInflater.from(this).inflate(R.layout.simple_toolbar, base_toolbarContainer);
             toolbar = (android.support.v7.widget.Toolbar) view_simpleToolbar.findViewById(R.id.toolbar);
             if(/*@NonNull*/ toolbar)
             {
@@ -99,7 +100,7 @@ public abstract class BaseActivity extends AppCompatActivity
         {
             if(UserPreferenceManager.preferenceGetString(Theme_Current, "").equals("Green"))
             {
-                setTheme(R.style.ThemeApp_Green)
+                setTheme(R.style.ThemeApp_Green);
             }
             else if(UserPreferenceManager.preferenceGetString(Theme_Current, "").equals("Purple"))
             {

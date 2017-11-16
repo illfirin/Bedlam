@@ -47,6 +47,11 @@ import butterknife.onTextChanged;
 import butterknife.onNothingChanged;
 import com.google.android.gms.ads.AdView;
 //TODO: remove too much dependencies
+/*
+Берем текст цитаты и ее автора, на бэкграунд хреначим картинку,
+делаем так, чтобы можно было выбирать шрифт, цвет шрифта и его величину
+При завершении выбор: просто сохранить или поделиться в соц.сетях
+**/
 public class ConstructorPage extends BaseActivity
 {
 	protected View root;
@@ -98,7 +103,7 @@ public class ConstructorPage extends BaseActivity
 		content.setTextColourFromHex(col);
 	}
 
-	@onNothingSelected(r.id.colourChooser)
+	@onNothingSelected(R.id.colourChooser)
 	public void onNothingSelected(AdapterView<?> parentView)
 	{
 		canceled = true;
@@ -119,19 +124,19 @@ public class ConstructorPage extends BaseActivity
 	@OnTextChanged(R.id.fontSize)
 	public void onTextChanged(CharSequence c)
 	{
-		if(@NonNull fontSize.getText())
+		if(fontSize.getText() != 0)
 		{
 			content.setTextSize(fontsize.getText());
 			author.setTextSize(fontsize.getText());
 		}
 	}
 
-	@onItemSelected(R.id.fontChooser)
+	@OnItemSelected(R.id.fontChooser)
 	public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
 	{
 		canceled = false;
 		String font_string = ((TextView)parent.getItemAtPosition(pos).getText());
-		if(@NonNull fonts_map.get(font_string))
+		if(fonts_map.get(font_string)!= т)
 		{
 			TypeFace tf = TypeFace.createFromFile(fonts_map.get(font_string));
 		}
@@ -143,7 +148,7 @@ public class ConstructorPage extends BaseActivity
 	public void onNothingSelected(AdapterView<?> parent)
 	{
 		canceled = true;
-		focusView = parentView;
+		parentView.requestFocus();
 	}
 	@Override
 	public void setReference()
