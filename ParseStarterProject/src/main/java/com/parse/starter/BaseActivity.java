@@ -20,6 +20,9 @@ import com.anupcowkur.reservoir.Reservoir;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
+import io.sentry.Sentry;
+import io.sentry.android.AndroidSentryClientFactory;
+
 public abstract class BaseActivity extends AppCompatActivity
 {
     private View view_simpleToolbar;
@@ -35,6 +38,15 @@ public abstract class BaseActivity extends AppCompatActivity
     {
         try
         {
+            //Sentry initialization
+            Context ctx = this.getApplicationContext();
+            //use client key from project settings page
+            String sentryDsn = "https://publicKey:secretKey@host:port/1?options";
+            Sentry.init(sentryDsn, new AndroidSentryClientFactory(ctx));
+            Sentry.init(new AndroidSentryClientFactory(ctx));
+
+
+
             setAppTheme();
             super.onCreate();
             setContentView(R.layout.activity_base);
@@ -42,7 +54,7 @@ public abstract class BaseActivity extends AppCompatActivity
             base_toolbarContainer = (AppBarLayout) findViewById(R.id.base_appbar);
             container = (FrameLayout)findViewById(R.id.container);
             mainLayout = (CoordinatorLayout) findViewById(R.id.full_layout);
-
+            //Ads initialization
             mAdView = (AdView) findViewById(R.id.View);
             AdRequest adReq = new AdRequest.Builder().build();
             mAdView.loadAd(adReq);

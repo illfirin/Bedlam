@@ -213,26 +213,26 @@ public class SearchPage extends LinearLayout
 								showResults();
 								//TODO: add advertisement here
 							}
-							else
-							{
-								founded.setError(R.string.error_cannot_find);
-								founded.requestFocus();
-								canceled = true;
+								else
+								{
+									founded.setError(R.string.error_cannot_find);
+									founded.requestFocus();
+									canceled = true;
+								}
 							}
+
 						}
-
 					}
-				}
 
-				else
-				{
-					founded.setError(R.string.error_cannot_find);
-					founded.requestFocus();
-					canceled = true;
-				}
-			}));
+					else
+					{
+						founded.setError(R.string.error_cannot_find);
+						founded.requestFocus();
+						canceled = true;
+					}
+				}));
+			}
 		}
-	}
 	public static void addItemsToCitationViewList(List<ParseObject> citationsList, List<CitationView> searchedList,
 													int searchLimit, Context cntxt)
 	{

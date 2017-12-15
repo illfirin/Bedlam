@@ -1,4 +1,4 @@
-package pakuteam.bedlam_experiment_0_1;
+ package pakuteam.bedlam_experiment_0_1;
 
 import android.content.CursorLoader;
 import android.content.Loader;
@@ -232,8 +232,8 @@ public class ConstructorPage extends BaseActivity
 	public static String FromFileToString (File l)
 	{
 		String s = l.getName();
-		//find the
-		int indx = s.indexOf('.')
+		//find the index of last name character
+		int indx = s.lastIndexOf('.');
 		return s.substring(0, indx);
 	}
 

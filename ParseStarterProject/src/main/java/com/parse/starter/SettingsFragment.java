@@ -43,13 +43,13 @@ public class SettingsFragment extends PreferenceFragmentCompat
 			String currValue = null;
 			lp = (ListPreference) findPreference("choose_theme");
 			sp = (SwitchPreference) findPreference("allow_sync");
-			if(@NonNull lp)
+			if(lp != null)
 			{
 					CharSequence currText = lp.getEntry();
 					currValue = lp.getValue();
 			}
 
-			if(@NonNull currValue)
+			if(currValue != null)
 			{
 
 			}

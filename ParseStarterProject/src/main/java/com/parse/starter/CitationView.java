@@ -59,7 +59,7 @@ public class CitationView extends View
 		title = new TextView(context);
 		content = new TextView(context);
 		author = new TextView(context);
-		Tags = new TextView(context);
+		tags = new TextView(context);
 		addToFavourite = new ImageView(context);
 		minus = new ImageView(context);
 		plus = new ImageView(context);
@@ -110,16 +110,18 @@ public class CitationView extends View
 		la.addView(minus);
 
 
-		title.setOnClickListener((View v) ->
+		title.setOnClickListener((View view) ->
 		{
-			startActivity(new Intent(context, CitationActivity.class(item)));
+			Intent intent = new Intent(this, CitationActivity.class);
+			intent.putExtra("v", view);
+			startActivity(intent);
 		});
 
 		/**author.setOnClickListener(OnClickListener c ->
 		{
 		});*/
 		//dunno if we are need this shit at all
-		Tags.setOnClickListener((View v) ->
+		tags.setOnClickListener((View v) ->
 		{
 
 
@@ -141,10 +143,10 @@ public class CitationView extends View
 
 		plus.setOnClickListener((View v) ->
 		{
-			List<Item> l = new List<Item>;
+			List<Item> l = new List<Item>();
 
 			item.rating++;
-			l.append(item);
+			l.add(item);
 			ParseStorage.RefreshData(l);
 		});
 		minus.setOnClickListener((View v) ->
@@ -152,7 +154,7 @@ public class CitationView extends View
 			List<Item> l = new List<Item>();
 
 			item.rating--;
-			l.append(item);
+			l.add(item);
 			ParseStorage.RefreshData(l);
 
 		});

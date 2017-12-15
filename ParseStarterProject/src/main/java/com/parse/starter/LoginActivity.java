@@ -14,7 +14,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.AsyncTask;
-import com.Parse.ParseUser
+import com.Parse.ParseUser;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -197,14 +197,14 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             LoginActivity.showProgress(true);
-			ParseUser.logInBackGround(mail, password, new LogInCallback)
-				{
-					public void done(ParseUser user, ParseException e)
-					if(user != null)
-					{
-                        user.put("")
-						startActivity(new Intent(MainActivity.This, MainActivity.class));
-					}
+			      ParseUser.logInBackGround(mail, password, new LogInCallback())
+				    {
+					         public void done(ParseUser user, ParseException e)
+					         if(user != null)
+					         {
+                         user.put("");
+						             startActivity(new Intent(MainActivity.This, MainActivity.class));
+					         }
 					else
 					{
 						e.Message.Show();
@@ -214,7 +214,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    private static boolean isEmailValid(String email)
+    public static Boolean isEmailValid(String email)
     {
         //TODO: Check Email with regular expressions
         return email.contains("@");
@@ -404,4 +404,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             LoginActivity.showProgress(false);
         }
     }
+    public static Boolean isEmailValid(String email)
+    {
+        //TODO: Check Email with regular expressions
+        return email.contains("@");
+    }
+
 }

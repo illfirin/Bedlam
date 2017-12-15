@@ -13,7 +13,7 @@ public class CitationActivity extends BaseActivity
     private AdView mAdView;
     @Bind(android.R.id.citationViewLayout)
     private LinearLayout citationViewContainer;
-    
+
     public CitationActivity(CitationView v)
     {
         citationViewContainer.addView(v);
@@ -28,9 +28,9 @@ public class CitationActivity extends BaseActivity
         mAdView = new AdView(this);
         mAdView.size(AdSize.BANNER);
         mAdView.setAdUnitId(R.string.c_ad_unitId);
-		mAdView = (AdView) findViewById(R.id.View);
-		AdRequest adReq = new AdRequest.Builder().build();
-		mAdView.loadAd(adReq);
+		    mAdView = (AdView) findViewById(R.id.View);
+		    AdRequest adReq = new AdRequest.Builder().build();
+		    mAdView.loadAd(adReq);
     }
 
     @Override

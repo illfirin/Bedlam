@@ -64,7 +64,7 @@ public class SettingsPage extends LinearLayout
       {
         progressbar.setProgressBarIndeterminateVisibility(true);
         startActivity(new Intent(ChangeBackground.this, ChangeBackground.class));
-      })
+      });
     }
 
     @Override
@@ -73,7 +73,7 @@ public class SettingsPage extends LinearLayout
         root = LayoutInflater.from(this).inflate(R.id.settings_layout);
         prog_bar = new ProgressBar(this);
         getLinearLayout(root).setEmptyLayout(prog_bar);
-        ButterKnife.Bind(this, root)
+        ButterKnife.Bind(this, root);
     }
 
 
