@@ -24,7 +24,10 @@ import java.util.Date;
  * LICENSE file in the root directory of this source tree. An additional grant
  * of patent rights can be found in the PATENTS file in the same directory.
  */
+
 package com.parse.starter;
+import io.sentry.Sentry;
+import io.sentry.event.BreadcrumbBuilder;
 
 public class MainActivity extends BaseActivity
 {
@@ -70,6 +73,8 @@ public class MainActivity extends BaseActivity
         setReference();
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
+
+        Sentry.record(new BreadcrumbBuilder().setMessage("System tried to retrieve citations").build())
     }
 
 
@@ -135,6 +140,7 @@ public class MainActivity extends BaseActivity
             case android.R.id.activity_settings:
                 startActivity(new Intent(FavouriteCitations.This, FavouriteCitations.class));
                 break;
+        }
     }
 
     @Override
@@ -180,7 +186,6 @@ public class MainActivity extends BaseActivity
 
   }
 
-  public static void
   public static List<CitationView> getMainPageCitations(Date creation_date)
   {
       ParseQuery<ParseObject> query = ParseQuery.getQuery("Citation");
@@ -192,11 +197,12 @@ public class MainActivity extends BaseActivity
              if(e == null)
              {
                  List<Item> citation_items = citList.stream().map((o) -> ParseStorage.FromParseObject(o)).collect(Collectors.toList());
-                 List<CitationView> cit_listView = citations_items.stream().map((e) -> {new CitationView(e, this)}).collect(Collectors.toList());
+                 List<CitationView> cit_listView = citations_items.stream().map((e) -> {new CitationView(e, this)};).collect(Collectors.toList());
                  return cit_listView;
              }
              else
              {
+                 Sentry.capture(e)
                  Toast.makeText(getApplicationContext(), getString(R.string.no_such_citationErr, Toast.LENGTH_SHORT));
                  Toast.setGravity(Gravity.CENTER, 0, 0);
              }

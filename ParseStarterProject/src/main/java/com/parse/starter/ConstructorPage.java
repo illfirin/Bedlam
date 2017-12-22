@@ -203,6 +203,7 @@ public class ConstructorPage extends BaseActivity
 				uri = resultData.getData();
 				imagePlaceholder.setImageUri(null);
 				imagePlaceholder.setImageUri(uri);
+        
 			}
 		}
 	}

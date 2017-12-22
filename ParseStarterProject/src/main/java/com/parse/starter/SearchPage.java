@@ -27,21 +27,28 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+//Dependency injection
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.onItemSelected;
 import butterknife.onNothingChanged;
 import butterknife.onTextChanged;
+
 import com.LoginActivity;
 import com.Parse.ParseUser;
+//Libraries for advertisements
 import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.ads.MobileAds;
+
 import com.parse;
 import java.util.concurrent.CountDownLatch;
 import javax.swing.text.View;
+//bugtracking
+import io.sentry.Sentry;
+import io.sentry.event.BreadcrumbBuilder;
 
 public class SearchPage extends LinearLayout
 		implements LoaderManager.LoaderCallbacks<Cursor>
@@ -85,6 +92,7 @@ public class SearchPage extends LinearLayout
 				searchText.requestFocus();
 			}
 		});
+		Sentry.record(new BreadcrumbBuilder.setMessage("Null reference").build());
 	}
 
 	@Override
@@ -192,7 +200,7 @@ public class SearchPage extends LinearLayout
 				{
 					String new_text = text.substring(0, text.length()-4);
 					searchQuery.whereEqualTo(Content, newText);
-					searchQuery.findInBackground(new FindCallBack<ParseObject>)
+					searchQuery.findInBackground(new FindCallBack<ParseObject>()
 					{
 						@Override
 						public void done(List<ParseObject> newCitationsList, ParseException e)
@@ -247,7 +255,7 @@ public class SearchPage extends LinearLayout
 		}
 		else
 		{
-			throw new NullReferenceException();
+			throw new RuntimeException("There is no list to add citations");
 		}
 	}
 

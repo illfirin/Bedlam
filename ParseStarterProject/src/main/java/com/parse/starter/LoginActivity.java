@@ -33,6 +33,9 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import java.com.io;
+//bugtracking
+import io.sentry.Sentry;
+import io.sentry.event.BreadcrumbBuilder;
 import static android.Manifest.permission.READ_CONTACTS;
 
 /**
@@ -49,8 +52,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
-	private Button parseLogin;
-	private Button socialMediaLogin;
+	  private Button parseLogin;
+	  private Button socialMediaLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -67,6 +70,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         parseLogin = (Button)findViewById(R.id.login_parseButton);
         socialMediaLogin = (Button)findViewById(R.id.login_socialMedia);
 
+        Sentry.record(new BreadcrumbBuilder().setMessage("User made an action").build());``
        /* mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -186,7 +190,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             cancel = true;
         }
 
-        if (cancel)
+        else if (cancel)
         {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
@@ -197,33 +201,30 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             LoginActivity.showProgress(true);
-			      ParseUser.logInBackGround(mail, password, new LogInCallback())
+			      ParseUser.logInBackGround(mail, password, new LogInCallback(
 				    {
 					         public void done(ParseUser user, ParseException e)
 					         if(user != null)
 					         {
-                         user.put("");
+                         //Recreate MainActivity so it will take ParseUser as an argument
+                         //Do it using intent's extra
 						             startActivity(new Intent(MainActivity.This, MainActivity.class));
 					         }
-					else
-					{
-						e.Message.Show();
-					}
-				}
+
+					         else
+					         {
+                          Sentry.capture(e);
+						              e.Message.Show();
+					         }
+				    });
 
         }
     }
 
-    public static Boolean isEmailValid(String email)
-    {
-        //TODO: Check Email with regular expressions
-        return email.contains("@");
-    }
-
     public static boolean isPasswordValid(String password)
-	{
-		List<Character> pass = password.chars().mapToObj(e -> (char)e).collect(Collectors.toList());
-		boolean HasUpper = pass.stream().HasAny(e -> Character.isUpperCase(e) );
+	  {
+		    List<Character> pass = password.chars().mapToObj(e -> (char)e).collect(Collectors.toList());
+		    boolean HasUpper = pass.stream().HasAny(e -> Character.isUpperCase(e) );
         //Check for length and containing of UpperCase characrets
         return password.length() > 6 && HasUpper ?? true: false;
     }
@@ -250,8 +251,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     {
                         mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
                     }
-                }
                 });
+
 
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mProgressView.animate().setDuration(shortAnimTime).alpha(
@@ -263,8 +264,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                         mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
                     }
                 });
-            }
-        }
+          }
+
         else
         {
             // The ViewPropertyAnimator APIs are not available, so simply show
@@ -404,6 +405,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             LoginActivity.showProgress(false);
         }
     }
+
     public static Boolean isEmailValid(String email)
     {
         //TODO: Check Email with regular expressions

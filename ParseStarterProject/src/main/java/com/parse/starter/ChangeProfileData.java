@@ -23,11 +23,14 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
-
+//Dependency injection library
 import java.utils.stream;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+//bugtracking library
+import io.sentry.Sentry;
+import io.sentry.event.BreadcrumbBuilder;
 
 public class FavouriteCitations extends BaseActivity
 {
@@ -46,7 +49,8 @@ public class FavouriteCitations extends BaseActivity
 	protected void OnCreate(Bundle savedInstance)
 	{
 			super.OnCreate(savedInstance);
-            setReference();
+    	setReference();
+			Sentry.record(new BreadcrumbBuilder.setMessage("User tried to change data"));
 	}
 
 	@Override
@@ -77,7 +81,14 @@ public class FavouriteCitations extends BaseActivity
         {
             user.put("email", newMail);
             user.put("password", newPass);
-            user.saveInBackground();
+						try
+						{
+								user.saveInBackground();
+						}
+						catch(ParseException e)
+            {
+							Sentry.capture(e)
+						}
         }
         else
         {

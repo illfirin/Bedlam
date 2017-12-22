@@ -55,7 +55,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     {
         RemoteViews view = new RemoteViews(mContext.getPackageName(),
                 android.R.layout.simple_list_item);
-        if(@NonNull mCollection)
+        if(mCollection != null)
         {
             //set up content of widget if convertion is possible
             view.setTextViewText(android.R.id.author_widgetProvider, mCollection.get(0).Author);
@@ -89,7 +89,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
         return true;
     }
 
-    public class erItem()
+    public class erItem
     {
         public erItem()
         {
@@ -101,7 +101,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
         public string Content;
     }
     Collector<List<Item>, List<erItem>, List<erItem>>
-                            fromItemToerItem Collector.of(
+                            fromItemToerItem = Collector.of(
                                           List<erItem>::new,
                                             (l, l1) ->
                                             {

@@ -21,6 +21,7 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
 import io.sentry.Sentry;
+import io.sentry.event.BreadcrumbBuilder;
 import io.sentry.android.AndroidSentryClientFactory;
 
 public abstract class BaseActivity extends AppCompatActivity
@@ -46,7 +47,6 @@ public abstract class BaseActivity extends AppCompatActivity
             Sentry.init(new AndroidSentryClientFactory(ctx));
 
 
-
             setAppTheme();
             super.onCreate();
             setContentView(R.layout.activity_base);
@@ -65,6 +65,7 @@ public abstract class BaseActivity extends AppCompatActivity
         }
         catch(Exception e)
         {
+            Sentry.capture(e);
             e.printStackTrace();
         }
     }
@@ -86,7 +87,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     public void setToolbarSubTitle(String header)
     {
-        if(/*@NonNull*/ toolbar)
+        if(/*@NonNull*/ toolbar != null)
         {
             toolbar.setSubtitle(header);
         }
@@ -96,7 +97,7 @@ public abstract class BaseActivity extends AppCompatActivity
     {
         if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            if(/*@NonNull*/ toolbar)
+            if(/*@NonNull*/ toolbar != null)
             {
                 toolbar.setElevation(value);
             }
@@ -136,7 +137,7 @@ public abstract class BaseActivity extends AppCompatActivity
         }
         catch(Exception e)
         {
-
+            Sentry.capture(e);
         }
     }
 }

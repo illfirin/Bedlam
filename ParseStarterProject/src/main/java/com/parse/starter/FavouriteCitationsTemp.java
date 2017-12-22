@@ -98,7 +98,7 @@ public class FavouriteCitations extends BaseActivity
 		{
 			ParseQuery<ParseObject> fav = curr.getQuery("favourite");
 			List<Item> citations = fav.stream().map((o) -> ParseStorage.FromParseObject(o)).collect(Collectors.toList());
-			CitationView[] citations_views_array = citations.stream().map((e) -> {new CitationView(e, this)}).toArray(CitationView[]::new);
+			CitationView[] citations_views_array = citations.stream().map((e) -> {new CitationView(e, this)};).toArray(CitationView[]::new);
 
 			return citations_views_array;
 		}
