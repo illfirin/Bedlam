@@ -1,4 +1,4 @@
- package pakuteam.bedlam_experiment_0_1;
+package pakuteam.bedlam_experiment_0_1;
 
 import android.content.CursorLoader;
 import android.content.Loader;
@@ -46,11 +46,14 @@ import butterknife.onItemSelected;
 import butterknife.onTextChanged;
 import butterknife.onNothingChanged;
 import com.google.android.gms.ads.AdView;
+//Add Setntry here:
+
 //TODO: remove too much dependencies
 /*
-Берем текст цитаты и ее автора, на бэкграунд хреначим картинку,
+Берем текст цитаты и ее автора, на бэкграунд ставим картинку,
 делаем так, чтобы можно было выбирать шрифт, цвет шрифта и его величину
-При завершении выбор: просто сохранить или поделиться в соц.сетях
+При завершении выбор: просто сохранить или поделиться в соц.сетях.
+В будущих обновлениях можно будет добавить фильтров и разных эффектов
 **/
 public class ConstructorPage extends BaseActivity
 {
@@ -203,39 +206,74 @@ public class ConstructorPage extends BaseActivity
 				uri = resultData.getData();
 				imagePlaceholder.setImageUri(null);
 				imagePlaceholder.setImageUri(uri);
-        
 			}
-		}
+      else
+      {
+          //trow an exception and catch it with sentry
+
+      }
+    }
 	}
-
-
-	@Override
-	public static List<File> getAllFonts(string dir)
+	public boolean isExternalStotageWritable()
 	{
-		File d_file = new File(dir);
-
-		if(dir != null && d_file != null)
+			String state = Environment.getExternalStorageState();
+			return boolean writable = Environment.MEDIA_MOUNTED.equals(state) ? true : false;
+	}
+	public boolean isExternalStotageReadable()
+	{
+			String state = Environment.getExternalStorageState();
+			return boolean readable = Environment.MEDIA_MOUNTED.equals(state) ||
+													Environment.MEDIA_MOUNTED_READ_ONLY.equals(state) ? true : false;
+	}
+	//place to add "save that constructed picture" function
+	//TODO:make directory or helper class for all kind of functions that can be used into
+	// other classes except of parent's
+	public static void savePictureToDeviceStorage(File file)
+	{
+	  //check file format
+		String file_extension = getFileExtension(file);
+		if(file_extension.equals("png") || file_extension.equals("jpg"))
 		{
-			List<File> fl = (List<File>)
-				(FileUtils.listFiles(d_file,
-					TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE));
-			return fl;
+			
 		}
-
 		else
 		{
-			//if nothing is founded return null-List
-			return new List<File>(null);
+			throw new Exception("format not supported");
 		}
+	  //screate intent with file
+
+	  //create dialog "where to save it?"
+	  //create Lambda? in case "OK" is clicked
+	  //create Lambda? in case "Calncel" is clicked
 	}
 
-	@Override
-	public static String FromFileToString (File l)
+	//place to add "share picture you made" function
+
+	public static List<File> getAllFonts(string dir)
 	{
-		String s = l.getName();
-		//find the index of last name character
-		int indx = s.lastIndexOf('.');
-		return s.substring(0, indx);
+		  File d_file = new File(dir);
+
+			if(dir != null && d_file != null)
+			{
+				List<File> fl = (List<File>)
+					(FileUtils.listFiles(d_file,
+						TrueFileFilter.INSTANCE, TrueFileFilter.INSTANCE));
+				return fl;
+			}
+
+			else
+			{
+				//if nothing is founded return list that contains only null
+				return new List<File>(null);
+			}
 	}
 
+
+		public static String FromFileToString (File l)
+		{
+			String s = l.getName();
+			//find the index of last name character
+			int indx = s.lastIndexOf('.');
+			return s.substring(0, indx);
+		}
 }
