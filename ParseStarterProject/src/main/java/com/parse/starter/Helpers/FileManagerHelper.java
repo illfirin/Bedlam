@@ -1,18 +1,24 @@
 package pakuteam.bedlam_experiment_0_1;
 //add butterknife, sentry, java file dependencies
-interface IFileManager
+interface IFileSelector
 {
   static void saveFile(File f);
   static File loadFile();
+  String getSelectedFileName();
+  File getCurrentLocation();
+  void show();
+  void dismiss();
+
 }
 
-public class FileManagerHelper implements IFileManager
+public class FileSelectorHelper implements IFileManager
 {
-
     @Bind(R.id.fileList)
     protected ListView mFileListView;
-    @BInd(R.id.FileName)
+    @Bind(R.id.FileName)
     protected EditText file_name;
+
+
     public static void saveFile(File file, Context cntx)
     {
         mDialog = new Dialog(cntx);
@@ -61,6 +67,7 @@ public class FileManagerHelper implements IFileManager
 
     private void makeList(final File location, final String filter)
     {
-      final ArrayList<FileData> fileList new ArrayList<FileData>
+      final ArrayList<FileData> fileList = new ArrayList<FileData>();
+
     }
 }

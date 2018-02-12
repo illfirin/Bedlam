@@ -1,10 +1,15 @@
+//add all dependencies needed
 public class LoginWithSocialMedia extends BaseActivity
 {
     private ViewGroup root;
+    @Bind(R.layout.login_vk)
     protected Button mVkLogin;
+    @Bind(R.layout.login_google)
     protected Button mGoogleLogin;
+    @Bind(R.layout.login_twitter)
     protected Button mTwitterLogin;
-    protected Button mInstagram
+    @Bind(R.layout.login_facebook)
+    protected Button mFacebook;
 
     @Override
     protected void onCreate(Bundle savedInstance)
@@ -13,7 +18,31 @@ public class LoginWithSocialMedia extends BaseActivity
         setReference();
     }
 
-    @Override
+    @OnClick(android.R.layout.login_vk)
+    public void login_vk()
+    {
+
+    }
+
+    @OnClick(android.R.layout.login_google)
+    public void login_google()
+    {
+
+    }
+
+    @OnClick(android.R.layout.login_twitter)
+    public void login_twitter()
+    {
+
+    }
+
+    @OnClick(android.R.layout.login_vk)
+    public void login_vk()
+    {
+
+    }
+
+  @Override
 	public void setReference()
 	{
 		root = LayoutInflater.from(this).inflate(android.R.id.login_socialMedia);
@@ -26,4 +55,5 @@ public class LoginWithSocialMedia extends BaseActivity
 
 		ButterKnife.Bind(this, root);
 	}
+
 }

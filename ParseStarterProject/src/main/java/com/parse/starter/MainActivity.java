@@ -37,6 +37,7 @@ public class MainActivity extends BaseActivity
     @Bind(R.layout.Mainpage_citations)
     protected ListView mView;
 
+    
     Calendar rightNow = Calendar.getInstance();
     Calendar forOneDayCalendar = Calendar.getInstance();
     Calendar forThreeDaysCalendar = Calendar.getInstance();
@@ -54,7 +55,6 @@ public class MainActivity extends BaseActivity
 
     /*
         По дефолту - цитаты за сегодняшний день, кнопки с показать за последние 3 дня, 7 дней, 2 недели.
-
     */
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -74,7 +74,7 @@ public class MainActivity extends BaseActivity
 
         ParseAnalytics.trackAppOpenedInBackground(getIntent());
 
-        Sentry.record(new BreadcrumbBuilder().setMessage("System tried to retrieve citations").build())
+        Sentry.record(new BreadcrumbBuilder().setMessage("System tried to retrieve citations").build());
     }
 
 
@@ -100,7 +100,7 @@ public class MainActivity extends BaseActivity
         for(long i = forDate.getTime(); i<= rightNowDate.getTime(); i += 86400000L)
         {
             Date fromMillis = new Date(i);
-            views_list.addAll(MainActivity.getMainPageCitations(fromMillis));
+            views_list.addAll(CreateContent.getMainPageCitations(fromMillis));
         }
 
         return view_list.toArray(new CitationView[view_list.size()]);
@@ -140,73 +140,51 @@ public class MainActivity extends BaseActivity
             case android.R.id.activity_settings:
                 startActivity(new Intent(FavouriteCitations.This, FavouriteCitations.class));
                 break;
+
+            case android.R.activity_profilePage:
+                startActivity(new Intent(ProfilePage.this, ProfilePage.class));
+                break;
         }
-    }
+        if(id == R.id.action_settings)
+        {
+          return true;
+        }
 
-    @Override
-    public void setReference()
-    {
-        root = LayoutInflater.from(this).inflate(R.id.main_layout);
-        progressbar = new ProgressBar(this);
-        progressbar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
-									LayoutParams.WRAP_CONTENT, Garavity.CENTER));
-        getLinearLayout(root).setEmptyLayout(progressbar);
-        ButterKnife.Bind(this, root);
-    }
+        return super.onOptionsItemSelected(item);
+      }
 
-    //noinspection SimplifiableIfStatement
-    if (id == R.id.action_settings)
-    {
-      return true;
-    }
+      public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain.SOCIAL_NETWORK_TAG";
 
-    return super.onOptionsItemSelected(item);
-  }
-
-  public static final String SOCIAL_NETWORK_TAG = "SocialIntegrationMain.SOCIAL_NETWORK_TAG";
-
-  @Override
-  protected void onActivityResult(int requestCode, int resultCode, Intent data)
-  {
-    super.onActivityResult(requestCode, resultCode, data);
-
-    Fragment fragment = getSupportFragmentManager().findFragmentByTag(SOCIAL_NETWORK_TAG);
-    if (fragment != null)
-    {
-        fragment.onActivityResult(requestCode, resultCode, data);
-    }
-  }
-
-  public void setDefaulMainPageCitations()
-  {
-      List<CitationView> citationForDateList = MainPage.getMainPageCitations(rightNowDate);
-      CitationView[] citationForDateArr = citationForDateArr.toArray(new CitationView[citationForDateList.size()])
-      lAdapter = new ListAdapter<CitationView>(this, mView, citationForDateArr);
-      mView.setAdapter(lAdapter);
-
-  }
-
-  public static List<CitationView> getMainPageCitations(Date creation_date)
-  {
-      ParseQuery<ParseObject> query = ParseQuery.getQuery("Citation");
-      query.whereEqualTo("createdAt", creation_date);
-      query.findInBackground(new FindCallBack<ParseObject>()
+      @Override
+      protected void onActivityResult(int requestCode, int resultCode, Intent data)
       {
-         public void done(List<ParseObject> citList, ParseException e)
-         {
-             if(e == null)
-             {
-                 List<Item> citation_items = citList.stream().map((o) -> ParseStorage.FromParseObject(o)).collect(Collectors.toList());
-                 List<CitationView> cit_listView = citations_items.stream().map((e) -> {new CitationView(e, this)};).collect(Collectors.toList());
-                 return cit_listView;
-             }
-             else
-             {
-                 Sentry.capture(e)
-                 Toast.makeText(getApplicationContext(), getString(R.string.no_such_citationErr, Toast.LENGTH_SHORT));
-                 Toast.setGravity(Gravity.CENTER, 0, 0);
-             }
-         }
-      });
-  }
+        super.onActivityResult(requestCode, resultCode, data);
+
+        Fragment fragment = getSupportFragmentManager().findFragmentByTag(SOCIAL_NETWORK_TAG);
+        if (fragment != null)
+        {
+            fragment.onActivityResult(requestCode, resultCode, data);
+        }
+      }
+
+      public void setDefaulMainPageCitations()
+      {
+          List<CitationView> citationForDateList = MainPage.getMainPageCitations(rightNowDate);
+          CitationView[] citationForDateArr = citationForDateArr.toArray(new CitationView[citationForDateList.size()])
+          lAdapter = new ListAdapter<CitationView>(this, mView, citationForDateArr);
+          mView.setAdapter(lAdapter);
+
+      }
+
+      //Bind progressBar and other views to layout
+      @Override
+      public void setReference()
+      {
+          root = LayoutInflater.from(this).inflate(R.id.main_layout);
+          progressbar = new ProgressBar(this);
+          progressbar.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT,
+                    LayoutParams.WRAP_CONTENT, Garavity.CENTER));
+          getLinearLayout(root).setEmptyLayout(progressbar);
+          ButterKnife.Bind(this, root);
+      }
 }

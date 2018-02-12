@@ -77,6 +77,12 @@ public class ConstructorPage extends BaseActivity
 	protected ImageView chooseImage;
 	@Bind(R.id.image_placeholder)
 	protected Drawable im  = null;
+
+	@Bind(R.id.load_button)
+	protected Button mLoadButton;
+	@Bind(R.id.save_button)
+	protected Button mSaveButton;
+
 	protected static final String pathToFonts = "/system/fonts";
 	static final int defaultTextSize = 14;
 	private AdView mAdView;
@@ -123,6 +129,7 @@ public class ConstructorPage extends BaseActivity
 		startActivityForResult(intent, 42);
 		progressbar.setIndeterminate(false);
 	}
+
 
 	@OnTextChanged(R.id.fontSize)
 	public void onTextChanged(CharSequence c)
@@ -217,13 +224,13 @@ public class ConstructorPage extends BaseActivity
 	public boolean isExternalStotageWritable()
 	{
 			String state = Environment.getExternalStorageState();
-			return boolean writable = Environment.MEDIA_MOUNTED.equals(state) ? true : false;
+			return Environment.MEDIA_MOUNTED.equals(state);
 	}
 	public boolean isExternalStotageReadable()
 	{
 			String state = Environment.getExternalStorageState();
-			return boolean readable = Environment.MEDIA_MOUNTED.equals(state) ||
-													Environment.MEDIA_MOUNTED_READ_ONLY.equals(state) ? true : false;
+			return Environment.MEDIA_MOUNTED.equals(state) ||
+													Environment.MEDIA_MOUNTED_READ_ONLY.equals(state);
 	}
 	//place to add "save that constructed picture" function
 	//TODO:make directory or helper class for all kind of functions that can be used into
@@ -234,7 +241,7 @@ public class ConstructorPage extends BaseActivity
 		String file_extension = getFileExtension(file);
 		if(file_extension.equals("png") || file_extension.equals("jpg"))
 		{
-			
+
 		}
 		else
 		{

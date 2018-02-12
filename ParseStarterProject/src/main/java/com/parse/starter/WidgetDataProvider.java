@@ -93,7 +93,7 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     {
         public erItem()
         {
-            Author = this.Author
+            Author = this.Author;
             Content = this.Content;
         }
 
@@ -113,8 +113,8 @@ public class WidgetDataProvider implements RemoteViewsService.RemoteViewsFactory
     private void initData()
     {
         mCollection.clear();
-        private ParseUser curr = ParseUser.getCurrentUser();
-        private ParseQuery<ParseObject> fav_orig = curr.getQuery("favourite");
+        ParseUser curr = ParseUser.getCurrentUser();
+        ParseQuery<ParseObject> fav_orig = curr.getQuery("favourite");
 
         private List<erItem> fav_projected = fav_orig.stream().collect(fromItemToerItem));
         static int rand = ThreadLocalRandom.current().nextInt(0, fav_projected.size() - 1);

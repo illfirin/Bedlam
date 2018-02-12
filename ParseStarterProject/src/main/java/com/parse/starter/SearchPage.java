@@ -177,6 +177,7 @@ public class SearchPage extends LinearLayout
 		ParseQuery<ParseObject> searchQuery = ParseObject.getQuery("Citations");
 
 		searchQuery.whereEqualTo("Content", text);
+
 		searchQuery.findInBackground(new FindCallBack<ParseObject>(
 		{
 			@Override
@@ -196,6 +197,7 @@ public class SearchPage extends LinearLayout
 
 					//TODO: add advertisement here
 				}
+
 				else if(e != null)
 				{
 					String new_text = text.substring(0, text.length()-4);

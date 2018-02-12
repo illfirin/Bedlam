@@ -91,22 +91,7 @@ public class FavouriteCitations extends BaseActivity
 
 	}
 	// ParseObject -> Item -> CitationView -> CitationView array
-	public static CitationView[] getCurrUserFavouriteViewsArray()
-	{
-		ParseUser curr = ParseUser.getCurrentUser();
-		if(curr != null)
-		{
-			ParseQuery<ParseObject> fav = curr.getQuery("favourite");
-			List<Item> citations = fav.stream().map((o) -> ParseStorage.FromParseObject(o)).collect(Collectors.toList());
-			CitationView[] citations_views_array = citations.stream().map((e) -> {new CitationView(e, this)};).toArray(CitationView[]::new);
-
-			return citations_views_array;
-		}
-		else
-		{
-			startActivity(new Intent(this, LoginActivity.class));
-		}
-	}
+	
 
 	@Override
 	public void OnListItemClick(ListView lView, View citation_View, int position, long id)

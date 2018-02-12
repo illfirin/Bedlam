@@ -87,7 +87,7 @@ public class FavouriteCitations extends BaseActivity
 						}
 						catch(ParseException e)
             {
-							Sentry.capture(e)
+							Sentry.capture(e);
 						}
         }
         else

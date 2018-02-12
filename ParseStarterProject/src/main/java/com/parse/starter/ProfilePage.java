@@ -59,6 +59,7 @@ public class ProfilePage extends BaseActivity
 		setReference();
 		try
 		{
+			//переделать
 			ParseQuery<ParseUser> u = currentUser.getQuery();
 			Drawable image;
 			u.whereEqualTo("UserImage", image.getType());
@@ -75,7 +76,7 @@ public class ProfilePage extends BaseActivity
     				}
     				else
     				{
-        				profileImage.setImageDrawable(R.id.dafault_user_image)
+        				profileImage.setImageDrawable(R.id.dafault_user_image);
     				}
   				}
 
@@ -85,11 +86,24 @@ public class ProfilePage extends BaseActivity
 		{
 			profileImage.setError(R.strings.error_noImage);
 		}
+
+		//load page with favourite citations
+		@OnClick(R.id.showFav)
+		public void onClick()
+		{
+			ParseUser currentUser = ParseUser.getCurrent();
+			if(currentUser != null)
+			{
+				startActivity(new Intent(FavouriteCitations.This, FavouriteCitations.class));
+			}
+		}
+
 		mAdView = (AdView) findViewById(R.id.View);
 		AdRequest adReq = new AdRequest.Builder().build();
 		mAdView.loadAd(adReq);
 
 	}
+
 	@Override
 	public void setReference()
 	{
@@ -98,14 +112,5 @@ public class ProfilePage extends BaseActivity
 
 		ButterKnife.Bind(root, this);
 	}
-	//load page with favourite citations
-	@OnClick(R.id.showFav)
-	public void onClick()
-	{
-		ParseUser currentUser = ParseUser.getCurrent;
-		if(currentUser != null)
-		{
-			startActivity(new Intent(FavouriteCitations.This, FavouriteCitations.class));
-		}
-	}
+
 }

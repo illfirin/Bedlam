@@ -35,13 +35,14 @@ public interface IParseStorage
 	Task DeleteItemAsync(Item item);
 }
 
+//TODO: тщательнее продумать класс цитаты
 public class Item
 {
         public Item()
         {
-            Id = this.Id;
-            Name = this.Name;
-            Author = this.Author;
+          Id = this.Id;
+          Name = this.Name;
+          Author = this.Author;
         	Content = this.Content;
         	rating = this.rating;
         	tags = this.tags;
@@ -65,7 +66,7 @@ public class ParseStorage implements IParseStorage
 
 	protected ParseStorage()
 	{
-		Items = new List<Item>();
+		Items = new ArrayList<Item>();
 	}
 
 	//create new ParseObject
@@ -78,7 +79,7 @@ public class ParseStorage implements IParseStorage
 		}
 
 		//saving attributes
-		po["Author"] = item.Author;
+				po["Author"] = item.Author;
         po["Name"] = item.Name;
         po["Rating"] = item.rating;
         po["Tags"] = item.tags;
@@ -129,7 +130,7 @@ public class ParseStorage implements IParseStorage
 		}
 		else
 		{
-			throw new ParseException(0, "Some Exception")
+			throw new ParseException(0, "Some Exception");
 		}
 	}
 
