@@ -57,8 +57,20 @@ public class LoginWithSocialmediaFragment extends Fragment implements SocialNetw
         //set Buttons Listeners
         facebook.setOnClickListener(loginClick);
 
+        //Keys for SocialNetwork initiation
+        String VK_KEY = getActivity().getString(R.string.vk_app_id);
+
+        //VK permissions
+        String[] vkScope = new String[]
+        {
+          VKScope.WALL,
+          VKScope.PHOTOS,
+          VKScope.NOHTTPS,
+          VKScope.Status,
+        };
     }
-    //
+    //Login listener
+
     private View.OnCLickListener loginClick = new View.OnClickListener()
     {
         @Override
@@ -91,7 +103,7 @@ public class LoginWithSocialmediaFragment extends Fragment implements SocialNetw
                 else
                 {
                   //Add BreadCrumbs and exception handling here
-                  Toast.makeText("Wrong network id").show();
+                  Toast.makeText(getActivity(), "Wrong network id", Toast.LENGTH_LONG).show();
                 }
             }
             else
@@ -99,6 +111,28 @@ public class LoginWithSocialmediaFragment extends Fragment implements SocialNetw
               startProfile(socialNetwork.getId());
             }
         }
+    };
+    @Override
+    public void onLoginSuccess(int networkId)
+    {
+      LoginWithSocialMedia.hideProgress();e
+    }
+
+    @Override
+    public void onError(int networkId, String requestID, String errorMessage, Object data)
+    {
+      LoginWithSocialMedia.hideProgress();
+      Toast.makeText(getActivivty(), "ERROR:" + errorMessage, Toast.LENGTH_LONG).show;
+
+    }
+
+    private void startProfile(int networkId)
+    {
+      ProfileFragment profile = ProfileFragment.newInstance(networkId);
+      getActivity().getSupportFragmentManager().beginTransaction()
+          .addToBackStack("profile")
+          .replace(R.id.container, profile)
+          .commit();
     }
 }
 
