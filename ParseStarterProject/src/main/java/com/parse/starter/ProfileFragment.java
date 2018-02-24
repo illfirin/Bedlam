@@ -49,7 +49,7 @@ import com.squareup.picasso.Picasso;
 
 import android.app.LoaderManager.LoaderCallbacks;
 
-public class ProfileFrame extends Fragment implements OnRequestSocialPersonCompleteListener
+public class ProfileFragment extends Fragment implements OnRequestSocialPersonCompleteListener
 {
 	protected View root;
 	private static final String NETWORK_ID = "NETWORK_ID";
@@ -90,7 +90,7 @@ public class ProfileFrame extends Fragment implements OnRequestSocialPersonCompl
 		setReference();
 		try
 		{
-			
+
 			ParseQuery<ParseUser> u = currentUser.getQuery();
 			Drawable image;
 			u.whereEqualTo("UserImage", image.getType());
@@ -136,16 +136,48 @@ public class ProfileFrame extends Fragment implements OnRequestSocialPersonCompl
 		setHasOptionsMenu(true);
 		networkId = getArguments().containsKey(NETWORK_ID) ? getArguments().getInt(NETWORK_ID) : 0;
 		((LoginWithSocialMedia)getActivity()).getSupportActionBar().setTitle("Profile");
+		//set views references
+		root = LayoutInflater.from(this).inflate(R.id.profile_fragment, container, false);
+		BitterKnife.bind(root, this);
 
-		setReference();
+
 		showFavouriteCitations.setOnClickListener(showFavouriteClick);
+		changeData.setOnClickListener(changeUserData);
+		colorProfile(networkId);
+
+		socialNetwork = LoginWithSocialMediaFragment.mSocialNetworkManager.getSocialNetwork(networkId);
+		socialNetwork.setOnRequestCurrentPersonCompleteListener(this);
+		socialNetwork.requestCurrentPerson()
+
+		LoginWithSocialMedia.showProgress("loading account");
+		return root;
+
+	}
+
+	//menu initialization
+	@Override
+	public void onCreateOptionsMenu(Menu menu, MenuInflater inflater)
+	{
+		super.onCreateOptionsMenu(menu, inflater);
+		inflater.inlate(R.menu.main, menu);
+	}
+	//menu actions
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch(item)
+		{
+				//add menu items here
+			//	case R.id.action_logout:
+
+		}
 	}
 
 	@Override
-	public void setReference()
+	public void onRequestSocialPersonSuccess(int i, SocialPerson socialPerson)
 	{
-		rootView = LayoutInflater.from(this).inflate(R.id.profile_fragment);
-		ButterKnife.bind(root, this);
+			LoginWithSocialMedia.hideProgress();
+
 	}
 
 	private View.OnClickListener showFavouriteClick = new View.OnClickListener()
@@ -153,8 +185,37 @@ public class ProfileFrame extends Fragment implements OnRequestSocialPersonCompl
 		@Override
 		public void onClick(View view)
 		{
-			
+			//add reference to favourites activity/page/fragment
+
 		}
 	}
+	private View.OnClickListener changeUserData = new View.OnClickListener()
+	{
+		@Override
+		public void onClick(View view)
+		{
 
+		}
+	}
+	//change color of profile dependind on social network
+	private void colorProfile(int networkId)
+	{
+			int color = getResources().getColor(R.color.dark);
+			int image = R.drawable.user;
+			switch(networkId)
+			{
+				case VkSocialNetwork.ID:
+					color = getResources().getColor(R.color.vk);
+					image = R.drawable.vk_user;
+					break;
+				case GooglePlusSocialNetwork.ID:
+					color = getResources().getColor(R.color.google_plus);
+					image = R.drawable.google_user;
+					break;
+			}
+			frame.setBackgroundColor(color);
+			name.setTextColor(color);
+			profileImage.setBackgroundColor(color);
+			profileImage.setImageResource(image);
+	}
 }

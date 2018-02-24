@@ -221,14 +221,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    public static boolean isPasswordValid(String password)
-	  {
-		    List<Character> pass = password.chars().mapToObj(e -> (char)e).collect(Collectors.toList());
-		    boolean HasUpper = pass.stream().HasAny(e -> Character.isUpperCase(e) );
-        //Check for length and containing of UpperCase characrets
-        return password.length() > 6 && HasUpper ?? true: false;
-    }
-
     /**
      * Shows the progress UI and hides the login form.
      */
@@ -406,10 +398,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         }
     }
 
-    public static Boolean isEmailValid(String email)
-    {
-        //TODO: Check Email with regular expressions
-        return email.contains("@");
-    }
+
 
 }

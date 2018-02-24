@@ -3,6 +3,7 @@ import java.io.File;
 
 public class FileUtils
 {
+    //
     public static final String FILTER_ALLOW_ALL = "*.*";
     //method that checks whether the file is accepted or not
     public static boolean accept(final File file, final String filter)
@@ -20,4 +21,5 @@ public class FileUtils
       String fileType = file.getName().substring(lastIndexOfPoint).toLowerCase();
       return fileType.compareTo(filter) == 0;
     }
+
 }
