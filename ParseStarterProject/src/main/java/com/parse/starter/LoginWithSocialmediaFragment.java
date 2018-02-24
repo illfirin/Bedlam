@@ -20,6 +20,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 /**
     * 1 - Twitter
     * 2 - LinkedIn
@@ -56,9 +58,19 @@ public class LoginWithSocialmediaFragment extends Fragment implements SocialNetw
         ButterKnife.bind(this, view);
         //set Buttons Listeners
         facebook.setOnClickListener(loginClick);
+        twitter.setOnClickListener(loginClick);
+        google.setOnClickListener(loginClick);
+        vk.setOnClickListener(loginClick);
 
         //Keys for SocialNetwork initiation
         String VK_KEY = getActivity().getString(R.string.vk_app_id);
+        String TWITTER_CONSUMER_KEY = getActivity().getString(R.string.twitter_consumer_key);
+        String TWITTER_CONSUMER_SECRET = getActivity().getString(R.string.twitter_consumer_secret);
+        String TWITTER_CALLBACK_URL = "oauth://ASNE";
+
+        //permissions for facebook
+        ArrayList<String> fbScope = new ArrayList<String>();
+        fbScope.addAll(Arrays.asList("public_profile, email"));
 
         //VK permissions
         String[] vkScope = new String[]
@@ -68,9 +80,78 @@ public class LoginWithSocialmediaFragment extends Fragment implements SocialNetw
           VKScope.NOHTTPS,
           VKScope.Status,
         };
-    }
-    //Login listener
+        mSocialNetworkManager = (SocialNetworkManager) getFragmentManager().findFragmentByTag(LoginWithSocialMedia.SOCIAL_NETWORK_TAG);
 
+        //is manager exist?
+        if(mSocialNetworkManager == null)
+        {
+          mSocialNetworkManager = new SocialNetworkManager();
+          //initialize networks
+          FacebookSocialNetwork fbNetwork = new FacebookSocialNetwork(this, fbScope);
+          TwitterSocialNetwork twNetwork = new TwitterSocialNetwork(this, TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_CALLBACK_URL);
+          GooglePlusSocialNetwork gpNetwork = new GooglePlusSocialNetwork(this);
+          VkSocialNetwork vkNetwork = new VkSocialNetwork(this, VK_KEY);
+
+          //add networks to manager
+          mSocialNetworkManager.addSocialNetwork(fbNetwork);
+          mSocialNetworkManager.addSocialNetwork(twNetwork);
+          mSocialNetworkManager.addSocialNetwork(gpNetwork);
+          mSocialNetworkManager.addSocialNetwork(vkNetwork);
+
+          //initiate all the networks from networkmanager
+          getFragmentManager().beginTransaction.add(mSocialNetworkManager, LoginWithSocialMedia.SOCIAL_NETWORK_TAG).commit();
+          mSocialNetworkManager.setOnInitializationCompleteListener(this);
+
+        }
+        else
+        {
+            if(!mSocialNetworkManager.getInitializedSocialNetworks().isEmpty())
+            {
+              List<SocialNetwork> socialNetworks = mSocialNetworkManager.getInitializedSocialNetworks();
+              for(SocialNetwork sn : socialNetwork)
+              {
+                socialNetwork.setOnLoginCompleteListener(this);
+                initSocialNetwork(socialNetwork);
+              }
+            }
+        }
+        return view;
+    }
+    //show social network profile if it is connected
+    private void initSocialNetwork(SocialNetwork socialNetwork)
+    {
+      if(socialNetwork.isConnecteed())
+      {
+          switch(socialNetwork.getId())
+          {
+            case FacebookSocialNetwork.ID:
+              facebook.setText("Show Facebook profile");
+              break;
+            case TwitterSocialNetwork.ID:
+              twitter.setText("Show Twitter profile");
+              break;
+            case GooglePlusSocialNetwork.ID:
+              google.setText("Show GooglePlus profile");
+              break;
+            case VkSocialNetwork.ID:
+              vk.setText("Show Vk profile");
+              break;
+          }
+      }
+    }
+
+    //setup login only for initialized social networks
+    @Override
+    public void onSocialNetworkManagerInitialized()
+    {
+      for(SocialNetwork socialNetwork : mSocialNetworkManager.getInitializedSocialNetworks())
+      {
+          socialNetwork.setOnLoginCompleteListener(this);
+          initSocialNetwork(socialNetwork);
+      }
+    }
+
+    //Login listener
     private View.OnCLickListener loginClick = new View.OnClickListener()
     {
         @Override
@@ -115,7 +196,8 @@ public class LoginWithSocialmediaFragment extends Fragment implements SocialNetw
     @Override
     public void onLoginSuccess(int networkId)
     {
-      LoginWithSocialMedia.hideProgress();e
+      LoginWithSocialMedia.hideProgress();
+      startProfile(networkId);
     }
 
     @Override

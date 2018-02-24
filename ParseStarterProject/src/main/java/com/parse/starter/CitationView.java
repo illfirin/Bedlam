@@ -120,7 +120,7 @@ public class CitationView extends View
 		/**author.setOnClickListener(OnClickListener c ->
 		{
 		});*/
-		//dunno if we are need this shit at all
+		//dunno if we are need this shit anymore
 		tags.setOnClickListener((View v) ->
 		{
 

@@ -31,7 +31,7 @@ import butterknife.OnClick;
 //bugtracking library
 import io.sentry.Sentry;
 import io.sentry.event.BreadcrumbBuilder;
-
+//refactor this class as Fragment
 public class FavouriteCitations extends BaseActivity
 {
 	private ViewGroup root;
@@ -49,7 +49,7 @@ public class FavouriteCitations extends BaseActivity
 	protected void OnCreate(Bundle savedInstance)
 	{
 			super.OnCreate(savedInstance);
-    	setReference();
+    		setReference();
 			Sentry.record(new BreadcrumbBuilder.setMessage("User tried to change data"));
 	}
 
