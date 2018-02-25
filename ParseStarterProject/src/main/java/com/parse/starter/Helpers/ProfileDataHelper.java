@@ -5,7 +5,7 @@ package pakuteam.bedlam_experiment_0_1;
  */
 public class ProfileDataHelper
 {
-    public static void changeProfileName()
+    public static void changeProfileName(String)
     {
 
     }
@@ -17,7 +17,7 @@ public class ProfileDataHelper
 
     public static void changeProfileImage()
     {
-      
+
     }
 
     public static Boolean isEmailValid(String email)

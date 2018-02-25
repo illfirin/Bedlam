@@ -63,6 +63,8 @@ public class ProfileFragment extends Fragment implements OnRequestSocialPersonCo
 	private Button showFavouriteCitations;
 	@BindView(R.id.changeData)
 	private Button changeData;
+	@BindView(R.id.userInfoView)
+	private TextView info;
 	@BindView(R.id.profileFrame)
 	private RelativeLayout frame;
 
@@ -172,12 +174,20 @@ public class ProfileFragment extends Fragment implements OnRequestSocialPersonCo
 
 		}
 	}
-
+	//create import to ParseUser later
 	@Override
 	public void onRequestSocialPersonSuccess(int i, SocialPerson socialPerson)
 	{
 			LoginWithSocialMedia.hideProgress();
-
+			name.setText(socialPerson.name);
+			id.settext(socialPerson.name);
+			id.setText(SocialPerson.id);
+			String socialPersonString = socialPerson.toString();
+			String infoString = socialPersonString.substring(socialPersonString.indexOf("{")+1, socialPersonString.lastIndexOf("}"));
+			info.setText(infoString.replace(", ", " /n"));
+			Picasso.with(getActivity())
+									.load(socialPerson.avatarURL)
+									.into(photo);
 	}
 
 	private View.OnClickListener showFavouriteClick = new View.OnClickListener()

@@ -1,14 +1,15 @@
 package pakuteam.bedlam_experiment_0_1;
 
 import com.Parse.ParseUser;
+
 public class SocialPerson
 {
-	public String id;
+	/*public String id;
 	public String name;
 	private String pass;
 	public String profileURL;
 	public String avatarURL;
-	public String email;
+	public String email;*/
 
 	public SocialPerson(){ }
 
@@ -24,7 +25,6 @@ public class SocialPerson
 	}
 
 	//Convert any type of user to ParseUser
-	@Override
 	public static ParseUser FromSocialToParse(SocialPerson sp)
 	{
 		ParseUser u = new ParseUser();
@@ -36,7 +36,12 @@ public class SocialPerson
 
 		return u;
 	}
-
+	//private SocialPerson(String id, String name, String profileURL, String avatarURL,
+				//		String email, String pass)
+	public static SocialPerson FromParseToSocial(ParseUser user)
+	{
+		return new SocialPerson();
+	}
 	@Override
 	public String toString()
 	{

@@ -70,7 +70,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         parseLogin = (Button)findViewById(R.id.login_parseButton);
         socialMediaLogin = (Button)findViewById(R.id.login_socialMedia);
 
-        Sentry.record(new BreadcrumbBuilder().setMessage("User made an action").build());``
+        Sentry.record(new BreadcrumbBuilder().setMessage("User made an action").build());
        /* mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
@@ -170,7 +170,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !LoginActivity.isPasswordValid(password)) {
+        if (!TextUtils.isEmpty(password) && !ProfileDataHelper.isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -183,7 +183,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView = mEmailView;
             cancel = true;
         }
-        else if (!LoginActivity.isEmailValid(email))
+        else if (!ProfileDataHelper.isEmailValid(email))
         {
             mEmailView.setError(getString(R.string.error_invalid_email));
             focusView = mEmailView;
@@ -200,7 +200,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            LoginActivity.showProgress(true);
+            LoginWithSocialMedia.showProgress();
 			      ParseUser.logInBackGround(mail, password, new LogInCallback(
 				    {
 					         public void done(ParseUser user, ParseException e)
@@ -377,7 +377,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onPostExecute(final Boolean success)
         {
             mAuthTask = null;
-            LoginActivity.showProgress(false);
+            LoginWithSocialMedia.hideProgress();
 
             if (success)
             {
@@ -394,7 +394,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         protected void onCancelled()
         {
             mAuthTask = null;
-            LoginActivity.showProgress(false);
+            LoginWithSocialMedia.hideProgress();
         }
     }
 
