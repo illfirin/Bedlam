@@ -5,7 +5,7 @@ package pakuteam.bedlam_experiment_0_1;
  */
 public class ProfileDataHelper
 {
-    public static void changeProfileName(String)
+    public static void changeProfileName()
     {
 
     }
@@ -23,7 +23,7 @@ public class ProfileDataHelper
     public static Boolean isEmailValid(String email)
     {
         //TODO: Check Email with regular expressions
-        return email.contains("@");
+        return android.util.EMAIL_ADRESS.matcher(email).matches();
     }
 
     public static boolean isPasswordValid(String password)

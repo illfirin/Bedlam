@@ -120,7 +120,7 @@ public class ParseStorage implements IParseStorage
 		}
 
 	}
-	//Todo: add some asyncronus
+	//Todo: add some async stuff
 	public void SaveItem(Item item, ParseException e)
 	{
 		ParseObject o = ParseStorage.ToParseObect(item);

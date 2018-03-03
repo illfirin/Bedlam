@@ -37,14 +37,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.com.io;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class RegistrationActivity extends AppCompatActivity implements LoaderCallbacks<Cursor>
 {
 	private UserLoginTask mAuthTask = null;
 	//UI references
-	private EditText EmailView;
-	private EditText PasswordView;
-	private EditText ConfirmPasswordView;
-	private EditText LoginView;
+	@BindView(R.id.email) private EditText EmailView;
+	@BindView(R.id.password) private EditText PasswordView;
+	@BindView(R.id.password_1) private EditText ConfirmPasswordView;
+	@BindView(R.id.login) private EditText LoginView;
+	@BindView(R.id.email_registration_button) private Button email_registration;
+	@BindView(R.id.social_registration_button) private Button social_registration;
 	private View mProgressView;
 	private View RegistrationFormView;
 
@@ -54,20 +59,20 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 	{
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_registration);
-		EmailView = (EditText) findViewById(R.id.email);
-		PasswordView = (EditText) findViewById(R.id.password);
-		ConfirmPasswordView = (EditText) findViewById(R.id.password_1);
-		LoginView = (EditText) findViewById(R.id.login);
 
-		Button EmailRegistrationButton = (Button) findViewById(R.id.email_registration);
-		EmailRegistrationButton.setOnClickListener((View v)->
+		email_registration.setOnClickListener((View v) ->
 		{
-			attemptRegistration();
+			attemptEmailRegistration();
 		});
+
+		social_registration.setOnClickListener((View v) ->)
+		{
+			attemptSocialRegistration();
+		};
 	}
 
 
-	private void attemptRegistration()
+	private void attemptEmailRegistration(String email, String password, String confirmPassword, String login)
 	{
 		if(mAuthTask != null)
 		{
@@ -88,22 +93,22 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 		String confirmPassword = ConfirmPasswordView.getText().ToString();
 		boolean cancel = false;
 		View focusView = null;
-
-		if(TextUtils.isEmpty(email) && !isEmailValid(email))
+		// check whether
+		if(TextUtils.isEmpty(email) && !ProfileDataHelper.isEmailValid(email))
 		{
 			EmailView.setError(getString(R.strings.emailIsNotValidOrEmpty));
 			focusView = EmailView;
 			cancel = true;
 		}
 
-		if(TextUtils.isEmpty(username) && !isEmailValid(username))
+		if(TextUtils.isEmpty(username) && !ProfileDataHelper.isEmailValid(username))
 		{
 			LoginView.setError(getString(R.strings.usernameIsNotValidOrEmpty));
 			focusView = LoginView;
 			cancel = true;
 		}
 
-		if(TextUtils.isEmpty(password) && !isEmailValid(password))
+		if(TextUtils.isEmpty(password) && !ProfileDataHelper.isEmailValid(password))
 		{
 			EmailView.setError(getString(R.strings.passwordIsNotValidOrEmpty));
 			focusView = PasswordView;
@@ -116,6 +121,16 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 			focusView = EmailView;
 			cancel = true;
 		}
+		if(isLoginExist(username))
+		{
+			LoginView.setError(getString(R.strings.loginExistError));
+			focusView = LoginView;
+			cancel = true;
+		}
+		if(isEmailExist(email))
+		{
+
+		}
 		if(cancel)
 		{
 			//error, focus field with an error
@@ -125,10 +140,7 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 		{
 			//show progress spinner
 			//perform registration
-			showProgress(true);
-			public static void PRegistration(string email, string password, string confirmPassword, string login)
-			{
-
+			LoginWithSocialmedia.showProgress(R.strings.registration_in_progress);
 				ParseUser user = new ParseUser();
 				user.setUsername(email);
 				user.setPassword(password);
@@ -149,61 +161,10 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
 							RegistrationFormView.setError(ex.ToString());
 						}
 					}
-				});
+					});
 			}
-		}
+
 	}
-
-	@TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
-    private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-            int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
-
-            RegistrationFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-            m.animate().setDuration(shortAnimTime).alpha(
-                    show ? 0 : 1).setListener(new AnimatorListenerAdapter()
-				{
-					@Override
-					public void onAnimationEnd(Animator animation)
-					{
-						mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-					}
-				});
-
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            mProgressView.animate().setDuration(shortAnimTime).alpha(
-                    show ? 1 : 0).setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-                }
-            });
-        } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
-            mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
-            RegistrationFormView.setVisibility(show ? View.GONE : View.VISIBLE);
-        }
-    }
-
-	private boolean isEmailValid(String email)
-	{
-        //Check wether it is e-mail or something else
-		Pattern pattern = Pattern.compile("^([a-z0-9_\\.-]+)@([a-z0-9_\\.-]+)\\.([a-z\\.]{2,6})$", Pattern.CASE_INSENSITIVE);
-		Matcher m = pattern.matcher(email)
-        return m.matches;
-    }
-
-	private boolean isPasswordValid(String password)
-	{
-		List<Character> pass = password.chars().mapToObj(e -> (char)e).collect(Collectors.toList());
-		boolean HasUpper = pass.stream().HasAny(e -> Character.isUpperCase(e) )
-        //Check for length and containing of UpperCase characrets
-        return password.length() > 6 && HasUpper;
-    }
 
     private boolean isLoginExist(String newLogin)
     {
@@ -215,25 +176,34 @@ public class RegistrationActivity extends AppCompatActivity implements LoaderCal
     	{
     		(List<ParseUser> objects, ParseException e) ->
     		{
-    			if(e == null)
-    			{
-    				return;
-    			}
-    			else
-    			{
-    				LoginView.setError(getString(R.string.error_usernameAlreadyExist));
-    				LoginView.requestFocus();
-    			}
-    		}
+
+					return e == null ? true:false;
     	});
 
 
     }
 
+		private boolean isEmailExist(String newEmail)
+		{
+
+			ParseQuery<ParseUser> u = ParseUser.getQuery();
+			//Search object with username property
+
+			u.whereEqualTo("email", newEmail);
+			u.findInBackground(new FindCallBack<ParseUser>()
+			{
+				(List<ParseUser> users, ParseException e) ->
+				{
+
+					return e == null ? true:false;
+			});
+
+		}
+
     @Override
     protected void onCancelled()
     {
     	mAuthTask = null;
-    	showProgress(false);
+    	LoginWithSocialMedia.hideProgress()
     }
 }

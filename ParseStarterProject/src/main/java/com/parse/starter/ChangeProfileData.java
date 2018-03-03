@@ -35,7 +35,6 @@ import io.sentry.event.BreadcrumbBuilder;
 public class ChangeProfileData extends BaseActivity
 {
 	private ViewGroup root;
-	ProgressBar progressbar;
 
 	@BindView(android.R.layout.change_email)
   private EditText change_login;
@@ -54,7 +53,6 @@ public class ChangeProfileData extends BaseActivity
 			super.OnCreate(savedInstance);
     	setReference();
 			Sentry.record(new BreadcrumbBuilder.setMessage("User tried to change data"));
-
 
 	}
 
@@ -88,7 +86,7 @@ public class ChangeProfileData extends BaseActivity
         String newPassRepeat = change_passRepeat.getText().toString();
         ParseUser user = ParseUser.getCurrent();
 
-        if(LoginActivity.isPasswordValid(newPass) && newPass.equals(newPassRepeat) && LoginActivity.isEmailValid(newMail))
+        if(ProfileDataHelper.isPasswordValid(newPass) && newPass.equals(newPassRepeat) && ProfileDataHelper.isEmailValid(newMail))
         {
             user.put("email", newMail);
             user.put("password", newPass);

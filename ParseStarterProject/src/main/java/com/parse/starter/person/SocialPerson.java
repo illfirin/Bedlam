@@ -36,12 +36,7 @@ public class SocialPerson
 
 		return u;
 	}
-	//private SocialPerson(String id, String name, String profileURL, String avatarURL,
-				//		String email, String pass)
-	public static SocialPerson FromParseToSocial(ParseUser user)
-	{
-		return new SocialPerson();
-	}
+	
 	@Override
 	public String toString()
 	{
