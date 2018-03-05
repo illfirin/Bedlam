@@ -3,13 +3,31 @@ package pakuteam.bedlam_experiment_0_1;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.v7.app.ActionBarActivity;
+
 import android.view.LayoutInflater;
+import android.widget.Button;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.EditText;
+
+import studios.codelight.smartloginlibrary.LoginType;
+import studios.codelight.smartloginlibrary.SmartLogin;
+import studios.codelight.smartloginlibrary.SmartLoginCallbacks;
+import studios.codelight.smartloginlibrary.SmartLoginConfig;
+import studios.codelight.smartloginlibrary.SmartLoginFactory;
+import studios.codelight.smartloginlibrary.UserSessionManager;
+import studios.codelight.smartloginlibrary.users.SmartFacebookUser;
+import studios.codelight.smartloginlibrary.users.SmartGoogleUser;
+import studios.codelight.smartloginlibrary.users.SmartUser;
+import studios.codelight.smartloginlibrary.util.SmartLoginException;
+
+import com.parse.Parse;
+
+import butterKnife.ButterKnife;
+import butterKnife.BindView;
 
 import android.support.annotation.NonNull;
 import com.parse.starter.MainController;
@@ -24,21 +42,42 @@ import io.sentry.Sentry;
 import io.sentry.event.BreadcrumbBuilder;
 import io.sentry.android.AndroidSentryClientFactory;
 
-public abstract class BaseActivity extends AppCompatActivity
+public class BaseActivity extends AppCompatActivity implements StartLoginCallbacks
 {
     private View view_simpleToolbar;
     public FrameLayout container;
-    public android.support.v7.widget.Toolbar toolbar;
-    public CoordinatorLayout mainLayout;
-    public AppBarLayout base_toolbarContainer;
+    //View bindings
+    @BindView(R.id.facebook_button) private Button facebookLoginButton;
+    @BindView(R.id.google_button)   private Button googleLoginButton;
+    @BindView(R.id.custom_signIn)   private Button customSigninButton;
+    @BindView(R.id.custom_signUp)   private Button customSignupButton;
+    @BindView(R.id.logout_button)   private Button logoutButton;
+    @BindView(R.id.facebook_button) private EditText emailEditText;
+    @BindView(R.id.facebook_button) private EditText passwordEditText;
+  /*
+      we will add theme changing in the next update
+      private static String Theme_Current = "AppliedTheme";
 
-   private static String Theme_Current = "AppliedTheme";
-
+  */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
+        super.onCreate(savedInstanceState);
+        //TODO: add app id later
+        //Parse server initialization
+        Parse.initialize(new Parse.Configuration.Builder(this)
+                          .applicationId("enter_app_id_here")
+                          .server("https://myBedlamServer:8096/parse")
+                          .build());
         try
         {
+            //TODO: add app id later
+            //Parse server initialization
+            Parse.initialize(new Parse.Configuration.Builder(this)
+                            .applicationId("enter_app_id_here")
+                            .server("https://myBedlamServer:8096/parse")
+                            .build());
+
             //Sentry initialization
             Context ctx = this.getApplicationContext();
             //use client key from project settings page
@@ -69,14 +108,14 @@ public abstract class BaseActivity extends AppCompatActivity
             e.printStackTrace();
         }
     }
-
+/*
     public void setSimpleToolbar(boolean isSimpleToolbarRequire)
     {
         if(isSimpleToolbarRequire)
         {
             view_simpleToolbar = LayoutInflater.from(this).inflate(R.layout.simple_toolbar, base_toolbarContainer);
             toolbar = (android.support.v7.widget.Toolbar) view_simpleToolbar.findViewById(R.id.toolbar);
-            if(/*@NonNull*/ toolbar)
+            if(toolbar)
             {
                 setSupportActionBar(toolbar);
                 toolbar.setTitle(R.string.application_name);
@@ -87,7 +126,7 @@ public abstract class BaseActivity extends AppCompatActivity
 
     public void setToolbarSubTitle(String header)
     {
-        if(/*@NonNull*/ toolbar != null)
+        if(toolbar != null)
         {
             toolbar.setSubtitle(header);
         }
@@ -97,13 +136,14 @@ public abstract class BaseActivity extends AppCompatActivity
     {
         if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
         {
-            if(/*@NonNull*/ toolbar != null)
+            if(toolbar != null)
             {
                 toolbar.setElevation(value);
             }
         }
     }
     //set XML objext reference
+
     public abstract void setReference();
 
     private void setAppTheme()
@@ -139,5 +179,5 @@ public abstract class BaseActivity extends AppCompatActivity
         {
             Sentry.capture(e);
         }
-    }
+    }*/
 }
