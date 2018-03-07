@@ -54,6 +54,9 @@ public class BaseActivity extends AppCompatActivity implements StartLoginCallbac
     @BindView(R.id.logout_button)   private Button logoutButton;
     @BindView(R.id.facebook_button) private EditText emailEditText;
     @BindView(R.id.facebook_button) private EditText passwordEditText;
+
+    SmartLoginConfig config;
+    SmartLogin smartLogin;
   /*
       we will add theme changing in the next update
       private static String Theme_Current = "AppliedTheme";
@@ -63,8 +66,13 @@ public class BaseActivity extends AppCompatActivity implements StartLoginCallbac
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.activity_login);
         //TODO: add app id later
         //Parse server initialization
+        ButterKnife.bind(this);
+
+
         Parse.initialize(new Parse.Configuration.Builder(this)
                           .applicationId("enter_app_id_here")
                           .server("https://myBedlamServer:8096/parse")
@@ -107,6 +115,38 @@ public class BaseActivity extends AppCompatActivity implements StartLoginCallbac
             Sentry.capture(e);
             e.printStackTrace();
         }
+    }
+    /*@BindView(R.id.facebook_button) private Button facebookLoginButton;
+    @BindView(R.id.google_button)   private Button googleLoginButton;
+    @BindView(R.id.custom_signIn)   private Button customSigninButton;
+    @BindView(R.id.custom_signUp)   private Button customSignupButton;
+    @BindView(R.id.logout_button)   private Button logoutButton;*/
+    private void setButtonListeners()
+    {
+      facebookLoginButton.setOnClickListener((View v) ->
+      {
+
+      });
+
+      googleLoginButton.setOnClickListener((View v) ->
+      {
+
+      });
+
+      customSignupButton.setOnClickListener((View v) ->
+      {
+
+      });
+
+      customSigninButton.setOnClickListener((View v) ->
+      {
+
+      });
+
+      customSigninButton.setOnClickListener((View v) ->
+      {
+
+      });
     }
 /*
     public void setSimpleToolbar(boolean isSimpleToolbarRequire)
