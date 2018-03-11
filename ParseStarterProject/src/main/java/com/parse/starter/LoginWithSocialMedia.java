@@ -82,7 +82,7 @@ public class LoginWithSocialMedia extends extends ActionBarActivity implements F
     return super.onOptionsItemSelected(item);
   }
 
-  protected static void showProgress(String message)
+  protected static void showProgress(String message, Context context, ProgressDialog pd)
   {
     pd = new ProgressDialog(context);
     pd.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -93,7 +93,7 @@ public class LoginWithSocialMedia extends extends ActionBarActivity implements F
     pd.show();
   }
 
-  procted static void hideProgress()
+  protected static void hideProgress(ProgressDialog pd)
   {
     pd.dismiss();
   }

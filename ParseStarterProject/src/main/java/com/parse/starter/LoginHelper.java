@@ -41,7 +41,7 @@ import static android.Manifest.permission.READ_CONTACTS;
 /**
  * A login screen that offers login via email/password.
  */
-public class customLoginHelper implements ILogin
+public class LoginHelper implements ILogin
  {
 
     public static boolean isLoginInformationCorrect(String email, String password)
@@ -62,9 +62,9 @@ public class customLoginHelper implements ILogin
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin()
+    private void attemptLogin(String email, String password)
     {
-        if()
+        if(isLoginInformationCorrect(email, password))
             LoginWithSocialMedia.showProgress();
 			      ParseUser.logInBackGround(mail, password, new LogInCallback(
 				    {
@@ -81,28 +81,6 @@ public class customLoginHelper implements ILogin
 					         }
 				    });
 
-        }
-    }
-
-    /**
-     * Shows the progress UI and hides the login form.
-     */
-
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection)
-    {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<>(LoginActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
-
-        mEmailView.setAdapter(adapter);
-    }
-
-    /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
-     */
-
-
+      }
 
 }

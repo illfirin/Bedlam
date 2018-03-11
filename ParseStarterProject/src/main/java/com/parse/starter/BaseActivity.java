@@ -8,21 +8,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 
-import android.view.LayoutInflater;
-import android.widget.Button;
-import android.view.View;
-import android.widget.EditText;
-
-import studios.codelight.smartloginlibrary.LoginType;
-import studios.codelight.smartloginlibrary.SmartLogin;
-import studios.codelight.smartloginlibrary.SmartLoginCallbacks;
-import studios.codelight.smartloginlibrary.SmartLoginConfig;
-import studios.codelight.smartloginlibrary.SmartLoginFactory;
-import studios.codelight.smartloginlibrary.UserSessionManager;
-import studios.codelight.smartloginlibrary.users.SmartFacebookUser;
-import studios.codelight.smartloginlibrary.users.SmartGoogleUser;
-import studios.codelight.smartloginlibrary.users.SmartUser;
-import studios.codelight.smartloginlibrary.util.SmartLoginException;
 
 import com.parse.Parse;
 
@@ -42,7 +27,7 @@ import io.sentry.Sentry;
 import io.sentry.event.BreadcrumbBuilder;
 import io.sentry.android.AndroidSentryClientFactory;
 
-public class BaseActivity extends AppCompatActivity implements StartLoginCallbacks
+public class BaseApplication extends Application
 {
     private View view_simpleToolbar;
     public FrameLayout container;
@@ -55,39 +40,26 @@ public class BaseActivity extends AppCompatActivity implements StartLoginCallbac
     @BindView(R.id.facebook_button) private EditText emailEditText;
     @BindView(R.id.facebook_button) private EditText passwordEditText;
 
-    SmartLoginConfig config;
-    SmartLogin smartLogin;
-  /*
-      we will add theme changing in the next update
-      private static String Theme_Current = "AppliedTheme";
-
-  */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-
+        Context ctx = this.getApplicationContext();
         setContentView(R.layout.activity_login);
         //TODO: add app id later
         //Parse server initialization
         ButterKnife.bind(this);
 
 
-        Parse.initialize(new Parse.Configuration.Builder(this)
-                          .applicationId("enter_app_id_here")
-                          .server("https://myBedlamServer:8096/parse")
-                          .build());
-        try
-        {
             //TODO: add app id later
             //Parse server initialization
             Parse.initialize(new Parse.Configuration.Builder(this)
                             .applicationId("enter_app_id_here")
                             .server("https://myBedlamServer:8096/parse")
                             .build());
-
+            ParseFacebookUtils.initialize(ctx);
             //Sentry initialization
-            Context ctx = this.getApplicationContext();
+
             //use client key from project settings page
             String sentryDsn = "https://publicKey:secretKey@host:port/1?options";
             Sentry.init(sentryDsn, new AndroidSentryClientFactory(ctx));
@@ -125,99 +97,51 @@ public class BaseActivity extends AppCompatActivity implements StartLoginCallbac
     {
       facebookLoginButton.setOnClickListener((View v) ->
       {
-
+          smartLogin = SmartLoginFactory.build(LoginType.Facebook);
+          smartLogin.login(config);
       });
 
       googleLoginButton.setOnClickListener((View v) ->
       {
-
+        smartLogin = SmartLoginFactory.build(LoginType.Google);
+        smartLogin.login(config);
       });
 
       customSignupButton.setOnClickListener((View v) ->
       {
-
+        smartLogin = SmartLoginFactory.build(LoginType.Google);
+        smartLogin.signup(config);
       });
 
       customSigninButton.setOnClickListener((View v) ->
       {
-
+        smartLogin = SmartLoginFactory.build(LoginType.Custom);
+        smartLogin.login(config);
       });
 
-      customSigninButton.setOnClickListener((View v) ->
+      logoutButton.setOnClickListener((View v) ->
       {
-
+        if (currentUser != null)
+        {
+          if (currentUser instanceof SmartFacebookUser)
+          {
+              smartLogin = SmartLoginFactory.build(LoginType.Facebook);
+          }
+          else if(currentUser instanceof SmartGoogleUser)
+          {
+              smartLogin = SmartLoginFactory.build(LoginType.Google);
+          }
+          else
+          {
+              smartLogin = SmartLoginFactory.build(LoginType.CustomLogin);
+          }
+          boolean result = smartLogin.logout(BaseActivity.this);
+          if (result)
+          {
+              refreshLayout();
+              Toast.makeText(MainActivity.this, "User logged out successfully", Toast.LENGTH_SHORT).show();
+          }
       });
     }
-/*
-    public void setSimpleToolbar(boolean isSimpleToolbarRequire)
-    {
-        if(isSimpleToolbarRequire)
-        {
-            view_simpleToolbar = LayoutInflater.from(this).inflate(R.layout.simple_toolbar, base_toolbarContainer);
-            toolbar = (android.support.v7.widget.Toolbar) view_simpleToolbar.findViewById(R.id.toolbar);
-            if(toolbar)
-            {
-                setSupportActionBar(toolbar);
-                toolbar.setTitle(R.string.application_name);
-                toolbar.setTitleTextColor(Color.WHITE);
-            }
-        }
-    }
-
-    public void setToolbarSubTitle(String header)
-    {
-        if(toolbar != null)
-        {
-            toolbar.setSubtitle(header);
-        }
-    }
-
-    public void setToolbarElevation(float value)
-    {
-        if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-        {
-            if(toolbar != null)
-            {
-                toolbar.setElevation(value);
-            }
-        }
-    }
-    //set XML objext reference
-
-    public abstract void setReference();
-
-    private void setAppTheme()
-    {
-        //Will be added later
-        if(!UserPreferenceManager.preferenceGetString(Theme_Current, "").equals(""))
-        {
-            if(UserPreferenceManager.preferenceGetString(Theme_Current, "").equals("Green"))
-            {
-                setTheme(R.style.ThemeApp_Green);
-            }
-            else if(UserPreferenceManager.preferenceGetString(Theme_Current, "").equals("Purple"))
-            {
-
-            }
-            else
-            {
-                    setTheme(R.style.ThemeApp_Green);
-            }
-            //etc for all of themes
-        }
-    }
-
-    @Override
-    protected void onDestroy()
-    {
-        super.onDestroy();
-        try
-        {
-            Reservoir.clear();
-        }
-        catch(Exception e)
-        {
-            Sentry.capture(e);
-        }
-    }*/
+  }
 }

@@ -29,7 +29,7 @@ package com.parse.starter;
 import io.sentry.Sentry;
 import io.sentry.event.BreadcrumbBuilder;
 
-public class MainActivity extends BaseActivity
+public class MainActivity extends AppCompatActivity
 {
     private ViewGroup root;
     ProgressBar progressbar;
