@@ -82,7 +82,7 @@ public class newLoginActivity extends AppCompatActivity implements
      * TODO: remove after connecting to a real authentication system.
      */
     /**
-    @BindView(R.id.facebook_button) private Button facebookLoginButton;
+    @BindView(R.id.facebook_button) private Button mFacebookLoginButton;
     @BindView(R.id.google_button)   private Button googleLoginButton;
     @BindView(R.id.custom_signIn)   private Button customSigninButton;
     @BindView(R.id.custom_signUp)   private Button customSignupButton;
@@ -94,7 +94,7 @@ public class newLoginActivity extends AppCompatActivity implements
     txt_forgot = (TextView) findViewById(R.id.txt_forgot);
     mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
     mPlusSignInButton = (SignInButton) findViewById(R.id.g_sign_in_button);
-    facebookLoginButton = (LoginButton)findViewById(R.id.f_sign_in_button);
+    mFacebookLoginButton = (LoginButton)findViewById(R.id.f_sign_in_button);
 
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -107,8 +107,6 @@ public class newLoginActivity extends AppCompatActivity implements
     @BindView(R.id.) private ProgressDialog pd;
     @BindView(R.id.) private View mLoginFormView;
 
-    /* Request code used to invoke sign in user interactions. */
-    private static final int RC_SIGN_IN = 0;
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
 
@@ -123,7 +121,7 @@ public class newLoginActivity extends AppCompatActivity implements
     txt_forgot = (TextView) findViewById(R.id.txt_forgot);
     mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
     mPlusSignInButton = (SignInButton) findViewById(R.id.g_sign_in_button);
-    facebookLoginButton = (LoginButton)findViewById(R.id.f_sign_in_button); */
+    mFacebookLoginButton = (LoginButton)findViewById(R.id.f_sign_in_button); */
     @BindView(R.id.g_sign_in_button) private SignInButton mPlusSignInButton;
     @BindView(R.id.email_sign_in_button) private Button mEmailSignInButton;
     @BindView(R.id.tw_sign_in_button) private Button mTwitterSignInButton;
@@ -135,6 +133,12 @@ public class newLoginActivity extends AppCompatActivity implements
     protected ParseUser user;
     ProgressDialog pd;
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+      super.onActivityResult(requestCode, resultCode, data);
+      ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -150,10 +154,8 @@ public class newLoginActivity extends AppCompatActivity implements
     {
         // Set up the login form.
 
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.txt_email);
         populateAutoComplete();
 
-        mPasswordView = (EditText) findViewById(R.id.txt_password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener()
         {
             @Override
@@ -168,17 +170,12 @@ public class newLoginActivity extends AppCompatActivity implements
             }
         });
 
-        txt_create = (TextView) findViewById(R.id.txt_create);
         txt_create.setOnClickListener(this);
-
-        txt_forgot = (TextView) findViewById(R.id.txt_forgot);
         txt_forgot.setOnClickListener(this);
 
-        mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
         mEmailSignInButton.setOnClickListener(this);
 
         //Google+ Login
-        mPlusSignInButton = (SignInButton) findViewById(R.id.g_sign_in_button);
         mPlusSignInButton.setSize(SignInButton.SIZE_WIDE);
         mPlusSignInButton.setOnClickListener(this);
 
@@ -188,110 +185,65 @@ public class newLoginActivity extends AppCompatActivity implements
                 .addApi(Plus.API)
                 .addScope(new Scope(Scopes.PROFILE))
                 .build();
-
-        //Facebook Login
-        facebookLoginButton = (LoginButton)findViewById(R.id.f_sign_in_button);
-        facebookLoginButton.setReadPermissions(Arrays.asList("public_profile, email, user_birthday, user_friends"));
-
-        callbackManager = CallbackManager.Factory.create();
-
-        // Callback registration
-        facebookLoginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>()
+        mTwitterSignInButton.setOnClickListener((View v) ->
         {
-            @Override
-            public void onSuccess(LoginResult loginResult)
-            {
-                // App code
-                GraphRequest request = GraphRequest.newMeRequest(
-                        loginResult.getAccessToken(),
-                        new GraphRequest.GraphJSONObjectCallback()
-                        {
-                            @Override
-                            public void onCompleted(
-                                    JSONObject object,
-                                    GraphResponse response)
-                                    {
-                                // Application code
-                            }
-                        });
-
-                Bundle parameters = new Bundle();
-                parameters.putString("fields", "id,name,email,gender, birthday");
-                request.setParameters(parameters);
-                request.executeAsync();
-            }
-
-            @Override
-            public void onCancel()
-            {
-                Toast.makeText(LoginActivity.this, "User cancelled", Toast.LENGTH_SHORT).show();
-            }
-
-            @Override
-            public void onError(FacebookException exception)
-            {
-                Toast.makeText(LoginActivity.this, "Error on Login, check your facebook app_id", Toast.LENGTH_LONG).show();
-            }
+          LoginWithSocialMediaHelper.showProgress(pd);
+          ParseTwitterUtils.logIn(this, permissions, new LogInCallback()
+          {
+              @Override
+              public void done(Parse user, ParseException e)
+              {
+                if(user == null)
+                {
+                    Sentry.capture(e);
+                    e.printStackTrace();
+                    LoginWithSocialMediaHelper.hideProgress(pd);
+                }
+                else if(user.isNew())
+                {
+                    Log.d("Bedlam", "User auth using twitter");
+                    LoginWithSocialMediaHelper.hideProgress(pd);
+                }
+                else
+                {
+                    LoginWithSocialMediaHelper.hideProgress(pd);
+                    startActivity(new Intent(MainActivity.This, MainActivity.class));
+                }
+              }
+          });
+        });
+        // Callback registration
+        mFacebookLoginButton.setOnClickListener((View v) ->
+        {
+              LoginWithSocialMediaHelper.showProgress(pd);
+              ParseFacebookUtils.logInWithReadPermissionsInBackground(this, permissions, new LogInCallback()
+              {
+                  @Override
+                  public void done(Parse user, ParseException e)
+                  {
+                    if(user == null)
+                    {
+                        Sentry.capture(e);
+                        e.printStackTrace();
+                        LoginWithSocialMediaHelper.hideProgress(pd);
+                    }
+                    else if(user.isNew())
+                    {
+                        Log.d("Bedlam", "User auth using facebook");
+                        LoginWithSocialMediaHelper.hideProgress(pd);
+                    }
+                    else
+                    {
+                        LoginWithSocialMediaHelper.hideProgress(pd);
+                        startActivity(new Intent(MainActivity.This, MainActivity.class));
+                    }
+                  }
+              });
         });
 
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-    }
+        twit
 
-    private void populateAutoComplete()
-    {
-        if (!mayRequestContacts())
-        {
-            return;
-        }
 
-        getLoaderManager().initLoader(0, null, this);
-    }
-
-    private boolean mayRequestContacts()
-    {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M)
-        {
-            return true;
-        }
-        if (checkSelfPermission(READ_CONTACTS) == PackageManager.PERMISSION_GRANTED)
-        {
-            return true;
-        }
-        if (shouldShowRequestPermissionRationale(READ_CONTACTS))
-        {
-            Snackbar.make((LinearLayout)findViewById(R.id.ll_main), R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener()
-                    {
-                        @Override
-                        @TargetApi(Build.VERSION_CODES.M)
-                        public void onClick(View v)
-                        {
-                            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-                        }
-                    }).show();
-        }
-        else
-        {
-            requestPermissions(new String[]{READ_CONTACTS}, REQUEST_READ_CONTACTS);
-        }
-        return false;
-    }
-
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults)
-    {
-        if (requestCode == REQUEST_READ_CONTACTS)
-         {
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED)
-            {
-                populateAutoComplete();
-            }
-        }
-    }
 
     /**
      * Attempts to sign in or register the account specified by the login form.
@@ -316,27 +268,12 @@ public class newLoginActivity extends AppCompatActivity implements
         boolean cancel = false;
         View focusView = null;
 
-        ValidateUserInfo validateUserInfo = new ValidateUserInfo();
 
         // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !validateUserInfo.isPasswordValid(password))
+        if (!LoginHelper.isLoginInformationCorrect(email, password))
         {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
+            mPasswordView.setError(getString(R.string.error_invalid_loginInformation));
             focusView = mPasswordView;
-            cancel = true;
-        }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email))
-        {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        }
-        else if (!validateUserInfo.isEmailValid(email))
-        {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
             cancel = true;
         }
 
@@ -350,7 +287,7 @@ public class newLoginActivity extends AppCompatActivity implements
         {
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
-            showProgress(true);
+            LoginWithSocialMediaHelper.showProgress(pd);
             mAuthTask = new UserLoginTask(email, password);
             mAuthTask.execute((Void) null);
         }
@@ -530,8 +467,9 @@ public class newLoginActivity extends AppCompatActivity implements
                 return false;
             }
             //login if user's information is valid
-            if(LoginHelper.isLoginInformationCorrect(email, password))
-    			      ParseUser.logInBackGround(mail, password, new LogInCallback(
+            if(LoginHelper.isLoginInformationCorrect(mEmail, mPassword))
+            {
+    			      ParseUser.logInBackGround(mEmail, mPassword, new LogInCallback(
     				    {
     					         public void done(ParseUser user, ParseException e)
     					         if(user != null)
@@ -556,7 +494,7 @@ public class newLoginActivity extends AppCompatActivity implements
         protected void onPostExecute(final Boolean success)
         {
             mAuthTask = null;
-            showProgress(false);
+            LoginWithSocialMediaHelper.hideProgress(pd);
 
             if (success)
             {
@@ -573,7 +511,7 @@ public class newLoginActivity extends AppCompatActivity implements
         protected void onCancelled()
         {
             mAuthTask = null;
-            showProgress(false);
+            LoginWithSocialMediaHelper.hideProgress(pd);
         }
     }
 

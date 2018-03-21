@@ -62,9 +62,10 @@ public class LoginHelper implements ILogin
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin(String email, String password)
+    private static void attemptLogin(String email, String password)
     {
-        if(isLoginInformationCorrect(email, password))
+        if(LoginHelper.isLoginInformationCorrect(email, password))
+        {
             LoginWithSocialMedia.showProgress();
 			      ParseUser.logInBackGround(mail, password, new LogInCallback(
 				    {
@@ -83,4 +84,5 @@ public class LoginHelper implements ILogin
 
       }
 
-}
+    }
+}    
